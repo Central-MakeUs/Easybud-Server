@@ -32,6 +32,8 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew clean build -x test
         shell: bash
+        env:
+          SPRING_PROFILES_ACTIVE: dev
 
       - name: Get current time
         uses: 1466587594/get-current-time@v2
