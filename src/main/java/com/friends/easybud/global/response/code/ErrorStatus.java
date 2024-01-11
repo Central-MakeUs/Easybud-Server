@@ -17,8 +17,11 @@ public enum ErrorStatus implements BaseCode {
     _INTERNAL_SERVER_ERROR(INTERNAL_SERVER_ERROR, 5000, "서버 에러, 관리자에게 문의 바랍니다."),
     _BAD_REQUEST(BAD_REQUEST, 4000, "잘못된 요청입니다."),
     _UNAUTHORIZED(UNAUTHORIZED, 4001, "로그인이 필요합니다."),
-    _FORBIDDEN(FORBIDDEN, 4002, "금지된 요청입니다.");
+    _FORBIDDEN(FORBIDDEN, 4002, "금지된 요청입니다."),
 
+    // 토큰 오류 (4050 ~ 4100)
+    TOKEN_INVALID(BAD_REQUEST, 4050, "유효하지 않은 토큰입니다."),
+    TOKEN_EXPIRED(BAD_REQUEST, 4051, "만료된 토큰입니다.");
 
     private final HttpStatus httpStatus;
     private final Integer code;
