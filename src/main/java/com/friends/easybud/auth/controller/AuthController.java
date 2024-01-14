@@ -1,5 +1,7 @@
 package com.friends.easybud.auth.controller;
 
+import com.friends.easybud.auth.dto.KakaoUserInfo;
+import com.friends.easybud.auth.dto.OIDCDecodePayload;
 import com.friends.easybud.auth.service.KakaoOauthService;
 import com.friends.easybud.global.response.ResponseDto;
 import lombok.RequiredArgsConstructor;
@@ -15,9 +17,14 @@ public class AuthController {
 
     private final KakaoOauthService kakaoOauthService;
 
-    @GetMapping
-    public ResponseDto<?> getOIDCDecodePayload(@RequestParam String idToken) {
+    @GetMapping("/validate")
+    public ResponseDto<OIDCDecodePayload> getOIDCDecodePayload(@RequestParam String idToken) {
         return ResponseDto.onSuccess(kakaoOauthService.getOIDCDecodePayload(idToken));
+    }
+
+    @GetMapping("/userinfo")
+    public ResponseDto<KakaoUserInfo> getKakaoUserInfo(@RequestParam String accessToken) {
+        return ResponseDto.onSuccess(kakaoOauthService.getKakaoUserInfoClient(accessToken));
     }
 
 }
