@@ -29,7 +29,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(
                         (authorizeRequests) -> authorizeRequests
                                 .requestMatchers(
-                                        "/", "/swagger-ui/**", "/oauth2/**", "auth/**",
+                                        "/", "health/**", "/swagger-ui/**", "/oauth2/**", "auth/**",
                                         "/swagger-resources/**", "/v3/api-docs/**").permitAll()
                                 .anyRequest().hasRole("USER")
                 )
