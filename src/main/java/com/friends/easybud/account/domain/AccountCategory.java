@@ -10,6 +10,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -33,4 +34,13 @@ public class AccountCategory extends BaseTimeEntity {
     @JoinColumn(name = "member_id")
     private Member member;
 
+    @Builder
+    public AccountCategory(String primaryCategory, String secondaryCategory, String tertiaryCategory,
+                           String quaternaryCategory, Member member) {
+        this.primaryCategory = primaryCategory;
+        this.secondaryCategory = secondaryCategory;
+        this.tertiaryCategory = tertiaryCategory;
+        this.quaternaryCategory = quaternaryCategory;
+        this.member = member;
+    }
 }
