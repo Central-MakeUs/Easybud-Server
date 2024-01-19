@@ -11,6 +11,7 @@ public class AccountCategoryConverter {
 
     public static AccountCategoryDto toAccountCategoryDto(AccountCategory accountCategory) {
         return AccountCategoryDto.builder()
+                .id(accountCategory.getId())
                 .primaryCategory(accountCategory.getPrimaryCategory())
                 .secondaryCategory(accountCategory.getSecondaryCategory())
                 .tertiaryCategory(accountCategory.getTertiaryCategory())
