@@ -31,6 +31,9 @@ public class AccountCategoryResponse {
     @AllArgsConstructor
     @Schema(description = "계정 카테고리 조회 DTO")
     public static class AccountCategoryDto {
+        @Schema(description = "계정 카테고리 ID")
+        private Long id;
+
         @Schema(description = "대분류")
         private String primaryCategory;
 
