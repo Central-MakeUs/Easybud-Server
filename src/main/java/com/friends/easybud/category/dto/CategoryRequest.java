@@ -1,4 +1,4 @@
-package com.friends.easybud.account.dto;
+package com.friends.easybud.category.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-public class AccountCategoryRequest {
+public class CategoryRequest {
 
     @Builder
     @Setter
@@ -16,18 +16,13 @@ public class AccountCategoryRequest {
     @ToString
     @NoArgsConstructor
     @AllArgsConstructor
-    @Schema(description = "계정 카테고리 생성 DTO")
-    public static class AccountCategoryCreateDto {
-        @Schema(description = "대분류")
-        private String primaryCategory;
-
+    @Schema(description = "소분류 생성 DTO")
+    public static class TertiaryCategoryCreateDto {
         @Schema(description = "중분류")
         private String secondaryCategory;
 
         @Schema(description = "소분류")
         private String tertiaryCategory;
-
-        @Schema(description = "세분류")
-        private String quaternaryCategory;
     }
+
 }
