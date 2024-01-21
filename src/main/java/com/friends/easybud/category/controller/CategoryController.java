@@ -2,7 +2,10 @@ package com.friends.easybud.category.controller;
 
 import static com.friends.easybud.category.dto.CategoryResponse.AccountCategoryListDto;
 
+import com.friends.easybud.category.converter.CategoryConverter;
 import com.friends.easybud.category.dto.CategoryRequest.TertiaryCategoryCreateDto;
+import com.friends.easybud.category.service.CategoryCommandService;
+import com.friends.easybud.category.service.CategoryQueryService;
 import com.friends.easybud.global.response.ResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -22,23 +25,27 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "Category API", description = "계정 카테고리 API")
 public class CategoryController {
 
+    private final CategoryCommandService categoryCommandService;
+    private final CategoryQueryService categoryQueryService;
+
     @Operation(summary = "계정 소분류 생성", description = "새로운 소분류를 생성합니다.")
     @PostMapping
     public ResponseDto<Long> createTertiaryCategory(@RequestBody TertiaryCategoryCreateDto request) {
-        return ResponseDto.onSuccess(1L);
+        return ResponseDto.onSuccess(categoryCommandService.createTertiaryCategory(request));
     }
 
     @Operation(summary = "계정 소분류 삭제", description = "기존의 소분류를 삭제합니다.")
     @Parameter(name = "tertiaryCategoryId", description = "삭제할 소분류의 ID")
     @DeleteMapping
     public ResponseDto<Boolean> deleteTertiaryCategory(@RequestParam Long tertiaryCategoryId) {
-        return ResponseDto.onSuccess(Boolean.TRUE);
+        return ResponseDto.onSuccess(categoryCommandService.deleteTertiaryCategory(tertiaryCategoryId));
     }
 
     @Operation(summary = "계정 카테고리 조회", description = "로그인 된 회원의 계정 카테고리 목록을 조회합니다.")
     @GetMapping
     public ResponseDto<AccountCategoryListDto> getAccountCategories() {
-        return ResponseDto.onSuccess(null);
+        return ResponseDto.onSuccess(
+                CategoryConverter.toAccountCategoryListDto(categoryQueryService.getTertiaryCategories(1L)));
     }
 
 }
