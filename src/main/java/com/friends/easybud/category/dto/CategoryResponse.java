@@ -30,16 +30,26 @@ public class CategoryResponse {
     @AllArgsConstructor
     @Schema(description = "계정 카테고리 조회 DTO")
     public static class AccountCategoryDto {
+
+        @Schema(description = "대분류 ID")
+        private Long primaryCategoryId;
+
+        @Schema(description = "대분류")
+        private String primaryCategoryContent;
+
+        @Schema(description = "중분류 ID")
+        private Long secondaryCategoryId;
+        
+        @Schema(description = "중분류")
+        private String secondaryCategoryContent;
+
         @Schema(description = "소분류 ID")
         private Long tertiaryCategoryId;
 
-        @Schema(description = "대분류")
-        private String primaryCategory;
-
-        @Schema(description = "중분류")
-        private String secondaryCategory;
-
         @Schema(description = "소분류")
-        private String tertiaryCategory;
+        private String tertiaryCategoryContent;
+
+        @Schema(description = "기본값 여부")
+        private Boolean isDefault;
     }
 }
