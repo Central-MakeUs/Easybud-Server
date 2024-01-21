@@ -27,10 +27,23 @@ public class CategoryCommandServiceImpl implements CategoryCommandService {
     public Long createTertiaryCategory(TertiaryCategoryCreateDto request) {
         Member member = memberRepository.findById(1L).get();    // TODO 로그인 된 사용자 정보 조회
         SecondaryCategory secondaryCategory = secondaryCategoryRepository.findByContent(request.getSecondaryCategory())
-                .orElseThrow(() -> new GeneralException(ErrorStatus.PRIMARY_CATEGORY_NOT_FOUND));
+                .orElseThrow(() -> new GeneralException(ErrorStatus.SECONDARY_CATEGORY_NOT_FOUND));
+
+        validateTertiaryCategoryUniqueness(member.getId(), request.getTertiaryCategory(), secondaryCategory.getId());
+
         TertiaryCategory tertiaryCategory = buildTertiaryCategory(request, secondaryCategory, member);
         tertiaryCategoryRepository.save(tertiaryCategory);
         return tertiaryCategory.getId();
+    }
+
+    private void validateTertiaryCategoryUniqueness(Long memberId, String tertiaryCategoryContent,
+                                                    Long secondaryCategoryId) {
+        boolean exists = tertiaryCategoryRepository.existsByMemberIdOrIsDefaultAndContentAndSecondaryCategoryId(
+                memberId, tertiaryCategoryContent, secondaryCategoryId
+        );
+        if (exists) {
+            throw new GeneralException(ErrorStatus.TERTIARY_CATEGORY_ALREADY_EXISTS);
+        }
     }
 
     private TertiaryCategory buildTertiaryCategory(TertiaryCategoryCreateDto request,
@@ -44,9 +57,10 @@ public class CategoryCommandServiceImpl implements CategoryCommandService {
     }
 
     @Override
-    public Boolean deleteTertiaryCategory(Long accountCategoryId) {
-        TertiaryCategory tertiaryCategory = tertiaryCategoryRepository.findById(accountCategoryId)
+    public Boolean deleteTertiaryCategory(Long tertiaryCategoryId) {
+        TertiaryCategory tertiaryCategory = tertiaryCategoryRepository.findById(tertiaryCategoryId)
                 .orElseThrow(() -> new GeneralException(ErrorStatus.TERTIARY_CATEGORY_NOT_FOUND));
+
         tertiaryCategoryRepository.delete(tertiaryCategory);
         return Boolean.TRUE;
     }

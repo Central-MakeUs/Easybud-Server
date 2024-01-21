@@ -26,7 +26,9 @@ public enum ErrorStatus implements BaseCode {
     // AccountCategory: 4100 ~ 4149
     PRIMARY_CATEGORY_NOT_FOUND(NOT_FOUND, 4100, "존재하지 않는 계정 대분류입니다."),
     SECONDARY_CATEGORY_NOT_FOUND(NOT_FOUND, 4101, "존재하지 않는 계정 중분류입니다."),
-    TERTIARY_CATEGORY_NOT_FOUND(NOT_FOUND, 4102, "존재하지 않는 계정 소분류입니다.");
+    TERTIARY_CATEGORY_NOT_FOUND(NOT_FOUND, 4102, "존재하지 않는 계정 소분류입니다."),
+    CANNOT_DELETE_DEFAULT_CATEGORY(BAD_REQUEST, 4103, "기본값은 삭제할 수 없습니다."),
+    TERTIARY_CATEGORY_ALREADY_EXISTS(BAD_REQUEST, 4104, "이미 존재하는 계정 소분류입니다.");
 
     private final HttpStatus httpStatus;
     private final Integer code;
