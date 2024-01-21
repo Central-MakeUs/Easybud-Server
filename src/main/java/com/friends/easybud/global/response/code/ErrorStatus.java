@@ -24,7 +24,9 @@ public enum ErrorStatus implements BaseCode {
     MEMBER_NOT_FOUND(NOT_FOUND, 4050, "존재하지 않는 회원입니다."),
 
     // AccountCategory: 4100 ~ 4149
-    ACCOUNT_CATEGORY_NOT_FOUND(NOT_FOUND, 4100, "존재하지 않는 계정 카테고리입니다.");
+    PRIMARY_CATEGORY_NOT_FOUND(NOT_FOUND, 4100, "존재하지 않는 계정 대분류입니다."),
+    SECONDARY_CATEGORY_NOT_FOUND(NOT_FOUND, 4101, "존재하지 않는 계정 중분류입니다."),
+    TERTIARY_CATEGORY_NOT_FOUND(NOT_FOUND, 4102, "존재하지 않는 계정 소분류입니다.");
 
     private final HttpStatus httpStatus;
     private final Integer code;
