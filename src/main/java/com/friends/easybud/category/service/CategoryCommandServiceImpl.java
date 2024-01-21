@@ -61,6 +61,10 @@ public class CategoryCommandServiceImpl implements CategoryCommandService {
         TertiaryCategory tertiaryCategory = tertiaryCategoryRepository.findById(tertiaryCategoryId)
                 .orElseThrow(() -> new GeneralException(ErrorStatus.TERTIARY_CATEGORY_NOT_FOUND));
 
+        if (tertiaryCategory.getIsDefault().equals(Boolean.TRUE)) {
+            throw new GeneralException(ErrorStatus.CANNOT_DELETE_DEFAULT_CATEGORY);
+        }
+
         tertiaryCategoryRepository.delete(tertiaryCategory);
         return Boolean.TRUE;
     }
