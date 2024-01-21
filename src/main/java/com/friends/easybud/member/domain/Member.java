@@ -1,6 +1,7 @@
 package com.friends.easybud.member.domain;
 
-import com.friends.easybud.account.domain.AccountCategory;
+import com.friends.easybud.card.domain.Card;
+import com.friends.easybud.category.domain.TertiaryCategory;
 import com.friends.easybud.global.domain.BaseTimeEntity;
 import com.friends.easybud.transaction.domain.Transaction;
 import jakarta.persistence.Entity;
@@ -39,10 +40,13 @@ public class Member extends BaseTimeEntity {
     private Role role;
 
     @OneToMany(mappedBy = "member")
-    private List<Transaction> transactions = new ArrayList<>();
+    private List<Transaction> deals = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")
-    private List<AccountCategory> accountCategories = new ArrayList<>();
+    private List<TertiaryCategory> tertiaryCategories = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member")
+    private List<Card> cards = new ArrayList<>();
 
     @Builder
     public Member(String name, SocialProvider socialProvider, String email, Role role) {

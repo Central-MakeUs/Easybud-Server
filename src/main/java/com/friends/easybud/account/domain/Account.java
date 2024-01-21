@@ -1,8 +1,9 @@
 package com.friends.easybud.account.domain;
 
 
+import com.friends.easybud.card.domain.Card;
+import com.friends.easybud.category.domain.TertiaryCategory;
 import com.friends.easybud.global.domain.BaseTimeEntity;
-import com.friends.easybud.member.domain.Member;
 import com.friends.easybud.transaction.domain.Transaction;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -17,9 +18,7 @@ import java.math.BigDecimal;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
-@ToString
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
@@ -39,15 +38,15 @@ public class Account extends BaseTimeEntity {
     private String memo;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "account_category_id")
-    private AccountCategory accountCategory;
+    @JoinColumn(name = "tertiary_category_id")
+    private TertiaryCategory tertiaryCategory;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "card_id")
+    private Card card;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "transaction_id")
     private Transaction transaction;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
-    private Member member;
 
 }
