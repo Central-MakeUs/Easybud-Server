@@ -1,5 +1,6 @@
 package com.friends.easybud.account.controller;
 
+import com.friends.easybud.account.converter.AccountConverter;
 import com.friends.easybud.account.dto.AccountRequest.AccountWithCardCreateDto;
 import com.friends.easybud.account.dto.AccountRequest.AccountWithTertiaryCategoryCreateDto;
 import com.friends.easybud.account.dto.AccountResponse.AccountDetailDto;
@@ -7,6 +8,7 @@ import com.friends.easybud.account.dto.AccountResponse.AccountDetailListDto;
 import com.friends.easybud.account.dto.AccountResponse.AccountSummaryDto;
 import com.friends.easybud.account.dto.AccountResponse.AccountSummaryListDto;
 import com.friends.easybud.account.service.AccountCommandService;
+import com.friends.easybud.account.service.AccountQueryService;
 import com.friends.easybud.global.response.ResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -27,6 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class AccountController {
 
     private final AccountCommandService accountCommandService;
+    private final AccountQueryService accountQueryService;
 
     @Operation(summary = "계정 생성 (카드)", description = "카드 정보가 포함된 새로운 계정을 생성합니다.")
     @PostMapping
@@ -51,25 +54,27 @@ public class AccountController {
     @Operation(summary = "계정 상세 목록 조회", description = "특정 거래의 계정 상세 목록을 조회합니다.")
     @GetMapping
     public ResponseDto<AccountDetailListDto> getAccountDetails(@RequestParam Long transactionId) {
-        return ResponseDto.onSuccess(null);
+        return ResponseDto.onSuccess(
+                AccountConverter.toAccountDetailListDto(accountQueryService.getAccounts(transactionId)));
     }
 
     @Operation(summary = "계정 요약 목록 조회", description = "특정 거래의 계정 요약 목록을 조회합니다.")
     @GetMapping
     public ResponseDto<AccountSummaryListDto> getAccountSummaries(@RequestParam Long transactionId) {
-        return ResponseDto.onSuccess(null);
+        return ResponseDto.onSuccess(
+                AccountConverter.toAccountSummaryListDto(accountQueryService.getAccounts(transactionId)));
     }
 
     @Operation(summary = "계정 상세 조회", description = "특정 거래의 계정 상세 정보를 조회합니다.")
     @GetMapping
     public ResponseDto<AccountDetailDto> getAccountDetail(@RequestParam Long accountId) {
-        return ResponseDto.onSuccess(null);
+        return ResponseDto.onSuccess(AccountConverter.toAccountDetailDto(accountQueryService.getAccount(accountId)));
     }
 
     @Operation(summary = "계정 요약 조회", description = "특정 거래의 계정 요약 정보를 조회합니다.")
     @GetMapping
     public ResponseDto<AccountSummaryDto> getAccountSummary(@RequestParam Long accountId) {
-        return ResponseDto.onSuccess(null);
+        return ResponseDto.onSuccess(AccountConverter.toAccountSummaryDto(accountQueryService.getAccount(accountId)));
     }
 
 }
