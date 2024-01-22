@@ -16,10 +16,10 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
@@ -32,13 +32,13 @@ public class AccountController {
     private final AccountQueryService accountQueryService;
 
     @Operation(summary = "계정 생성 (카드)", description = "카드 정보가 포함된 새로운 계정을 생성합니다.")
-    @PostMapping
+    @PostMapping("/with-card")
     public ResponseDto<Long> createAccountWithCard(@RequestBody AccountWithCardCreateDto request) {
         return ResponseDto.onSuccess(accountCommandService.createAccountWithCard(request));
     }
 
     @Operation(summary = "계정 생성 (소분류)", description = "소분류가 포함된 새로운 계정을 생성합니다.")
-    @PostMapping
+    @PostMapping("/with-tertiary-category")
     public ResponseDto<Long> createAccountWithTertiaryCategory(
             @RequestBody AccountWithTertiaryCategoryCreateDto request) {
         return ResponseDto.onSuccess(accountCommandService.createAccountWithTertiaryCategory(request));
@@ -46,34 +46,34 @@ public class AccountController {
 
     @Operation(summary = "계정 삭제", description = "기존의 계정을 삭제합니다.")
     @Parameter(name = "accountId", description = "삭제할 계정의 ID")
-    @DeleteMapping
-    public ResponseDto<Boolean> deleteAccount(@RequestParam Long accountId) {
+    @DeleteMapping("/{accountId}")
+    public ResponseDto<Boolean> deleteAccount(@PathVariable Long accountId) {
         return ResponseDto.onSuccess(accountCommandService.deleteAccount(accountId));
     }
 
     @Operation(summary = "계정 상세 목록 조회", description = "특정 거래의 계정 상세 목록을 조회합니다.")
-    @GetMapping
-    public ResponseDto<AccountDetailListDto> getAccountDetails(@RequestParam Long transactionId) {
+    @GetMapping("/transactions/{transactionId}/accounts/details")
+    public ResponseDto<AccountDetailListDto> getAccountDetails(@PathVariable Long transactionId) {
         return ResponseDto.onSuccess(
                 AccountConverter.toAccountDetailListDto(accountQueryService.getAccounts(transactionId)));
     }
 
     @Operation(summary = "계정 요약 목록 조회", description = "특정 거래의 계정 요약 목록을 조회합니다.")
-    @GetMapping
-    public ResponseDto<AccountSummaryListDto> getAccountSummaries(@RequestParam Long transactionId) {
+    @GetMapping("/transactions/{transactionId}/accounts/summaries")
+    public ResponseDto<AccountSummaryListDto> getAccountSummaries(@PathVariable Long transactionId) {
         return ResponseDto.onSuccess(
                 AccountConverter.toAccountSummaryListDto(accountQueryService.getAccounts(transactionId)));
     }
 
     @Operation(summary = "계정 상세 조회", description = "특정 거래의 계정 상세 정보를 조회합니다.")
-    @GetMapping
-    public ResponseDto<AccountDetailDto> getAccountDetail(@RequestParam Long accountId) {
+    @GetMapping("/{accountId}/details")
+    public ResponseDto<AccountDetailDto> getAccountDetail(@PathVariable Long accountId) {
         return ResponseDto.onSuccess(AccountConverter.toAccountDetailDto(accountQueryService.getAccount(accountId)));
     }
 
     @Operation(summary = "계정 요약 조회", description = "특정 거래의 계정 요약 정보를 조회합니다.")
-    @GetMapping
-    public ResponseDto<AccountSummaryDto> getAccountSummary(@RequestParam Long accountId) {
+    @GetMapping("/{accountId}/summary")
+    public ResponseDto<AccountSummaryDto> getAccountSummary(@PathVariable Long accountId) {
         return ResponseDto.onSuccess(AccountConverter.toAccountSummaryDto(accountQueryService.getAccount(accountId)));
     }
 
