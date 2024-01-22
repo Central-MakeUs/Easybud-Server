@@ -28,7 +28,16 @@ public enum ErrorStatus implements BaseCode {
     SECONDARY_CATEGORY_NOT_FOUND(NOT_FOUND, 4101, "존재하지 않는 계정 중분류입니다."),
     TERTIARY_CATEGORY_NOT_FOUND(NOT_FOUND, 4102, "존재하지 않는 계정 소분류입니다."),
     CANNOT_DELETE_DEFAULT_CATEGORY(BAD_REQUEST, 4103, "기본값은 삭제할 수 없습니다."),
-    TERTIARY_CATEGORY_ALREADY_EXISTS(BAD_REQUEST, 4104, "이미 존재하는 계정 소분류입니다.");
+    TERTIARY_CATEGORY_ALREADY_EXISTS(BAD_REQUEST, 4104, "이미 존재하는 계정 소분류입니다."),
+
+    // Card: 4150 ~ 4199
+    CARD_NOT_FOUND(NOT_FOUND, 4150, "존재하지 않는 카드입니다."),
+
+    // Transaction: 4200 ~ 4249
+    TRANSACTION_NOT_FOUND(NOT_FOUND, 4200, "존재하지 않는 거래입니다."),
+
+    // Account: 4250 ~ 4299
+    ACCOUNT_NOT_FOUND(NOT_FOUND, 4250, "존재하지 않는 계정입니다.");
 
     private final HttpStatus httpStatus;
     private final Integer code;

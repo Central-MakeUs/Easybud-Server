@@ -3,6 +3,7 @@ package com.friends.easybud.account.domain;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import lombok.Builder;
 
 @Embeddable
 public class AccountType {
@@ -11,6 +12,19 @@ public class AccountType {
     private AccountName typeName;
 
     @Enumerated(value = EnumType.STRING)
-    private AccountState typeStatus;
+    private AccountState typeState;
+
+    @Builder
+    public AccountType(AccountName typeName, AccountState typeState) {
+        this.typeName = typeName;
+        this.typeState = typeState;
+    }
+
+    public static AccountType of(String typeName, String typeState) {
+        return AccountType.builder()
+                .typeName(AccountName.valueOf(typeName))
+                .typeState(AccountState.valueOf(typeState))
+                .build();
+    }
 
 }
