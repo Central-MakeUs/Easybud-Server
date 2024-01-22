@@ -5,9 +5,8 @@ import com.friends.easybud.card.domain.Card;
 import com.friends.easybud.category.domain.TertiaryCategory;
 import com.friends.easybud.global.domain.BaseTimeEntity;
 import com.friends.easybud.transaction.domain.Transaction;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -28,11 +27,8 @@ public class Account extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Enumerated(value = EnumType.STRING)
-    private AccountName typeName;
-
-    @Enumerated(value = EnumType.STRING)
-    private AccountState typeStatus;
+    @Embedded
+    private AccountType accountType;
 
     private BigDecimal amount;
     private String memo;
