@@ -15,6 +15,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import java.math.BigDecimal;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -31,7 +32,10 @@ public class Account extends BaseTimeEntity {
     private AccountType accountType;
 
     private BigDecimal amount;
-    private String memo;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "transaction_id")
+    private Transaction transaction;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tertiary_category_id")
@@ -41,8 +45,13 @@ public class Account extends BaseTimeEntity {
     @JoinColumn(name = "card_id")
     private Card card;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "transaction_id")
-    private Transaction transaction;
-
+    @Builder
+    public Account(AccountType accountType, BigDecimal amount, TertiaryCategory tertiaryCategory, Card card,
+                   Transaction transaction) {
+        this.accountType = accountType;
+        this.amount = amount;
+        this.tertiaryCategory = tertiaryCategory;
+        this.card = card;
+        this.transaction = transaction;
+    }
 }

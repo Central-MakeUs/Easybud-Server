@@ -1,7 +1,7 @@
 package com.friends.easybud.account.controller;
 
-import static com.friends.easybud.account.converter.AccountRequest.AccountCreateDto;
-
+import com.friends.easybud.account.dto.AccountRequest.AccountWithCardCreateDto;
+import com.friends.easybud.account.dto.AccountRequest.AccountWithTertiaryCategoryCreateDto;
 import com.friends.easybud.global.response.ResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -20,9 +20,16 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "Account API", description = "계정 API")
 public class AccountController {
 
-    @Operation(summary = "계정 생성", description = "새로운 계정을 생성합니다.")
+    @Operation(summary = "계정 생성 (카드)", description = "카드 정보가 포함된 새로운 계정을 생성합니다.")
     @PostMapping
-    public ResponseDto<Long> createAccount(@RequestBody AccountCreateDto request) {
+    public ResponseDto<Long> createAccountWithCard(@RequestBody AccountWithCardCreateDto request) {
+        return ResponseDto.onSuccess(1L);
+    }
+
+    @Operation(summary = "계정 생성 (소분류)", description = "소분류가 포함된 새로운 계정을 생성합니다.")
+    @PostMapping
+    public ResponseDto<Long> createAccountWithTertiaryCategory(
+            @RequestBody AccountWithTertiaryCategoryCreateDto request) {
         return ResponseDto.onSuccess(1L);
     }
 
