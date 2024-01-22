@@ -41,7 +41,7 @@ public class AccountCommandServiceImpl implements AccountCommandService {
 
     private Account buildAccountWithCard(AccountWithCardCreateDto request, Transaction transaction, Card card) {
         return Account.builder()
-                .accountType(AccountType.of(request.getTypeName(), request.getTypeStatus()))
+                .accountType(AccountType.of(request.getTypeName(), request.getTypeState()))
                 .amount(request.getAmount())
                 .transaction(transaction)
                 .card(card)
@@ -64,7 +64,7 @@ public class AccountCommandServiceImpl implements AccountCommandService {
                                                      Transaction transaction,
                                                      TertiaryCategory tertiaryCategory) {
         return Account.builder()
-                .accountType(AccountType.of(request.getTypeName(), request.getTypeStatus()))
+                .accountType(AccountType.of(request.getTypeName(), request.getTypeState()))
                 .amount(request.getAmount())
                 .transaction(transaction)
                 .tertiaryCategory(tertiaryCategory)
