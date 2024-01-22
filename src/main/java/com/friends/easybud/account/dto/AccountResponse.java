@@ -48,6 +48,7 @@ public class AccountResponse {
     @AllArgsConstructor
     @Schema(description = "계정 상세 조회 DTO")
     public static class AccountDetailDto {
+        private Long accountId;
         private String typeName;
         private String typeState;
         private BigDecimal amount;
@@ -69,6 +70,7 @@ public class AccountResponse {
     @AllArgsConstructor
     @Schema(description = "계정 요약 조회 DTO")
     public static class AccountSummaryDto {
+        private Long accountId;
         private String typeName;
         private String typeState;
         private BigDecimal amount;
