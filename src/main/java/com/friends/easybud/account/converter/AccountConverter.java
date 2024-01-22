@@ -12,6 +12,7 @@ public class AccountConverter {
 
     public static AccountDetailDto toAccountDetailDto(Account account) {
         return AccountDetailDto.builder()
+                .accountId(account.getId())
                 .typeName(account.getAccountType().getTypeName().name())
                 .typeState(account.getAccountType().getTypeState().name())
                 .amount(account.getAmount())
@@ -28,6 +29,7 @@ public class AccountConverter {
 
     public static AccountSummaryDto toAccountSummaryDto(Account account) {
         return AccountSummaryDto.builder()
+                .accountId(account.getId())
                 .typeName(account.getAccountType().getTypeName().name())
                 .typeState(account.getAccountType().getTypeState().name())
                 .amount(account.getAmount())
