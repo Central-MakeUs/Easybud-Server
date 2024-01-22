@@ -18,8 +18,10 @@ public class CategoryResponse {
     @AllArgsConstructor
     @Schema(description = "계정 카테고리 목록 조회 DTO")
     public static class AccountCategoryListDto {
+
         @Schema(description = "계정 카테고리 목록")
         private List<AccountCategoryDto> accountCategories;
+
     }
 
     @Builder
@@ -39,7 +41,7 @@ public class CategoryResponse {
 
         @Schema(description = "중분류 ID")
         private Long secondaryCategoryId;
-        
+
         @Schema(description = "중분류")
         private String secondaryCategoryContent;
 
@@ -51,5 +53,6 @@ public class CategoryResponse {
 
         @Schema(description = "기본값 여부")
         private Boolean isDefault;
+
     }
 }
