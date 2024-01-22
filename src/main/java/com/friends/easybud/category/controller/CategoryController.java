@@ -41,7 +41,7 @@ public class CategoryController {
         return ResponseDto.onSuccess(categoryCommandService.deleteTertiaryCategory(tertiaryCategoryId));
     }
 
-    @Operation(summary = "계정 카테고리 조회", description = "로그인 된 회원의 계정 카테고리 목록을 조회합니다.")
+    @Operation(summary = "계정 카테고리 목록 조회", description = "로그인 된 회원의 계정 카테고리 목록을 조회합니다.")
     @GetMapping
     public ResponseDto<AccountCategoryListDto> getAccountCategories() {
         return ResponseDto.onSuccess(
