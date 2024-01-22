@@ -18,11 +18,13 @@ public class CategoryRequest {
     @AllArgsConstructor
     @Schema(description = "소분류 생성 DTO")
     public static class TertiaryCategoryCreateDto {
+
         @Schema(description = "중분류")
         private String secondaryCategory;
 
         @Schema(description = "소분류")
         private String tertiaryCategory;
+
     }
 
 }
