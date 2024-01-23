@@ -46,12 +46,18 @@ public class Account extends BaseTimeEntity {
     private Card card;
 
     @Builder
-    public Account(AccountType accountType, BigDecimal amount, TertiaryCategory tertiaryCategory, Card card,
-                   Transaction transaction) {
+    public Account(AccountType accountType, BigDecimal amount, TertiaryCategory tertiaryCategory, Card card) {
         this.accountType = accountType;
         this.amount = amount;
         this.tertiaryCategory = tertiaryCategory;
         this.card = card;
-        this.transaction = transaction;
     }
+
+    public void addTransaction(Transaction transaction) {
+        this.transaction = transaction;
+        if (!transaction.getAccounts().contains(this)) {
+            transaction.getAccounts().add(this);
+        }
+    }
+
 }
