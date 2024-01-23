@@ -1,6 +1,5 @@
 package com.friends.easybud.transaction.domain;
 
-import com.friends.easybud.account.domain.Account;
 import com.friends.easybud.global.domain.BaseTimeEntity;
 import com.friends.easybud.member.domain.Member;
 import jakarta.persistence.CascadeType;

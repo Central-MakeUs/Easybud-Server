@@ -1,4 +1,4 @@
-package com.friends.easybud.account.domain;
+package com.friends.easybud.transaction.domain;
 
 public enum AccountState {
     INCREASE, DECREASE, OCCURRENCE

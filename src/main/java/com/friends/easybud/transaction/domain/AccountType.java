@@ -1,4 +1,4 @@
-package com.friends.easybud.account.domain;
+package com.friends.easybud.transaction.domain;
 
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.EnumType;
@@ -23,13 +23,6 @@ public class AccountType {
     public AccountType(AccountName typeName, AccountState typeState) {
         this.typeName = typeName;
         this.typeState = typeState;
-    }
-
-    public static AccountType of(String typeName, String typeState) {
-        return AccountType.builder()
-                .typeName(AccountName.valueOf(typeName))
-                .typeState(AccountState.valueOf(typeState))
-                .build();
     }
 
 }
