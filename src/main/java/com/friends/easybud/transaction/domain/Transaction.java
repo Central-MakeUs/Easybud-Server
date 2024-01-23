@@ -45,12 +45,10 @@ public class Transaction extends BaseTimeEntity {
     private List<Account> accounts = new ArrayList<>();
 
     @Builder
-    public Transaction(LocalDateTime date, String summary, TransactionType type, Member member,
-                       List<Account> accounts) {
+    public Transaction(LocalDateTime date, String summary, TransactionType type, Member member) {
         this.date = date;
         this.summary = summary;
         this.type = type;
         this.member = member;
-        this.accounts = accounts;
     }
 }
