@@ -24,8 +24,8 @@ public class TransactionQueryServiceImpl implements TransactionQueryService {
     }
 
     @Override
-    public List<Transaction> getTransactionsByDate(LocalDateTime date) {
-        return transactionRepository.findAllByDate(date);
+    public List<Transaction> getTransactionsBetweenDates(LocalDateTime startDateTime, LocalDateTime endDateTime) {
+        return transactionRepository.findByDateBetween(startDateTime, endDateTime);
     }
 
     @Override

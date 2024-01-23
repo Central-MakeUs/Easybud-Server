@@ -8,7 +8,7 @@ public interface TransactionQueryService {
 
     Transaction getTransaction(Long transactionId);
 
-    List<Transaction> getTransactionsByDate(LocalDateTime date);
+    List<Transaction> getTransactionsBetweenDates(LocalDateTime startOfDay, LocalDateTime endOfDay);
 
     List<Transaction> getRecentTransactions();
 

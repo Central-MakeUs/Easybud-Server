@@ -9,6 +9,7 @@ import com.friends.easybud.transaction.service.TransactionCommandService;
 import com.friends.easybud.transaction.service.TransactionQueryService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -52,9 +53,12 @@ public class TransactionController {
     @Operation(summary = "특정 날짜의 거래 조회", description = "주어진 날짜에 해당하는 모든 거래 목록을 조회합니다.")
     @GetMapping("/date/{date}")
     public ResponseDto<TransactionListDto> getTransactionsByDate(
-            @PathVariable @DateTimeFormat(iso = ISO.DATE_TIME) LocalDateTime date) {
+            @PathVariable @DateTimeFormat(iso = ISO.DATE) LocalDate date) {
+        LocalDateTime startOfDay = date.atStartOfDay();
+        LocalDateTime endOfDay = date.atTime(23, 59, 59);
         return ResponseDto.onSuccess(
-                TransactionConverter.toTransactionListDto(transactionQueryService.getTransactionsByDate(date)));
+                TransactionConverter.toTransactionListDto(
+                        transactionQueryService.getTransactionsBetweenDates(startOfDay, endOfDay)));
     }
 
     @Operation(summary = "최근 3개의 거래 조회", description = "가장 최근에 이루어진 3개의 거래를 조회합니다.")
