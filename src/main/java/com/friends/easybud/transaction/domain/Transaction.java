@@ -3,6 +3,7 @@ package com.friends.easybud.transaction.domain;
 import com.friends.easybud.account.domain.Account;
 import com.friends.easybud.global.domain.BaseTimeEntity;
 import com.friends.easybud.member.domain.Member;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -20,9 +21,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
-@ToString
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
@@ -42,7 +41,7 @@ public class Transaction extends BaseTimeEntity {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @OneToMany(mappedBy = "transaction")
+    @OneToMany(mappedBy = "transaction", cascade = CascadeType.REMOVE)
     private List<Account> accounts = new ArrayList<>();
 
     @Builder
