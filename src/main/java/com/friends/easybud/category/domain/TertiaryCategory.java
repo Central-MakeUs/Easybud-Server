@@ -1,8 +1,8 @@
 package com.friends.easybud.category.domain;
 
-import com.friends.easybud.account.domain.Account;
 import com.friends.easybud.global.domain.BaseTimeEntity;
 import com.friends.easybud.member.domain.Member;
+import com.friends.easybud.transaction.domain.Account;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;

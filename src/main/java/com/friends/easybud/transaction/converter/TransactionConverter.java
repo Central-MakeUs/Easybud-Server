@@ -2,7 +2,7 @@ package com.friends.easybud.transaction.converter;
 
 import static com.friends.easybud.transaction.dto.TransactionResponse.TransactionDto;
 
-import com.friends.easybud.account.domain.Account;
+import com.friends.easybud.transaction.domain.Account;
 import com.friends.easybud.transaction.domain.Transaction;
 import com.friends.easybud.transaction.dto.TransactionResponse.AccountDto;
 import com.friends.easybud.transaction.dto.TransactionResponse.TransactionListDto;

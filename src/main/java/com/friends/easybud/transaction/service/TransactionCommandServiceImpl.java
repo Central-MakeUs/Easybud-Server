@@ -1,7 +1,5 @@
 package com.friends.easybud.transaction.service;
 
-import com.friends.easybud.account.domain.Account;
-import com.friends.easybud.account.repository.AccountRepository;
 import com.friends.easybud.card.domain.Card;
 import com.friends.easybud.card.repository.CardRepository;
 import com.friends.easybud.category.domain.TertiaryCategory;
@@ -10,9 +8,11 @@ import com.friends.easybud.global.exception.GeneralException;
 import com.friends.easybud.global.response.code.ErrorStatus;
 import com.friends.easybud.member.domain.Member;
 import com.friends.easybud.member.repository.MemberRepository;
+import com.friends.easybud.transaction.domain.Account;
 import com.friends.easybud.transaction.domain.Transaction;
 import com.friends.easybud.transaction.dto.TransactionRequest.AccountCreateDto;
 import com.friends.easybud.transaction.dto.TransactionRequest.TransactionCreateDto;
+import com.friends.easybud.transaction.repository.AccountRepository;
 import com.friends.easybud.transaction.repository.TransactionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

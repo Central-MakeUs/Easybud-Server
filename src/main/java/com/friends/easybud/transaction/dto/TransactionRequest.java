@@ -1,6 +1,6 @@
 package com.friends.easybud.transaction.dto;
 
-import com.friends.easybud.account.domain.AccountType;
+import com.friends.easybud.transaction.domain.AccountType;
 import com.friends.easybud.transaction.domain.TransactionType;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

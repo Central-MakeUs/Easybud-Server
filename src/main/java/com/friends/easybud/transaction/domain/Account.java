@@ -1,10 +1,9 @@
-package com.friends.easybud.account.domain;
+package com.friends.easybud.transaction.domain;
 
 
 import com.friends.easybud.card.domain.Card;
 import com.friends.easybud.category.domain.TertiaryCategory;
 import com.friends.easybud.global.domain.BaseTimeEntity;
-import com.friends.easybud.transaction.domain.Transaction;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
