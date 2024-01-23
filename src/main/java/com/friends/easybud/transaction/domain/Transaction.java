@@ -17,6 +17,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -44,4 +45,13 @@ public class Transaction extends BaseTimeEntity {
     @OneToMany(mappedBy = "transaction")
     private List<Account> accounts = new ArrayList<>();
 
+    @Builder
+    public Transaction(LocalDateTime date, String summary, TransactionType type, Member member,
+                       List<Account> accounts) {
+        this.date = date;
+        this.summary = summary;
+        this.type = type;
+        this.member = member;
+        this.accounts = accounts;
+    }
 }

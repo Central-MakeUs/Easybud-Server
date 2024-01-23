@@ -37,7 +37,9 @@ public enum ErrorStatus implements BaseCode {
     TRANSACTION_NOT_FOUND(NOT_FOUND, 4200, "존재하지 않는 거래입니다."),
 
     // Account: 4250 ~ 4299
-    ACCOUNT_NOT_FOUND(NOT_FOUND, 4250, "존재하지 않는 계정입니다.");
+    ACCOUNT_NOT_FOUND(NOT_FOUND, 4250, "존재하지 않는 계정입니다."),
+    ACCOUNT_CREATION_RULE_VIOLATION(BAD_REQUEST, 4251, "cardId 또는 tertiaryCategoryId 중 하나만 있어야 합니다.");
+
 
     private final HttpStatus httpStatus;
     private final Integer code;
