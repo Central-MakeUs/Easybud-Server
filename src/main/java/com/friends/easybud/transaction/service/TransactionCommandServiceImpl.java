@@ -59,22 +59,21 @@ public class TransactionCommandServiceImpl implements TransactionCommandService 
         if (accountDto.getCardId() != null) {
             Card card = cardRepository.findById(accountDto.getCardId())
                     .orElseThrow(() -> new GeneralException(ErrorStatus.CARD_NOT_FOUND));
-            account = buildAccount(accountDto, transaction, card, null);
+            account = buildAccount(accountDto, card, null);
         } else {
             TertiaryCategory tertiaryCategory = tertiaryCategoryRepository.findById(accountDto.getTertiaryCategoryId())
                     .orElseThrow(() -> new GeneralException(ErrorStatus.TERTIARY_CATEGORY_NOT_FOUND));
-            account = buildAccount(accountDto, transaction, null, tertiaryCategory);
+            account = buildAccount(accountDto, null, tertiaryCategory);
         }
 
+        account.addTransaction(transaction);
         accountRepository.save(account);
     }
 
-    private Account buildAccount(AccountCreateDto accountDto, Transaction transaction, Card card,
-                                 TertiaryCategory tertiaryCategory) {
+    private Account buildAccount(AccountCreateDto accountDto, Card card, TertiaryCategory tertiaryCategory) {
         return Account.builder()
                 .accountType(accountDto.getAccountType())
                 .amount(accountDto.getAmount())
-                .transaction(transaction)
                 .card(card)
                 .tertiaryCategory(tertiaryCategory)
                 .build();
