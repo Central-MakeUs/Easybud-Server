@@ -24,7 +24,7 @@ public class TransactionConverter {
                 .collect(Collectors.toList());
 
         return TransactionDto.builder()
-                .id(transaction.getId())
+                .transactionId(transaction.getId())
                 .date(transaction.getDate())
                 .summary(transaction.getSummary())
                 .type(transaction.getType())
