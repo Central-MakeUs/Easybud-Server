@@ -90,7 +90,11 @@ public class TransactionCommandServiceImpl implements TransactionCommandService 
 
     @Override
     public Boolean deleteTransaction(Long transactionId) {
-        return null;
+        Transaction transaction = transactionRepository.findById(transactionId)
+                .orElseThrow(() -> new GeneralException(ErrorStatus.TRANSACTION_NOT_FOUND));
+
+        transactionRepository.delete(transaction);
+        return Boolean.TRUE;
     }
 
 }
