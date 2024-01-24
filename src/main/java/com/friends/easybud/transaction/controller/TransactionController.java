@@ -37,7 +37,7 @@ public class TransactionController {
         return ResponseDto.onSuccess(transactionCommandService.createTransaction(request));
     }
 
-    @Operation(summary = "거래 삭제", description = "새로운 거래를 삭제합니다.")
+    @Operation(summary = "거래 삭제", description = "기존의 거래를 삭제합니다.")
     @DeleteMapping("/{transactionId}")
     public ResponseDto<Boolean> deleteTransaction(@PathVariable Long transactionId) {
         return ResponseDto.onSuccess(transactionCommandService.deleteTransaction(transactionId));
