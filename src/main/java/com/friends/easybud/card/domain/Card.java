@@ -1,5 +1,6 @@
 package com.friends.easybud.card.domain;
 
+import com.friends.easybud.card.dto.CardRequest.CardUpdateDto;
 import com.friends.easybud.global.domain.BaseTimeEntity;
 import com.friends.easybud.member.domain.Member;
 import com.friends.easybud.transaction.domain.Account;
@@ -15,6 +16,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -38,5 +40,21 @@ public class Card extends BaseTimeEntity {
 
     @OneToMany(mappedBy = "card")
     private List<Account> accounts = new ArrayList<>();
+
+    @Builder
+    public Card(LocalDate startDate, LocalDate endDate, LocalDate paymentDate, String name, Member member) {
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.paymentDate = paymentDate;
+        this.name = name;
+        this.member = member;
+    }
+
+    public void update(CardUpdateDto updateDto) {
+        this.startDate = updateDto.getStartDate();
+        this.endDate = updateDto.getEndDate();
+        this.paymentDate = updateDto.getPaymentDate();
+        this.name = updateDto.getName();
+    }
 
 }
