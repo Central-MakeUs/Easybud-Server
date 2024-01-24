@@ -25,6 +25,7 @@ public class CardRequest {
         private String name;
     }
 
+    @Builder
     @Setter
     @Getter
     @ToString
