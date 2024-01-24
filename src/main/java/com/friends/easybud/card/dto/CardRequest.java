@@ -19,10 +19,19 @@ public class CardRequest {
     @AllArgsConstructor
     @Schema(description = "카드 생성 DTO")
     public static class CardCreateDto {
+
+        @Schema(description = "카드 사용 시작 날짜")
         private LocalDate startDate;
+
+        @Schema(description = "카드 사용 종료 날짜")
         private LocalDate endDate;
+
+        @Schema(description = "대금 지급일")
         private LocalDate paymentDate;
+
+        @Schema(description = "카드명")
         private String name;
+
     }
 
     @Builder
@@ -33,10 +42,19 @@ public class CardRequest {
     @AllArgsConstructor
     @Schema(description = "카드 수정 DTO")
     public static class CardUpdateDto {
+
+        @Schema(description = "카드 사용 시작 날짜")
         private LocalDate startDate;
+
+        @Schema(description = "카드 사용 종료 날짜")
         private LocalDate endDate;
+
+        @Schema(description = "대금 지급일")
         private LocalDate paymentDate;
+
+        @Schema(description = "카드명")
         private String name;
+
     }
 
 }
