@@ -1,7 +1,6 @@
 package com.friends.easybud.card.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import java.time.LocalDate;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -21,13 +20,13 @@ public class CardRequest {
     public static class CardCreateDto {
 
         @Schema(description = "카드 사용 시작일 (말일은 -1)")
-        private LocalDate startDate;
+        private int startDate;
 
         @Schema(description = "카드 사용 종료일 (말일은 -1)")
-        private LocalDate endDate;
+        private int endDate;
 
         @Schema(description = "대금 지급일 (말일은 -1)")
-        private LocalDate paymentDate;
+        private int paymentDate;
 
         @Schema(description = "카드명")
         private String name;
