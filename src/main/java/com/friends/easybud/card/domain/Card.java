@@ -12,7 +12,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.AccessLevel;
@@ -29,9 +28,9 @@ public class Card extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private LocalDate startDate;
-    private LocalDate endDate;
-    private LocalDate paymentDate;
+    private int startDate;
+    private int endDate;
+    private int paymentDate;
     private String name;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -42,7 +41,7 @@ public class Card extends BaseTimeEntity {
     private List<Account> accounts = new ArrayList<>();
 
     @Builder
-    public Card(LocalDate startDate, LocalDate endDate, LocalDate paymentDate, String name, Member member) {
+    public Card(int startDate, int endDate, int paymentDate, String name, Member member) {
         this.startDate = startDate;
         this.endDate = endDate;
         this.paymentDate = paymentDate;

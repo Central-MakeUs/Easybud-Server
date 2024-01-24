@@ -1,7 +1,6 @@
 package com.friends.easybud.card.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import java.time.LocalDate;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -38,14 +37,14 @@ public class CardResponse {
         @Schema(description = "카드 ID")
         private Long cardId;
 
-        @Schema(description = "카드 사용 시작 날짜")
-        private LocalDate startDate;
+        @Schema(description = "카드 사용 시작일 (말일은 -1)")
+        private int startDate;
 
-        @Schema(description = "카드 사용 종료 날짜")
-        private LocalDate endDate;
+        @Schema(description = "카드 사용 종료일 (말일은 -1)")
+        private int endDate;
 
-        @Schema(description = "대금 지급일")
-        private LocalDate paymentDate;
+        @Schema(description = "대금 지급일 (말일은 -1)")
+        private int paymentDate;
 
         @Schema(description = "카드명")
         private String name;
