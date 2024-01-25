@@ -16,9 +16,9 @@ public class SlackService {
 
     @Value(value = "${spring.profiles.active}")
     String profile;
-    @Value(value = "${slack.token}")
+    @Value(value = "${slack.token:}")
     String token;
-    @Value(value = "${slack.channel.monitor}")
+    @Value(value = "${slack.channel.monitor:}")
     String channelProductError;
 
     private static final String LOCAL = "local";
