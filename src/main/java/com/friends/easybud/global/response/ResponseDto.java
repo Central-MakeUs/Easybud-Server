@@ -21,11 +21,12 @@ public class ResponseDto<T> {
     }
 
     public static <T> ResponseDto<T> of(BaseCode code, T result) {
-        return new ResponseDto<>(true, code.getReasonHttpStatus().getCode(), code.getReasonHttpStatus().getMessage(), result);
+        return new ResponseDto<>(true, code.getReasonHttpStatus().getCode(), code.getReasonHttpStatus().getMessage(),
+                result);
     }
 
-    public static <T> ResponseDto<T> onFailure(Integer code, String message, T data){
-        return new ResponseDto<>(true, code, message, data);
+    public static <T> ResponseDto<T> onFailure(Integer code, String message, T data) {
+        return new ResponseDto<>(false, code, message, data);
     }
 
 }
