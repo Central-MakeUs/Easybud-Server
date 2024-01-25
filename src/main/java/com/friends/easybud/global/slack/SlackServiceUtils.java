@@ -1,4 +1,4 @@
-package com.friends.easybud.slack;
+package com.friends.easybud.global.slack;
 
 import static com.slack.api.model.block.Blocks.divider;
 import static com.slack.api.model.block.Blocks.section;

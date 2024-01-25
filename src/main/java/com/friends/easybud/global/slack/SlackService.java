@@ -1,4 +1,4 @@
-package com.friends.easybud.slack;
+package com.friends.easybud.global.slack;
 
 import com.slack.api.Slack;
 import com.slack.api.methods.SlackApiException;
