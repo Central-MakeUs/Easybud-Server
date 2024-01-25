@@ -25,12 +25,14 @@ public class TransactionQueryServiceImpl implements TransactionQueryService {
 
     @Override
     public List<Transaction> getTransactionsBetweenDates(LocalDateTime startDateTime, LocalDateTime endDateTime) {
-        return transactionRepository.findByDateBetween(startDateTime, endDateTime);
+        Long memberId = 1L;
+        return transactionRepository.findByMemberIdAndDateBetween(memberId, startDateTime, endDateTime);
     }
 
     @Override
     public List<Transaction> getRecentTransactions() {
-        return transactionRepository.findTop3ByOrderByDateDesc();
+        Long memberId = 1L;
+        return transactionRepository.findTop3ByMemberIdOrderByDateDesc(memberId);
     }
 
 }
