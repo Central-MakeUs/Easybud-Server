@@ -43,6 +43,9 @@ dependencies {
     // p5spy
     implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.9.0'
 
+    // slack
+    implementation 'com.slack.api:slack-api-client:1.28.0'
+
 }
 
 tasks.named('test') {
