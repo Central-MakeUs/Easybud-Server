@@ -34,8 +34,15 @@ public class TransactionConverter {
 
     public static AccountDto toAccountDto(Account account) {
         return AccountDto.builder()
+                .accountId(account.getId())
                 .accountType(account.getAccountType())
+                .primaryCategoryId(account.getTertiaryCategory().getSecondaryCategory().getPrimaryCategory().getId())
+                .primaryCategoryContent(
+                        account.getTertiaryCategory().getSecondaryCategory().getPrimaryCategory().getContent())
+                .secondaryCategoryId(account.getTertiaryCategory().getSecondaryCategory().getId())
                 .secondaryCategoryContent(account.getTertiaryCategory().getSecondaryCategory().getContent())
+                .tertiaryCategoryId(account.getTertiaryCategory().getId())
+                .tertiaryCategoryContent(account.getTertiaryCategory().getContent())
                 .amount(account.getAmount()).build();
     }
 

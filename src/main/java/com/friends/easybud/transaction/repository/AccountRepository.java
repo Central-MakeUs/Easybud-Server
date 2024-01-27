@@ -11,17 +11,19 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
 
 
     @Query("SELECT SUM(a.amount) FROM Account a " +
+            "JOIN a.transaction t " +
             "JOIN a.tertiaryCategory tc " +
             "JOIN tc.secondaryCategory sc " +
             "JOIN sc.primaryCategory pc " +
-            "WHERE pc.content = :content AND tc.member.id = :memberId")
+            "WHERE pc.content = :content AND t.member.id = :memberId")
     BigDecimal sumOfAccountsByPrimaryCategoryContentAndMemberId(@Param("content") String content,
                                                                 @Param("memberId") Long memberId);
 
     @Query("SELECT SUM(a.amount) FROM Account a " +
+            "JOIN a.transaction t " +
             "JOIN a.tertiaryCategory tc " +
             "JOIN tc.secondaryCategory sc " +
-            "WHERE sc.content = :content AND tc.member.id = :memberId")
+            "WHERE sc.content = :content AND t.member.id = :memberId")
     BigDecimal sumOfAccountsBySecondaryCategoryContentAndMemberId(@Param("content") String content,
                                                                   @Param("memberId") Long memberId);
 
@@ -29,8 +31,9 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
             "JOIN a.transaction t " +
             "JOIN a.tertiaryCategory tc " +
             "JOIN tc.secondaryCategory sc " +
-            "WHERE sc.content LIKE '수익%' " +
-            "AND tc.member.id = :memberId " +
+            "JOIN sc.primaryCategory pc " +
+            "WHERE pc.content LIKE '수익%' " +
+            "AND t.member.id = :memberId " +
             "AND t.date BETWEEN :startDate AND :endDate")
     BigDecimal sumOfRevenueAccountsByMemberIdAndTransactionDateRangeWithLike(
             @Param("memberId") Long memberId,
@@ -41,8 +44,9 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
             "JOIN a.transaction t " +
             "JOIN a.tertiaryCategory tc " +
             "JOIN tc.secondaryCategory sc " +
-            "WHERE sc.content = '비용' " +
-            "AND tc.member.id = :memberId " +
+            "JOIN sc.primaryCategory pc " +
+            "WHERE pc.content = '비용' " +
+            "AND t.member.id = :memberId " +
             "AND t.date BETWEEN :startDate AND :endDate")
     BigDecimal sumOfExpenseAccountsByMemberIdAndTransactionDateRange(
             @Param("memberId") Long memberId,
