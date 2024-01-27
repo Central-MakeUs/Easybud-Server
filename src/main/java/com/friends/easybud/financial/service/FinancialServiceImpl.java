@@ -7,9 +7,11 @@ import com.friends.easybud.transaction.repository.AccountRepository;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@Slf4j
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 @Service
@@ -20,19 +22,26 @@ public class FinancialServiceImpl implements FinancialService {
     @Override
     public AvailableFundsDto getAvailableFunds() {
         Long memberId = 1L;
-        BigDecimal cash = accountRepository.sumOfAccountsBySecondaryCategoryContentAndMemberId("현금", memberId);
+        BigDecimal cash = accountRepository.sumOfAccountsBySecondaryCategoryContentAndMemberId(
+                "현금",
+                memberId
+        );
         if (cash == null) {
             cash = BigDecimal.ZERO;
         }
 
-        BigDecimal ordinaryDeposits = accountRepository.sumOfAccountsBySecondaryCategoryContentAndMemberId("보통예금",
-                memberId);
+        BigDecimal ordinaryDeposits = accountRepository.sumOfAccountsBySecondaryCategoryContentAndMemberId(
+                "보통예금",
+                memberId
+        );
         if (ordinaryDeposits == null) {
             ordinaryDeposits = BigDecimal.ZERO;
         }
 
-        BigDecimal scheduledDisbursements = accountRepository.sumOfAccountsBySecondaryCategoryContentAndMemberId("카드대금",
-                memberId);
+        BigDecimal scheduledDisbursements = accountRepository.sumOfAccountsBySecondaryCategoryContentAndMemberId(
+                "카드대금",
+                memberId
+        );
         if (scheduledDisbursements == null) {
             scheduledDisbursements = BigDecimal.ZERO;
         }
@@ -49,9 +58,23 @@ public class FinancialServiceImpl implements FinancialService {
     @Override
     public FinancialStatementDto getFinancialStatement() {
         Long memberId = 1L;
-        BigDecimal totalAssets = accountRepository.sumOfAccountsByPrimaryCategoryContentAndMemberId("자산", memberId);
-        BigDecimal totalLiabilities = accountRepository.sumOfAccountsByPrimaryCategoryContentAndMemberId("부채",
-                memberId);
+        BigDecimal totalAssets = accountRepository.sumOfAccountsByPrimaryCategoryContentAndMemberId(
+                "자산",
+                memberId
+        );
+
+        if (totalAssets == null) {
+            totalAssets = BigDecimal.ZERO;
+        }
+
+        BigDecimal totalLiabilities = accountRepository.sumOfAccountsByPrimaryCategoryContentAndMemberId(
+                "부채",
+                memberId
+        );
+        if (totalLiabilities == null) {
+            totalLiabilities = BigDecimal.ZERO;
+        }
+
         BigDecimal netAssets = totalAssets.subtract(totalLiabilities);
         return FinancialStatementDto.builder()
                 .totalAssets(totalAssets)
