@@ -20,7 +20,10 @@ public class FinancialRequest {
     @Schema(description = "장부 날짜 DTO")
     public static class FinancialDateDto {
 
+        @Schema(description = "시작 날짜")
         private LocalDate startDate;
+
+        @Schema(description = "종료 날짜")
         private LocalDate endDate;
 
     }
