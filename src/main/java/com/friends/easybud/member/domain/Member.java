@@ -40,7 +40,7 @@ public class Member extends BaseTimeEntity {
     private Role role;
 
     @OneToMany(mappedBy = "member")
-    private List<Transaction> deals = new ArrayList<>();
+    private List<Transaction> transactions = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")
     private List<TertiaryCategory> tertiaryCategories = new ArrayList<>();
