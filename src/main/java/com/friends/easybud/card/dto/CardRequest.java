@@ -19,16 +19,16 @@ public class CardRequest {
     @Schema(description = "카드 생성 DTO")
     public static class CardCreateDto {
 
-        @Schema(description = "카드 사용 시작일 (말일은 -1)")
+        @Schema(description = "카드 사용 시작일 (말일은 -1)", example = "2")
         private int startDate;
 
-        @Schema(description = "카드 사용 종료일 (말일은 -1)")
+        @Schema(description = "카드 사용 종료일 (말일은 -1)", example = "1")
         private int endDate;
 
-        @Schema(description = "대금 지급일 (말일은 -1)")
+        @Schema(description = "대금 지급일 (말일은 -1)", example = "15")
         private int paymentDate;
 
-        @Schema(description = "카드명")
+        @Schema(description = "카드명", example = "엄마카드")
         private String name;
 
     }
@@ -42,16 +42,16 @@ public class CardRequest {
     @Schema(description = "카드 수정 DTO")
     public static class CardUpdateDto {
 
-        @Schema(description = "카드 사용 시작일 (말일은 -1)")
+        @Schema(description = "카드 사용 시작일 (말일은 -1)", example = "15")
         private int startDate;
 
-        @Schema(description = "카드 사용 종료일 (말일은 -1)")
+        @Schema(description = "카드 사용 종료일 (말일은 -1)", example = "14")
         private int endDate;
 
-        @Schema(description = "대금 지급일 (말일은 -1)")
+        @Schema(description = "대금 지급일 (말일은 -1)", example = "1")
         private int paymentDate;
 
-        @Schema(description = "카드명")
+        @Schema(description = "카드명", example = "엄마카드")
         private String name;
 
     }

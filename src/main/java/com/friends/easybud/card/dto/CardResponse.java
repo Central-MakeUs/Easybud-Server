@@ -20,7 +20,7 @@ public class CardResponse {
     @Schema(description = "카드 목록 조회 DTO")
     public static class CardListDto {
 
-        @Schema(description = "카드 목록")
+        @Schema(description = "카드 목록", implementation = CardDto.class)
         List<CardDto> cards;
 
     }
@@ -34,19 +34,19 @@ public class CardResponse {
     @Schema(description = "카드 조회 DTO")
     public static class CardDto {
 
-        @Schema(description = "카드 ID")
+        @Schema(description = "카드 ID", example = "1")
         private Long cardId;
 
-        @Schema(description = "카드 사용 시작일 (말일은 -1)")
+        @Schema(description = "카드 사용 시작일 (말일은 -1)", example = "2")
         private int startDate;
 
-        @Schema(description = "카드 사용 종료일 (말일은 -1)")
+        @Schema(description = "카드 사용 종료일 (말일은 -1)", example = "1")
         private int endDate;
 
-        @Schema(description = "대금 지급일 (말일은 -1)")
+        @Schema(description = "대금 지급일 (말일은 -1)", example = "15")
         private int paymentDate;
 
-        @Schema(description = "카드명")
+        @Schema(description = "카드명", example = "엄마카드")
         private String name;
 
     }
