@@ -5,19 +5,10 @@ import com.friends.easybud.financial.dto.FinancialResponse.FinancialStatementDto
 import com.friends.easybud.financial.dto.FinancialResponse.IncomeStatementDto;
 import com.friends.easybud.transaction.repository.AccountRepository;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-/*
-    가용자금 = 현금 + 보통예금 - 카드대금
-
-    자산 = 모든 자산 카테고리 계정 잔액의 합
-    부채 = 모든 부채 카테고리 계정 잔액의 합
-    자본 = 자산 - 부채
-
-    수익/비용 = 특정 기간동안 수익 카테고리 계정 거래액의 합
-*/
 
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -69,8 +60,24 @@ public class FinancialServiceImpl implements FinancialService {
     }
 
     @Override
-    public IncomeStatementDto getIncomeStatement() {
+    public IncomeStatementDto getIncomeStatement(LocalDateTime startDate, LocalDateTime endDate) {
+        Long memberId = 1L;
+        BigDecimal revenue = accountRepository.sumOfRevenueAccountsByMemberIdAndTransactionDateRangeWithLike(
+                memberId,
+                startDate,
+                endDate
+        );
 
-        return null;
+        BigDecimal expense = accountRepository.sumOfExpenseAccountsByMemberIdAndTransactionDateRange(
+                memberId,
+                startDate,
+                endDate
+        );
+
+        return IncomeStatementDto.builder()
+                .startDate(startDate)
+                .endDate(endDate)
+                .revenue(revenue)
+                .expense(expense).build();
     }
 }

@@ -2,7 +2,7 @@ package com.friends.easybud.financial.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -52,8 +52,8 @@ public class FinancialResponse {
     @Schema(description = "수익현황 조회 DTO")
     public static class IncomeStatementDto {
 
-        private LocalDate startDate;
-        private LocalDate endDate;
+        private LocalDateTime startDate;
+        private LocalDateTime endDate;
         private BigDecimal revenue;
         private BigDecimal expense;
 
