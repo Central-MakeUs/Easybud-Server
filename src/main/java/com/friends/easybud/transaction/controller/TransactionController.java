@@ -68,4 +68,21 @@ public class TransactionController {
                 TransactionConverter.toTransactionListDto(transactionQueryService.getRecentTransactions()));
     }
 
+    @Operation(summary = "특정 연도와 달의 거래 조회", description = "주어진 연도와 달에 해당하는 모든 거래 목록을 조회합니다.")
+    @GetMapping("/year/{year}/month/{month}")
+    public ResponseDto<TransactionListDto> getTransactionsByYearAndMonth(
+            @PathVariable int year,
+            @PathVariable int month) {
+        LocalDate startOfMonth = LocalDate.of(year, month, 1);
+        LocalDate endOfMonth = startOfMonth.withDayOfMonth(startOfMonth.lengthOfMonth());
+
+        LocalDateTime startDateTime = startOfMonth.atStartOfDay();
+        LocalDateTime endDateTime = endOfMonth.atTime(23, 59, 59);
+
+        return ResponseDto.onSuccess(
+                TransactionConverter.toTransactionListDto(
+                        transactionQueryService.getTransactionsBetweenDates(startDateTime, endDateTime)));
+    }
+
+
 }
