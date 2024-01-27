@@ -37,9 +37,9 @@ public class FinancialResponse {
     @Schema(description = "재무 상태 조회 DTO")
     public static class FinancialStatementDto {
 
-        private BigDecimal netAssets;
         private BigDecimal totalAssets;
         private BigDecimal totalLiabilities;
+        private BigDecimal netAssets;
 
     }
 

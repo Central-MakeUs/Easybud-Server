@@ -57,8 +57,15 @@ public class FinancialServiceImpl implements FinancialService {
 
     @Override
     public FinancialStatementDto getFinancialStatement() {
-
-        return null;
+        Long memberId = 1L;
+        BigDecimal totalAssets = accountRepository.sumOfAccountsByPrimaryCategoryContentAndMemberId("자산", memberId);
+        BigDecimal totalLiabilities = accountRepository.sumOfAccountsByPrimaryCategoryContentAndMemberId("부채",
+                memberId);
+        BigDecimal netAssets = totalAssets.subtract(totalLiabilities);
+        return FinancialStatementDto.builder()
+                .totalAssets(totalAssets)
+                .totalLiabilities(totalLiabilities)
+                .netAssets(netAssets).build();
     }
 
     @Override
