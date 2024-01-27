@@ -19,9 +19,9 @@ public class FinancialResponse {
     @NoArgsConstructor
     @AllArgsConstructor
     @Schema(description = "가용자금 조회 DTO")
-    public static class AvailableFunds {
+    public static class AvailableFundsDto {
 
-        private BigDecimal cashAndCashEquivalents;
+        private BigDecimal cash;
         private BigDecimal ordinaryDeposits;
         private BigDecimal scheduledDisbursements;
         private BigDecimal availableFunds;
@@ -35,7 +35,7 @@ public class FinancialResponse {
     @NoArgsConstructor
     @AllArgsConstructor
     @Schema(description = "재무 상태 조회 DTO")
-    public static class FinancialStatement {
+    public static class FinancialStatementDto {
 
         private BigDecimal netAssets;
         private BigDecimal totalAssets;
@@ -50,7 +50,7 @@ public class FinancialResponse {
     @NoArgsConstructor
     @AllArgsConstructor
     @Schema(description = "수익현황 조회 DTO")
-    public static class IncomeStatement {
+    public static class IncomeStatementDto {
 
         private LocalDate startDate;
         private LocalDate endDate;
