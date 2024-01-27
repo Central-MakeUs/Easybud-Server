@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RequestMapping("/v1/financials")
 @RestController
-@Tag(name = "FinancialReport API", description = "장부 API")
+@Tag(name = "Financial API", description = "장부 API")
 public class FinancialController {
 
     private final FinancialService financialService;
