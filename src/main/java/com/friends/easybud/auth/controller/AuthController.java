@@ -17,12 +17,12 @@ public class AuthController {
 
     private final KakaoOauthService kakaoOauthService;
 
-    @GetMapping("/validate")
+    @GetMapping("/kakao/validate")
     public ResponseDto<OIDCDecodePayload> getOIDCDecodePayload(@RequestParam String idToken) {
         return ResponseDto.onSuccess(kakaoOauthService.getOIDCDecodePayload(idToken));
     }
 
-    @GetMapping("/userinfo")
+    @GetMapping("/kakao/userinfo")
     public ResponseDto<KakaoUserInfo> getKakaoUserInfo(@RequestParam String accessToken) {
         return ResponseDto.onSuccess(kakaoOauthService.getKakaoUserInfoClient(accessToken));
     }
