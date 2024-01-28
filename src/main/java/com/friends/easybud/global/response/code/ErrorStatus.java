@@ -22,24 +22,27 @@ public enum ErrorStatus implements BaseCode {
 
     // Member: 4050 ~ 4099
     MEMBER_NOT_FOUND(NOT_FOUND, 4050, "존재하지 않는 회원입니다."),
+  
+    // Token: 4100 ~ 4149
+    TOKEN_INVALID(BAD_REQUEST, 4100, "유효하지 않은 토큰입니다."),
+    TOKEN_EXPIRED(BAD_REQUEST, 4101, "만료된 토큰입니다.");
 
-    // AccountCategory: 4100 ~ 4149
-    PRIMARY_CATEGORY_NOT_FOUND(NOT_FOUND, 4100, "존재하지 않는 계정 대분류입니다."),
-    SECONDARY_CATEGORY_NOT_FOUND(NOT_FOUND, 4101, "존재하지 않는 계정 중분류입니다."),
-    TERTIARY_CATEGORY_NOT_FOUND(NOT_FOUND, 4102, "존재하지 않는 계정 소분류입니다."),
-    CANNOT_DELETE_DEFAULT_CATEGORY(BAD_REQUEST, 4103, "기본값은 삭제할 수 없습니다."),
-    TERTIARY_CATEGORY_ALREADY_EXISTS(BAD_REQUEST, 4104, "이미 존재하는 계정 소분류입니다."),
+    // AccountCategory: 4150 ~ 4199
+    PRIMARY_CATEGORY_NOT_FOUND(NOT_FOUND, 4150, "존재하지 않는 계정 대분류입니다."),
+    SECONDARY_CATEGORY_NOT_FOUND(NOT_FOUND, 4151, "존재하지 않는 계정 중분류입니다."),
+    TERTIARY_CATEGORY_NOT_FOUND(NOT_FOUND, 4152, "존재하지 않는 계정 소분류입니다."),
+    CANNOT_DELETE_DEFAULT_CATEGORY(BAD_REQUEST, 4153, "기본값은 삭제할 수 없습니다."),
+    TERTIARY_CATEGORY_ALREADY_EXISTS(BAD_REQUEST, 4154, "이미 존재하는 계정 소분류입니다."),
 
-    // Card: 4150 ~ 4199
-    CARD_NOT_FOUND(NOT_FOUND, 4150, "존재하지 않는 카드입니다."),
+    // Card: 4200 ~ 4249
+    CARD_NOT_FOUND(NOT_FOUND, 4200, "존재하지 않는 카드입니다."),
 
-    // Transaction: 4200 ~ 4249
-    TRANSACTION_NOT_FOUND(NOT_FOUND, 4200, "존재하지 않는 거래입니다."),
+    // Transaction: 4250 ~ 4299
+    TRANSACTION_NOT_FOUND(NOT_FOUND, 4250, "존재하지 않는 거래입니다."),
 
-    // Account: 4250 ~ 4299
-    ACCOUNT_NOT_FOUND(NOT_FOUND, 4250, "존재하지 않는 계정입니다."),
-    ACCOUNT_CREATION_RULE_VIOLATION(BAD_REQUEST, 4251, "cardId 또는 tertiaryCategoryId 중 하나만 있어야 합니다.");
-
+    // Account: 4300 ~ 4349
+    ACCOUNT_NOT_FOUND(NOT_FOUND, 4300, "존재하지 않는 계정입니다."),
+    ACCOUNT_CREATION_RULE_VIOLATION(BAD_REQUEST, 4301, "cardId 또는 tertiaryCategoryId 중 하나만 있어야 합니다.");
 
     private final HttpStatus httpStatus;
     private final Integer code;
