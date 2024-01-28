@@ -22,10 +22,10 @@ public enum ErrorStatus implements BaseCode {
 
     // Member: 4050 ~ 4099
     MEMBER_NOT_FOUND(NOT_FOUND, 4050, "존재하지 않는 회원입니다."),
-  
+
     // Token: 4100 ~ 4149
     TOKEN_INVALID(BAD_REQUEST, 4100, "유효하지 않은 토큰입니다."),
-    TOKEN_EXPIRED(BAD_REQUEST, 4101, "만료된 토큰입니다.");
+    TOKEN_EXPIRED(BAD_REQUEST, 4101, "만료된 토큰입니다."),
 
     // AccountCategory: 4150 ~ 4199
     PRIMARY_CATEGORY_NOT_FOUND(NOT_FOUND, 4150, "존재하지 않는 계정 대분류입니다."),
