@@ -7,11 +7,15 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import java.util.Collections;
+import java.util.Set;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 @ToString
 @Getter
@@ -34,11 +38,15 @@ public class Member extends BaseTimeEntity {
     private Role role;
 
     @Builder
-    public Member(String name, SocialProvider socialProvider, String email, Role role) {
-        this.name = name;
+    public Member(SocialProvider socialProvider, String email, String name, Role role) {
         this.socialProvider = socialProvider;
         this.email = email;
+        this.name = name;
         this.role = role;
+    }
+
+    public Set<GrantedAuthority> getAuthorities() {
+        return Collections.singleton(new SimpleGrantedAuthority(this.role.name()));
     }
 
 }

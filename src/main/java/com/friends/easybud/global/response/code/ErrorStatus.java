@@ -3,6 +3,7 @@ package com.friends.easybud.global.response.code;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
+import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
 import lombok.AllArgsConstructor;
@@ -21,7 +22,10 @@ public enum ErrorStatus implements BaseCode {
 
     // 토큰 오류 (4050 ~ 4100)
     TOKEN_INVALID(BAD_REQUEST, 4050, "유효하지 않은 토큰입니다."),
-    TOKEN_EXPIRED(BAD_REQUEST, 4051, "만료된 토큰입니다.");
+    TOKEN_EXPIRED(BAD_REQUEST, 4051, "만료된 토큰입니다."),
+
+    // 회원 오류 (4500 ~)
+    MEMBER_NOT_FOUND(NOT_FOUND, 4500, "존재하지 않는 회원입니다.");
 
     private final HttpStatus httpStatus;
     private final Integer code;
