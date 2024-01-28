@@ -19,3 +19,11 @@ oauth:
 
 jwt:
   secret: ${JWT_SECRET}
+
+springdoc:
+  swagger-ui:
+    groups-order: desc
+    tags-sorter: alpha
+    operations-sorter: method
+    disable-swagger-default-url: true
+    display-request-duration: true

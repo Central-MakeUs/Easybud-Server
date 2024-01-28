@@ -1,12 +1,15 @@
 package com.friends.easybud.global;
 
 import com.friends.easybud.global.response.ResponseDto;
+import io.swagger.v3.oas.annotations.Hidden;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@Hidden
 @RequestMapping("/health")
 @RestController
 public class HealthCheckController {
@@ -28,4 +31,10 @@ public class HealthCheckController {
             return "Database Connection: Failed - " + e.getMessage();
         }
     }
+
+    @GetMapping("/test-error")
+    public ResponseEntity<String> testInternalServerError() {
+        throw new RuntimeException("내부 서버 오류 테스트");
+    }
+
 }
