@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
-@RequestMapping("/v1/transactions")
+@RequestMapping("/api/transactions")
 @RestController
 @Tag(name = "Transaction API", description = "거래 API")
 public class TransactionController {
