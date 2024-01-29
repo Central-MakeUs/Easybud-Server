@@ -1,8 +1,13 @@
 package com.friends.easybud.jwt.service;
 
+import com.friends.easybud.global.exception.GeneralException;
+import com.friends.easybud.global.response.code.ErrorStatus;
 import com.friends.easybud.jwt.dto.JwtToken;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import java.security.Key;
@@ -56,4 +61,21 @@ public class JwtTokenProvider {
                 .build();
     }
 
+    public Boolean validateToken(String token) {
+        try {
+            Jwts.parserBuilder()
+                    .setSigningKey(key)
+                    .build()
+                    .parseClaimsJws(token);
+            return Boolean.TRUE;
+        } catch (SecurityException | MalformedJwtException e) {
+            throw new GeneralException(ErrorStatus.TOKEN_INVALID);
+        } catch (ExpiredJwtException e) {
+            throw new GeneralException(ErrorStatus.TOKEN_EXPIRED);
+        } catch (UnsupportedJwtException e) {
+            throw new GeneralException(ErrorStatus.TOKEN_UNSUPPORTED);
+        } catch (IllegalArgumentException e) {
+            throw new GeneralException(ErrorStatus.TOKEN_CLAIMS_EMPTY);
+        }
+    }
 }
