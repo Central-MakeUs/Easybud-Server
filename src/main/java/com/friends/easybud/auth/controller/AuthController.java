@@ -5,7 +5,6 @@ import com.friends.easybud.auth.dto.OIDCDecodePayload;
 import com.friends.easybud.auth.service.KakaoOauthService;
 import com.friends.easybud.global.response.ResponseDto;
 import com.friends.easybud.jwt.dto.JwtToken;
-import com.friends.easybud.jwt.service.JwtTokenProvider;
 import com.friends.easybud.member.service.MemberCommandService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -26,12 +25,10 @@ public class AuthController {
 
     private final KakaoOauthService kakaoOauthService;
     private final MemberCommandService memberCommandService;
-    private final JwtTokenProvider jwtTokenProvider;
 
     @Operation(summary = "토큰 재발급", description = "Refresh Token, Access Token을 재발급합니다.")
     @PatchMapping("/reissue")
     public ResponseDto<JwtToken> reissue(HttpServletRequest request, HttpServletResponse response) {
-
         return ResponseDto.onSuccess(null);
     }
 
