@@ -11,11 +11,14 @@ spring:
         default_batch_fetch_size: 100
         dialect: org.hibernate.dialect.MySQLDialect
 
+  redis:
+    host: ${REDIS_HOSTNAME}
+    port: ${REDIS_PORT}
+
 oauth:
   kakao:
     base-url: ${KAKAO_BASE_URL}
     app-key: ${KAKAO_APP_KEY}
-
 
 jwt:
   secret: ${JWT_SECRET}
