@@ -1,8 +1,14 @@
 package com.friends.easybud.jwt.service;
 
+import com.friends.easybud.global.exception.GeneralException;
+import com.friends.easybud.global.response.code.ErrorStatus;
 import com.friends.easybud.jwt.dto.JwtToken;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import java.security.Key;
@@ -24,26 +30,22 @@ public class JwtTokenProvider {
     }
 
     public JwtToken generateToken(Authentication authentication) {
-        // 권한 가져오기
         String authorities = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(","));
 
         long now = (new Date()).getTime();
 
-        // Access Token 생성
-        Date accessTokenExpiresIn = new Date(now + 1800000);   // 30분
         String accessToken = Jwts.builder()
                 .setSubject(authentication.getName())
                 .claim("auth", authorities)
-                .setExpiration(accessTokenExpiresIn)
+                .setExpiration(new Date(now + 1800000))
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
 
-        // Refresh Token 생성
         String refreshToken = Jwts.builder()
                 .setSubject(authentication.getName())
-                .setExpiration(new Date(now + 604800000))    // 7일
+                .setExpiration(new Date(now + 604800000))
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
 
@@ -54,6 +56,36 @@ public class JwtTokenProvider {
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
                 .build();
+    }
+
+    public Boolean validateToken(String token) {
+        try {
+            Jwts.parserBuilder()
+                    .setSigningKey(key)
+                    .build()
+                    .parseClaimsJws(token);
+            return Boolean.TRUE;
+        } catch (SecurityException | MalformedJwtException e) {
+            throw new GeneralException(ErrorStatus.TOKEN_INVALID);
+        } catch (ExpiredJwtException e) {
+            throw new GeneralException(ErrorStatus.TOKEN_EXPIRED);
+        } catch (UnsupportedJwtException e) {
+            throw new GeneralException(ErrorStatus.TOKEN_UNSUPPORTED);
+        } catch (IllegalArgumentException e) {
+            throw new GeneralException(ErrorStatus.TOKEN_CLAIMS_EMPTY);
+        }
+    }
+
+    public Claims parseClaims(String accessToken) {
+        try {
+            return Jwts.parserBuilder()
+                    .setSigningKey(key)
+                    .build()
+                    .parseClaimsJws(accessToken)
+                    .getBody();
+        } catch (ExpiredJwtException e) {
+            return e.getClaims();
+        }
     }
 
 }

@@ -8,8 +8,11 @@ import com.friends.easybud.jwt.dto.JwtToken;
 import com.friends.easybud.member.service.MemberCommandService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,6 +25,12 @@ public class AuthController {
 
     private final KakaoOauthService kakaoOauthService;
     private final MemberCommandService memberCommandService;
+
+    @Operation(summary = "토큰 재발급", description = "Refresh Token, Access Token을 재발급합니다.")
+    @PatchMapping("/reissue")
+    public ResponseDto<JwtToken> reissue(HttpServletRequest request, HttpServletResponse response) {
+        return ResponseDto.onSuccess(null);
+    }
 
     @Operation(summary = "카카오 ID 토큰 검증", description = "카카오 ID 토큰의 유효성을 검증합니다.")
     @GetMapping("/kakao/validate")
