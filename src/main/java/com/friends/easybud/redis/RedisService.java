@@ -22,4 +22,8 @@ public class RedisService {
         return values.get(token);
     }
 
+    public void deleteValue(String token) {
+        redisTemplate.delete(token);
+    }
+
 }

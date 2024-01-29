@@ -27,7 +27,8 @@ public enum ErrorStatus implements BaseCode {
     TOKEN_INVALID(BAD_REQUEST, 4100, "유효하지 않은 토큰입니다."),
     TOKEN_EXPIRED(BAD_REQUEST, 4101, "만료된 토큰입니다."),
     TOKEN_UNSUPPORTED(BAD_REQUEST, 4102, "지원되지 않는 토큰 형식입니다."),
-    TOKEN_CLAIMS_EMPTY(BAD_REQUEST, 4103, "토큰 클레이밍 비어있습니다."),
+    TOKEN_CLAIMS_EMPTY(BAD_REQUEST, 4103, "토큰 클레임이 비어있습니다."),
+    REFRESH_TOKEN_NOT_FOUND(BAD_REQUEST, 4104, "헤더에 refresh token이 존재하지 않습니다."),
 
     // AccountCategory: 4150 ~ 4199
     PRIMARY_CATEGORY_NOT_FOUND(NOT_FOUND, 4150, "존재하지 않는 계정 대분류입니다."),
