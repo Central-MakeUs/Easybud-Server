@@ -6,6 +6,7 @@ import com.friends.easybud.auth.service.KakaoOauthService;
 import com.friends.easybud.global.response.ResponseDto;
 import com.friends.easybud.jwt.dto.JwtToken;
 import com.friends.easybud.member.service.MemberCommandService;
+import com.friends.easybud.redis.RedisService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
@@ -25,6 +26,7 @@ public class AuthController {
 
     private final KakaoOauthService kakaoOauthService;
     private final MemberCommandService memberCommandService;
+    private final RedisService redisService;
 
     @Operation(summary = "토큰 재발급", description = "Refresh Token, Access Token을 재발급합니다.")
     @PatchMapping("/reissue")

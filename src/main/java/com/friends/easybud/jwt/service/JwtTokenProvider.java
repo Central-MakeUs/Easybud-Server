@@ -3,6 +3,7 @@ package com.friends.easybud.jwt.service;
 import com.friends.easybud.global.exception.GeneralException;
 import com.friends.easybud.global.response.code.ErrorStatus;
 import com.friends.easybud.jwt.dto.JwtToken;
+import com.friends.easybud.redis.RedisService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -12,6 +13,7 @@ import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import java.security.Key;
+import java.time.Duration;
 import java.util.Date;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,10 +25,12 @@ import org.springframework.stereotype.Component;
 public class JwtTokenProvider {
 
     private final Key key;
+    private final RedisService redisService;
 
-    public JwtTokenProvider(@Value("${jwt.secret}") String secretKey) {
+    public JwtTokenProvider(@Value("${jwt.secret}") String secretKey, RedisService redisService) {
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         this.key = Keys.hmacShaKeyFor(keyBytes);
+        this.redisService = redisService;
     }
 
     public JwtToken generateToken(Authentication authentication) {
@@ -49,7 +53,7 @@ public class JwtTokenProvider {
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
 
-        // TODO 새 리프레시 토큰을 Redis에 저장
+        redisService.setValue(refreshToken, authentication.getName(), Duration.ofDays(7).toMillis());
 
         return JwtToken.builder()
                 .grantType("Bearer")
