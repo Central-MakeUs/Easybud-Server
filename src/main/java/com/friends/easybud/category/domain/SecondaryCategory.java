@@ -12,6 +12,7 @@ import jakarta.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -33,4 +34,9 @@ public class SecondaryCategory extends BaseTimeEntity {
     @OneToMany(mappedBy = "secondaryCategory")
     private List<TertiaryCategory> tertiaryCategories = new ArrayList<>();
 
+    @Builder
+    public SecondaryCategory(String content, PrimaryCategory primaryCategory) {
+        this.content = content;
+        this.primaryCategory = primaryCategory;
+    }
 }
