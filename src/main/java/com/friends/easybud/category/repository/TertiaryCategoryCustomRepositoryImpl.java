@@ -1,8 +1,7 @@
 package com.friends.easybud.category.repository;
 
-import com.friends.easybud.category.domain.QSecondaryCategory;
-import com.friends.easybud.category.domain.QTertiaryCategory;
-import com.friends.easybud.member.domain.QMember;
+import static com.friends.easybud.category.domain.QTertiaryCategory.tertiaryCategory;
+
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.stereotype.Repository;
 
@@ -10,14 +9,10 @@ import org.springframework.stereotype.Repository;
 public class TertiaryCategoryCustomRepositoryImpl implements TertiaryCategoryCustomRepository {
 
     private final JPAQueryFactory queryFactory;
-    private final QTertiaryCategory tertiaryCategory = QTertiaryCategory.tertiaryCategory;
-    private final QSecondaryCategory secondaryCategory = QSecondaryCategory.secondaryCategory;
-    private final QMember member = QMember.member;
 
     public TertiaryCategoryCustomRepositoryImpl(JPAQueryFactory queryFactory) {
         this.queryFactory = queryFactory;
     }
-
 
     @Override
     public Boolean existsWithConditions(Long memberId,
