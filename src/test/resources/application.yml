@@ -1,0 +1,14 @@
+jwt:
+  secret:
+    04092b474e96dc226d704a974e7ed24d611f757cdb8f0ad29ec22c4a98d0892b
+
+spring:
+  redis:
+    host:
+      localhost
+    port:
+      6379
+
+  profiles:
+    active:
+      local
