@@ -5,6 +5,7 @@ import static com.friends.easybud.category.dto.CategoryRequest.TertiaryCategoryC
 import com.friends.easybud.category.domain.SecondaryCategory;
 import com.friends.easybud.category.domain.TertiaryCategory;
 import com.friends.easybud.category.repository.SecondaryCategoryRepository;
+import com.friends.easybud.category.repository.TertiaryCategoryCustomRepository;
 import com.friends.easybud.category.repository.TertiaryCategoryRepository;
 import com.friends.easybud.global.exception.GeneralException;
 import com.friends.easybud.global.response.code.ErrorStatus;
@@ -21,6 +22,7 @@ public class CategoryCommandServiceImpl implements CategoryCommandService {
 
     private final SecondaryCategoryRepository secondaryCategoryRepository;
     private final TertiaryCategoryRepository tertiaryCategoryRepository;
+    private final TertiaryCategoryCustomRepository tertiaryCategoryCustomRepository;
     private final MemberRepository memberRepository;    // TODO MemberQueryService 주입
 
     @Override
@@ -38,8 +40,10 @@ public class CategoryCommandServiceImpl implements CategoryCommandService {
 
     private void validateTertiaryCategoryUniqueness(Long memberId, String tertiaryCategoryContent,
                                                     Long secondaryCategoryId) {
-        boolean exists = tertiaryCategoryRepository.existsByMemberIdOrIsDefaultAndContentAndSecondaryCategoryId(
-                memberId, tertiaryCategoryContent, secondaryCategoryId
+        boolean exists = tertiaryCategoryCustomRepository.existsWithConditions(
+                memberId,
+                tertiaryCategoryContent,
+                secondaryCategoryId
         );
         if (exists) {
             throw new GeneralException(ErrorStatus.TERTIARY_CATEGORY_ALREADY_EXISTS);

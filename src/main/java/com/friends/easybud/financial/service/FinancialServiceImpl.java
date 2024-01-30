@@ -5,7 +5,7 @@ import com.friends.easybud.card.repository.CardRepository;
 import com.friends.easybud.financial.dto.FinancialResponse.AvailableFundsDto;
 import com.friends.easybud.financial.dto.FinancialResponse.FinancialStatementDto;
 import com.friends.easybud.financial.dto.FinancialResponse.IncomeStatementDto;
-import com.friends.easybud.transaction.repository.AccountRepository;
+import com.friends.easybud.transaction.repository.AccountCustomRepository;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -22,7 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class FinancialServiceImpl implements FinancialService {
 
     private final CardRepository cardRepository;
-    private final AccountRepository accountRepository;
+    private final AccountCustomRepository accountCustomRepository;
 
     @Override
     public AvailableFundsDto getAvailableFunds() {
@@ -45,7 +45,7 @@ public class FinancialServiceImpl implements FinancialService {
     }
 
     private BigDecimal getSumBySecondaryCategory(String category, Long memberId) {
-        return accountRepository.sumOfAccountsBySecondaryCategoryContentAndMemberId(category, memberId)
+        return accountCustomRepository.sumBySecondaryCategoryAndMember(category, memberId)
                 .orElse(BigDecimal.ZERO);
     }
 
@@ -54,8 +54,11 @@ public class FinancialServiceImpl implements FinancialService {
         LocalDate usageStartDate = findUsageStartDate(card, nextPaymentDate);
         LocalDate usageEndDate = findUsageEndDate(card, nextPaymentDate);
 
-        return accountRepository.sumOfTransactionsByCardIdAndDateRange(card.getId(), usageStartDate, usageEndDate)
-                .orElse(BigDecimal.ZERO);
+        return accountCustomRepository.sumByCardAndDateRange(
+                card.getId(),
+                usageStartDate.atStartOfDay(),
+                usageEndDate.atTime(23, 59, 59)
+        ).orElse(BigDecimal.ZERO);
     }
 
     private LocalDate findNextPaymentDate(Card card, LocalDate referenceDate) {
@@ -116,18 +119,17 @@ public class FinancialServiceImpl implements FinancialService {
     }
 
     private BigDecimal getSumByPrimaryCategory(String category, Long memberId) {
-        return accountRepository.sumOfAccountsByPrimaryCategoryContentAndMemberId(category, memberId)
+        return accountCustomRepository.sumByPrimaryCategoryAndMember(category, memberId)
                 .orElse(BigDecimal.ZERO);
     }
 
     private BigDecimal getSumOfRevenueAccounts(Long memberId, LocalDateTime startDate, LocalDateTime endDate) {
-        return accountRepository.sumOfRevenueAccountsByMemberIdAndTransactionDateRangeWithLike(memberId, startDate,
-                        endDate)
+        return accountCustomRepository.sumOfRevenueByMemberAndDateWithLike(memberId, startDate, endDate)
                 .orElse(BigDecimal.ZERO);
     }
 
     private BigDecimal getSumOfExpenseAccounts(Long memberId, LocalDateTime startDate, LocalDateTime endDate) {
-        return accountRepository.sumOfExpenseAccountsByMemberIdAndTransactionDateRange(memberId, startDate, endDate)
+        return accountCustomRepository.sumOfExpensesByMemberAndDate(memberId, startDate, endDate)
                 .orElse(BigDecimal.ZERO);
     }
 
