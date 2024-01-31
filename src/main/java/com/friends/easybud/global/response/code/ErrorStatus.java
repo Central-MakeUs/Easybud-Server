@@ -45,7 +45,11 @@ public enum ErrorStatus implements BaseCode {
 
     // Account: 4300 ~ 4349
     ACCOUNT_NOT_FOUND(NOT_FOUND, 4300, "존재하지 않는 계정입니다."),
-    ACCOUNT_CREATION_RULE_VIOLATION(BAD_REQUEST, 4301, "cardId 또는 tertiaryCategoryId 중 하나만 있어야 합니다.");
+    ACCOUNT_CREATION_RULE_VIOLATION(BAD_REQUEST, 4301, "cardId 또는 tertiaryCategoryId 중 하나만 있어야 합니다."),
+
+    // Auth: 4350 ~ 4399
+    OAUTH_PROVIDER_NOT_FOUND(BAD_REQUEST, 4350, "OAuth 제공자를 찾을 수 없습니다.");
+
 
     private final HttpStatus httpStatus;
     private final Integer code;

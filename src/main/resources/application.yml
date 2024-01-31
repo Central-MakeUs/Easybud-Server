@@ -20,6 +20,10 @@ oauth:
     base-url: ${KAKAO_BASE_URL}
     app-key: ${KAKAO_APP_KEY}
 
+#  apple:
+#    base-url: ${APPLE_BASE_URL}
+#    app-key: ${APPLE_APP_KEY}
+
 jwt:
   secret: ${JWT_SECRET}
 
