@@ -1,5 +1,6 @@
 package com.friends.easybud.card.dto;
 
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -20,7 +21,7 @@ public class CardResponse {
     @Schema(description = "카드 목록 조회 DTO")
     public static class CardListDto {
 
-        @Schema(description = "카드 목록", implementation = CardDto.class)
+        @ArraySchema(schema = @Schema(description = "카드 목록", implementation = CardDto.class))
         List<CardDto> cards;
 
     }
