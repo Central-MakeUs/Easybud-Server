@@ -2,6 +2,7 @@ package com.friends.easybud.transaction.dto;
 
 import com.friends.easybud.transaction.domain.AccountType;
 import com.friends.easybud.transaction.domain.TransactionType;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -24,7 +25,7 @@ public class TransactionResponse {
     @Schema(description = "거래 목록 조회 DTO")
     public static class TransactionListDto {
 
-        @Schema(description = "거래 목록", implementation = TransactionDto.class)
+        @ArraySchema(schema = @Schema(description = "거래 목록", implementation = TransactionDto.class))
         List<TransactionDto> transactions;
 
     }
@@ -50,7 +51,7 @@ public class TransactionResponse {
         @Schema(description = "거래 유형", example = "EXPENSE_TRANSACTION")
         private TransactionType type;
 
-        @Schema(description = "계정 목록", implementation = AccountDto.class)
+        @ArraySchema(schema = @Schema(description = "계정 목록", implementation = AccountDto.class))
         private List<AccountDto> accounts;
 
     }

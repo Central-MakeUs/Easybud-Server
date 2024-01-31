@@ -1,5 +1,6 @@
 package com.friends.easybud.category.dto;
 
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -19,7 +20,7 @@ public class CategoryResponse {
     @Schema(description = "계정 카테고리 목록 조회 DTO")
     public static class AccountCategoryListDto {
 
-        @Schema(description = "계정 카테고리 목록", implementation = AccountCategoryDto.class)
+        @ArraySchema(schema = @Schema(description = "계정 카테고리 목록", implementation = AccountCategoryDto.class))
         private List<AccountCategoryDto> accountCategories;
 
     }
