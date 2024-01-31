@@ -1,5 +1,6 @@
 package com.friends.easybud.auth.controller;
 
+import com.friends.easybud.auth.dto.IdTokenRequest;
 import com.friends.easybud.auth.service.AuthService;
 import com.friends.easybud.auth.service.KakaoOauthService;
 import com.friends.easybud.global.response.ResponseDto;
@@ -11,7 +12,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
@@ -32,8 +32,8 @@ public class AuthController {
 
     @Operation(summary = "카카오 로그인", description = "OIDC 카카오 로그인을 진행하고, 토큰을 발급합니다.")
     @GetMapping("/login/kakao")
-    public ResponseDto<JwtToken> kakaoLogin(@RequestParam String idToken) {
-        return ResponseDto.onSuccess(kakaoOauthService.kakaoLogin(idToken));
+    public ResponseDto<JwtToken> kakaoLogin(@RequestBody IdTokenRequest request) {
+        return ResponseDto.onSuccess(kakaoOauthService.kakaoLogin(request));
     }
 
 }

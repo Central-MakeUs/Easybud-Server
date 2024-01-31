@@ -1,5 +1,6 @@
 package com.friends.easybud.auth.service;
 
+import com.friends.easybud.auth.dto.IdTokenRequest;
 import com.friends.easybud.auth.dto.OIDCDecodePayload;
 import com.friends.easybud.auth.dto.OIDCPublicKeysResponse;
 import com.friends.easybud.auth.dto.OauthProperties;
@@ -29,8 +30,8 @@ public class KakaoOauthService {
     private final MemberRepository memberRepository;
 
 
-    public JwtToken kakaoLogin(String idToken) {
-        OIDCDecodePayload oidcDecodePayload = getOIDCDecodePayload(idToken);
+    public JwtToken kakaoLogin(IdTokenRequest request) {
+        OIDCDecodePayload oidcDecodePayload = getOIDCDecodePayload(request.getIdToken());
         Member member = memberRepository.findByEmailAndSocialProvider(oidcDecodePayload.getEmail(),
                         SocialProvider.KAKAO)
                 .orElseGet(() -> registerKakaoUser(oidcDecodePayload));
