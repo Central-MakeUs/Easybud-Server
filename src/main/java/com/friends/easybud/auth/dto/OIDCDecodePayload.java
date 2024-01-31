@@ -11,5 +11,6 @@ public class OIDCDecodePayload {
     private String aud;
     private String sub;
     private String email;
+    private String nickname;
 
 }
