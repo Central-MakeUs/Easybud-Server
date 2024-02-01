@@ -51,8 +51,11 @@ public class TransactionResponse {
         @Schema(description = "거래 유형", example = "EXPENSE_TRANSACTION")
         private TransactionType type;
 
-        @ArraySchema(schema = @Schema(description = "계정 목록", implementation = AccountDto.class))
-        private List<AccountDto> accounts;
+        @ArraySchema(schema = @Schema(description = "차변 계정 목록", implementation = AccountDto.class))
+        private List<AccountDto> debitAccounts;
+
+        @ArraySchema(schema = @Schema(description = "대변 계정 목록", implementation = AccountDto.class))
+        private List<AccountDto> creditAccounts;
 
     }
 
