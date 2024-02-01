@@ -5,6 +5,7 @@ import com.friends.easybud.card.repository.CardRepository;
 import com.friends.easybud.financial.dto.FinancialResponse.AvailableFundsDto;
 import com.friends.easybud.financial.dto.FinancialResponse.FinancialStatementDto;
 import com.friends.easybud.financial.dto.FinancialResponse.IncomeStatementDto;
+import com.friends.easybud.transaction.domain.AccountName;
 import com.friends.easybud.transaction.repository.AccountCustomRepository;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -126,12 +127,12 @@ public class FinancialServiceImpl implements FinancialService {
     }
 
     private BigDecimal getSumOfRevenueAccounts(Long memberId, LocalDateTime startDate, LocalDateTime endDate) {
-        return accountCustomRepository.sumOfRevenueByMemberAndDateWithLike(memberId, startDate, endDate)
+        return accountCustomRepository.sumOfAccountsByTypeAndMember(AccountName.REVENUE, memberId, startDate, endDate)
                 .orElse(BigDecimal.ZERO);
     }
 
     private BigDecimal getSumOfExpenseAccounts(Long memberId, LocalDateTime startDate, LocalDateTime endDate) {
-        return accountCustomRepository.sumOfExpensesByMemberAndDate(memberId, startDate, endDate)
+        return accountCustomRepository.sumOfAccountsByTypeAndMember(AccountName.EXPENSE, memberId, startDate, endDate)
                 .orElse(BigDecimal.ZERO);
     }
 
