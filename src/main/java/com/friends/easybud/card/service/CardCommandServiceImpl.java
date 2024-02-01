@@ -37,6 +37,7 @@ public class CardCommandServiceImpl implements CardCommandService {
                 .endDate(request.getEndDate())
                 .paymentDate(request.getPaymentDate())
                 .name(request.getName())
+                .summary(request.getSummary())
                 .member(member).build();
     }
 

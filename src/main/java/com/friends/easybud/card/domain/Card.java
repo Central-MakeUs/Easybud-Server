@@ -32,6 +32,7 @@ public class Card extends BaseTimeEntity {
     private int endDate;
     private int paymentDate;
     private String name;
+    private String summary;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
@@ -41,11 +42,12 @@ public class Card extends BaseTimeEntity {
     private List<Account> accounts = new ArrayList<>();
 
     @Builder
-    public Card(int startDate, int endDate, int paymentDate, String name, Member member) {
+    public Card(int startDate, int endDate, int paymentDate, String name, String summary, Member member) {
         this.startDate = startDate;
         this.endDate = endDate;
         this.paymentDate = paymentDate;
         this.name = name;
+        this.summary = summary;
         this.member = member;
     }
 
@@ -54,6 +56,7 @@ public class Card extends BaseTimeEntity {
         this.endDate = updateDto.getEndDate();
         this.paymentDate = updateDto.getPaymentDate();
         this.name = updateDto.getName();
+        this.summary = updateDto.getSummary();
     }
 
 }
