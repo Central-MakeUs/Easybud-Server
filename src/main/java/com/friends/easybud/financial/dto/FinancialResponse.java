@@ -79,6 +79,12 @@ public class FinancialResponse {
         @Schema(description = "비용", example = "1000000")
         private BigDecimal expense;
 
+        @Schema(description = "수익 백분율", example = "80")
+        private BigDecimal revenuePercentage;
+
+        @Schema(description = "비용 백분율", example = "20")
+        private BigDecimal expensePercentage;
+
     }
 
 }
