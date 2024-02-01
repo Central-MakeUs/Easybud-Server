@@ -12,7 +12,8 @@ public class CardConverter {
         List<CardDto> cardDtoList = cards.stream().map(CardConverter::toCardDto)
                 .collect(Collectors.toList());
         return CardListDto.builder()
-                .cards(cardDtoList).build();
+                .cards(cardDtoList)
+                .build();
     }
 
     public static CardDto toCardDto(Card card) {
@@ -21,7 +22,9 @@ public class CardConverter {
                 .startDate(card.getStartDate())
                 .endDate(card.getEndDate())
                 .paymentDate(card.getPaymentDate())
-                .name(card.getName()).build();
+                .name(card.getName())
+                .summary(card.getSummary())
+                .build();
     }
 
 }

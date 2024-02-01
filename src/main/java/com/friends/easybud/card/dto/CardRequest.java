@@ -31,6 +31,9 @@ public class CardRequest {
         @Schema(description = "카드명", example = "엄마카드")
         private String name;
 
+        @Schema(description = "적요", example = "해외 사용 시 2% 캐시백")
+        private String summary;
+
     }
 
     @Builder
@@ -53,6 +56,9 @@ public class CardRequest {
 
         @Schema(description = "카드명", example = "엄마카드")
         private String name;
+
+        @Schema(description = "적요", example = "해외 사용 시 2% 캐시백")
+        private String summary;
 
     }
 

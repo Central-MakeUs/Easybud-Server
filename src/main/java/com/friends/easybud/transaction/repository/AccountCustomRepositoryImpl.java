@@ -88,4 +88,19 @@ public class AccountCustomRepositoryImpl implements AccountCustomRepository {
                         transaction.date.between(startDate, endDate))
                 .fetchOne());
     }
+
+    @Override
+    public boolean existsInitialNetAsset(Long memberId) {
+        Integer exists = queryFactory.selectOne()
+                .from(account)
+                .join(account.transaction, transaction)
+                .join(account.tertiaryCategory, tertiaryCategory)
+                .join(tertiaryCategory.secondaryCategory, secondaryCategory)
+                .where(secondaryCategory.content.eq("기초순자산"),
+                        transaction.member.id.eq(memberId))
+                .fetchFirst();
+
+        return exists != null;
+    }
+
 }
