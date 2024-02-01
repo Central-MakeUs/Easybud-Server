@@ -1,6 +1,5 @@
 package com.friends.easybud.financial.controller;
 
-import static com.friends.easybud.financial.dto.FinancialRequest.FinancialDateDto;
 import static com.friends.easybud.financial.dto.FinancialResponse.AvailableFundsDto;
 import static com.friends.easybud.financial.dto.FinancialResponse.FinancialStatementDto;
 import static com.friends.easybud.financial.dto.FinancialResponse.IncomeStatementDto;
@@ -8,12 +7,14 @@ import static com.friends.easybud.financial.dto.FinancialResponse.IncomeStatemen
 import com.friends.easybud.financial.service.FinancialService;
 import com.friends.easybud.global.response.ResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
@@ -37,10 +38,13 @@ public class FinancialController {
     }
 
     @Operation(summary = "손익현황 조회", description = "사용자의 손익현황을 조회합니다.")
+    @Parameter(name = "startDate", example = "2024-02-01")
+    @Parameter(name = "endDate", example = "2024-02-02")
     @GetMapping("/income-statement")
-    public ResponseDto<IncomeStatementDto> getIncomeStatement(@RequestBody FinancialDateDto request) {
-        LocalDateTime startOfDay = request.getStartDate().atStartOfDay();
-        LocalDateTime endOfDay = request.getEndDate().atTime(23, 59, 59);
+    public ResponseDto<IncomeStatementDto> getIncomeStatement(@RequestParam LocalDate startDate,
+                                                              @RequestParam LocalDate endDate) {
+        LocalDateTime startOfDay = startDate.atStartOfDay();
+        LocalDateTime endOfDay = endDate.atTime(23, 59, 59);
         return ResponseDto.onSuccess(financialService.getIncomeStatement(startOfDay, endOfDay));
     }
 

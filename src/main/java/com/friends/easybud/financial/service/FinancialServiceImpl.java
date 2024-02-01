@@ -5,8 +5,10 @@ import com.friends.easybud.card.repository.CardRepository;
 import com.friends.easybud.financial.dto.FinancialResponse.AvailableFundsDto;
 import com.friends.easybud.financial.dto.FinancialResponse.FinancialStatementDto;
 import com.friends.easybud.financial.dto.FinancialResponse.IncomeStatementDto;
+import com.friends.easybud.transaction.domain.AccountName;
 import com.friends.easybud.transaction.repository.AccountCustomRepository;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -113,11 +115,24 @@ public class FinancialServiceImpl implements FinancialService {
         BigDecimal revenue = getSumOfRevenueAccounts(memberId, startDate, endDate);
         BigDecimal expense = getSumOfExpenseAccounts(memberId, startDate, endDate);
 
+        BigDecimal expensePercentage = BigDecimal.ZERO;
+        BigDecimal revenuePercentage = BigDecimal.ZERO;
+
+        if (revenue.compareTo(BigDecimal.ZERO) > 0 && expense.compareTo(BigDecimal.ZERO) > 0) {
+            expensePercentage = expense.divide(revenue.add(expense), 4, RoundingMode.HALF_UP)
+                    .multiply(new BigDecimal(100));
+            revenuePercentage = revenue.divide(revenue.add(expense), 4, RoundingMode.HALF_UP)
+                    .multiply(new BigDecimal(100));
+        }
+
         return IncomeStatementDto.builder()
                 .startDate(startDate)
                 .endDate(endDate)
                 .revenue(revenue)
-                .expense(expense).build();
+                .expense(expense)
+                .expensePercentage(expensePercentage)
+                .revenuePercentage(revenuePercentage)
+                .build();
     }
 
     private BigDecimal getSumByPrimaryCategory(String category, Long memberId) {
@@ -126,12 +141,12 @@ public class FinancialServiceImpl implements FinancialService {
     }
 
     private BigDecimal getSumOfRevenueAccounts(Long memberId, LocalDateTime startDate, LocalDateTime endDate) {
-        return accountCustomRepository.sumOfRevenueByMemberAndDateWithLike(memberId, startDate, endDate)
+        return accountCustomRepository.sumOfAccountsByTypeAndMember(AccountName.REVENUE, memberId, startDate, endDate)
                 .orElse(BigDecimal.ZERO);
     }
 
     private BigDecimal getSumOfExpenseAccounts(Long memberId, LocalDateTime startDate, LocalDateTime endDate) {
-        return accountCustomRepository.sumOfExpensesByMemberAndDate(memberId, startDate, endDate)
+        return accountCustomRepository.sumOfAccountsByTypeAndMember(AccountName.EXPENSE, memberId, startDate, endDate)
                 .orElse(BigDecimal.ZERO);
     }
 

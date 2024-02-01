@@ -6,6 +6,7 @@ import static com.friends.easybud.category.domain.QTertiaryCategory.tertiaryCate
 import static com.friends.easybud.transaction.domain.QAccount.account;
 import static com.friends.easybud.transaction.domain.QTransaction.transaction;
 
+import com.friends.easybud.transaction.domain.AccountName;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -77,6 +78,21 @@ public class AccountCustomRepositoryImpl implements AccountCustomRepository {
                         transaction.date.between(startDate, endDate))
                 .fetchOne());
     }
+
+    @Override
+    public Optional<BigDecimal> sumOfAccountsByTypeAndMember(AccountName typeName,
+                                                             Long memberId,
+                                                             LocalDateTime startDate,
+                                                             LocalDateTime endDate) {
+        return Optional.ofNullable(queryFactory.select(account.amount.sum())
+                .from(account)
+                .join(account.transaction, transaction)
+                .where(account.accountType.typeName.eq(typeName),
+                        transaction.member.id.eq(memberId),
+                        transaction.date.between(startDate, endDate))
+                .fetchOne());
+    }
+
 
     @Override
     public Optional<BigDecimal> sumByCardAndDateRange(Long cardId, LocalDateTime startDate, LocalDateTime endDate) {
