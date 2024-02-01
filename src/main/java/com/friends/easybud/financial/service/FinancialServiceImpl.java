@@ -102,7 +102,9 @@ public class FinancialServiceImpl implements FinancialService {
         return FinancialStatementDto.builder()
                 .totalAssets(totalAssets)
                 .totalLiabilities(totalLiabilities)
-                .netAssets(netAssets).build();
+                .netAssets(netAssets)
+                .initialNetAssetDefined(accountCustomRepository.existsInitialNetAsset(memberId))
+                .build();
     }
 
     @Override

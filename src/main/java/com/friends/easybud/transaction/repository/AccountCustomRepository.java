@@ -20,4 +20,6 @@ public interface AccountCustomRepository {
 
     Optional<BigDecimal> sumByCardAndDateRange(Long cardId, LocalDateTime startDate, LocalDateTime endDate);
 
+    boolean existsInitialNetAsset(Long memberId);
+
 }

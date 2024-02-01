@@ -53,6 +53,9 @@ public class FinancialResponse {
         @Schema(description = "자본", example = "490000000")
         private BigDecimal netAssets;
 
+        @Schema(description = "기초순자산 설정 여부", example = "false")
+        private boolean initialNetAssetDefined;
+
     }
 
     @Builder
