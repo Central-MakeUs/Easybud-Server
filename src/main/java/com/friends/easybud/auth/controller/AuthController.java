@@ -1,6 +1,7 @@
 package com.friends.easybud.auth.controller;
 
 import com.friends.easybud.auth.dto.IdTokenRequest;
+import com.friends.easybud.auth.dto.RefreshTokenRequest;
 import com.friends.easybud.auth.service.AuthService;
 import com.friends.easybud.global.response.ResponseDto;
 import com.friends.easybud.jwt.dto.JwtToken;
@@ -27,8 +28,8 @@ public class AuthController {
 
     @Operation(summary = "토큰 재발급", description = "Refresh Token, Access Token을 재발급합니다.")
     @PatchMapping("/reissue")
-    public ResponseDto<JwtToken> reissue(@RequestBody String refreshToken) {
-        return ResponseDto.onSuccess(jwtTokenProvider.reissueToken(refreshToken));
+    public ResponseDto<JwtToken> reissue(@RequestBody RefreshTokenRequest request) {
+        return ResponseDto.onSuccess(jwtTokenProvider.reissueToken(request));
     }
 
     @Operation(summary = "소셜 로그인", description = "소셜로그인을 진행하고 토큰을 발급합니다.")

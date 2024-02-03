@@ -1,5 +1,6 @@
 package com.friends.easybud.jwt.service;
 
+import com.friends.easybud.auth.dto.RefreshTokenRequest;
 import com.friends.easybud.global.exception.GeneralException;
 import com.friends.easybud.global.response.code.ErrorStatus;
 import com.friends.easybud.jwt.dto.JwtToken;
@@ -98,12 +99,12 @@ public class JwtTokenProvider {
         }
     }
 
-    public JwtToken reissueToken(String refreshToken) {
-        validateRefreshToken(refreshToken);
+    public JwtToken reissueToken(RefreshTokenRequest request) {
+        validateRefreshToken(request.getRefreshToken());
 
-        redisService.deleteValue(refreshToken);
+        redisService.deleteValue(request.getRefreshToken());
 
-        Claims claims = parseClaims(refreshToken);
+        Claims claims = parseClaims(request.getRefreshToken());
         String uid = claims.getSubject();
         UserDetails userDetails = memberQueryService.getMemberByUid(uid);
         Authentication authentication = new UsernamePasswordAuthenticationToken(
