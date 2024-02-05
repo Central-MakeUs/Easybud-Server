@@ -1,5 +1,6 @@
 package com.friends.easybud.transaction.repository;
 
+import com.friends.easybud.member.domain.Member;
 import com.friends.easybud.transaction.domain.Transaction;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -11,5 +12,7 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
                                                    LocalDateTime endDateTime);
 
     List<Transaction> findTop3ByMemberIdOrderByDateDesc(Long memberId);
+
+    void deleteAllByMember(Member member);
 
 }
