@@ -1,8 +1,11 @@
 package com.friends.easybud.financial.dto;
 
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -64,7 +67,7 @@ public class FinancialResponse {
     @ToString
     @NoArgsConstructor
     @AllArgsConstructor
-    @Schema(description = "수익현황 조회 DTO")
+    @Schema(description = "손익현황 조회 DTO")
     public static class IncomeStatementDto {
 
         @Schema(description = "시작 날짜", example = "2024-01-01T00:00:00")
@@ -84,6 +87,57 @@ public class FinancialResponse {
 
         @Schema(description = "비용 백분율", example = "20")
         private BigDecimal expensePercentage;
+
+    }
+
+    @Builder
+    @Setter
+    @Getter
+    @ToString
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Schema(description = "손익현황 요약 조회 DTO")
+    public static class IncomeStatementSummaryDto {
+
+        @Schema(description = "수익", example = "5000000")
+        private BigDecimal revenue;
+
+        @Schema(description = "비용", example = "1000000")
+        private BigDecimal expense;
+
+        @Schema(description = "손익", example = "4000000")
+        private BigDecimal profitLoss;
+
+    }
+
+    @Builder
+    @Setter
+    @Getter
+    @ToString
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Schema(description = "손익 조회 목록 DTO")
+    public static class ProfitLossListDto {
+
+        @ArraySchema(schema = @Schema(description = "손익 조회 목록", implementation = BigDecimal.class))
+        private List<ProfitLossDto> profitLosses;
+
+    }
+
+    @Builder
+    @Setter
+    @Getter
+    @ToString
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Schema(description = "손익 조회 목록 DTO")
+    public static class ProfitLossDto {
+
+        @Schema(description = "날짜", example = "2024-02-02")
+        private LocalDate date;
+
+        @Schema(description = "손익", example = "1000000")
+        private BigDecimal profitLoss;
 
     }
 
