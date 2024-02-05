@@ -64,7 +64,7 @@ public class FinancialResponse {
     @ToString
     @NoArgsConstructor
     @AllArgsConstructor
-    @Schema(description = "수익현황 조회 DTO")
+    @Schema(description = "손익현황 조회 DTO")
     public static class IncomeStatementDto {
 
         @Schema(description = "시작 날짜", example = "2024-01-01T00:00:00")
@@ -84,6 +84,26 @@ public class FinancialResponse {
 
         @Schema(description = "비용 백분율", example = "20")
         private BigDecimal expensePercentage;
+
+    }
+
+    @Builder
+    @Setter
+    @Getter
+    @ToString
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Schema(description = "손익현황 요약 조회 DTO")
+    public static class IncomeStatementSummaryDto {
+
+        @Schema(description = "수익", example = "5000000")
+        private BigDecimal revenue;
+
+        @Schema(description = "비용", example = "1000000")
+        private BigDecimal expense;
+
+        @Schema(description = "손익", example = "4000000")
+        private BigDecimal profitLoss;
 
     }
 

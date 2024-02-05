@@ -4,6 +4,7 @@ import static com.friends.easybud.financial.dto.FinancialResponse.AvailableFunds
 import static com.friends.easybud.financial.dto.FinancialResponse.FinancialStatementDto;
 import static com.friends.easybud.financial.dto.FinancialResponse.IncomeStatementDto;
 
+import com.friends.easybud.financial.dto.FinancialResponse.IncomeStatementSummaryDto;
 import com.friends.easybud.financial.service.FinancialService;
 import com.friends.easybud.global.response.ResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
@@ -11,6 +12,8 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.YearMonth;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -46,6 +49,20 @@ public class FinancialController {
         LocalDateTime startOfDay = startDate.atStartOfDay();
         LocalDateTime endOfDay = endDate.atTime(23, 59, 59);
         return ResponseDto.onSuccess(financialService.getIncomeStatement(startOfDay, endOfDay));
+    }
+
+    @Operation(summary = "월간 손익현황 요약 조회", description = "특정 연도와 월에 대한 손익현황을 조회합니다.")
+    @Parameter(name = "year", example = "2024")
+    @Parameter(name = "month", example = "2")
+    @GetMapping("/income-statement/summary/monthly")
+    public ResponseDto<IncomeStatementSummaryDto> getMonthlyIncomeStatementSummary(@RequestParam int year,
+                                                                                   @RequestParam int month) {
+        LocalDateTime startOfMonth = LocalDateTime.of(year, month, 1, 0, 0, 0);
+        LocalDateTime endOfMonth = YearMonth.of(year, month)
+                .atEndOfMonth()
+                .atTime(LocalTime.MAX)
+                .withNano(0);
+        return ResponseDto.onSuccess(financialService.getIncomeStatementSummary(startOfMonth, endOfMonth));
     }
 
 }

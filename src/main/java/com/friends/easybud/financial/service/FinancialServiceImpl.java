@@ -5,6 +5,7 @@ import com.friends.easybud.card.repository.CardRepository;
 import com.friends.easybud.financial.dto.FinancialResponse.AvailableFundsDto;
 import com.friends.easybud.financial.dto.FinancialResponse.FinancialStatementDto;
 import com.friends.easybud.financial.dto.FinancialResponse.IncomeStatementDto;
+import com.friends.easybud.financial.dto.FinancialResponse.IncomeStatementSummaryDto;
 import com.friends.easybud.transaction.domain.AccountName;
 import com.friends.easybud.transaction.repository.AccountCustomRepository;
 import java.math.BigDecimal;
@@ -132,6 +133,19 @@ public class FinancialServiceImpl implements FinancialService {
                 .expense(expense)
                 .expensePercentage(expensePercentage)
                 .revenuePercentage(revenuePercentage)
+                .build();
+    }
+
+    @Override
+    public IncomeStatementSummaryDto getIncomeStatementSummary(LocalDateTime startDate, LocalDateTime endDate) {
+        Long memberId = 1L;
+        BigDecimal revenue = getSumOfRevenueAccounts(memberId, startDate, endDate);
+        BigDecimal expense = getSumOfExpenseAccounts(memberId, startDate, endDate);
+
+        return IncomeStatementSummaryDto.builder()
+                .revenue(revenue)
+                .expense(expense)
+                .profitLoss(revenue.subtract(expense))
                 .build();
     }
 
