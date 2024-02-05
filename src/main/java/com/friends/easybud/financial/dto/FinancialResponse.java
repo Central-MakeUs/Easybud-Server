@@ -88,6 +88,12 @@ public class FinancialResponse {
         @Schema(description = "비용 백분율", example = "20")
         private BigDecimal expensePercentage;
 
+        @Schema(description = "전월 대비 수익 변화율", example = "88")
+        private BigDecimal revenueChangePercentage;
+
+        @Schema(description = "전월 대비 비용 변화율", example = "-12")
+        private BigDecimal expenseChangePercentage;
+
     }
 
     @Builder
