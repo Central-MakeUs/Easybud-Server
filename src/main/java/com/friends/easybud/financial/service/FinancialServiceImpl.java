@@ -119,6 +119,15 @@ public class FinancialServiceImpl implements FinancialService {
         BigDecimal revenue = getSumOfRevenueAccounts(memberId, startDate, endDate);
         BigDecimal expense = getSumOfExpenseAccounts(memberId, startDate, endDate);
 
+        LocalDateTime lastMonthStart = startDate.minusMonths(1).withDayOfMonth(1);
+        LocalDateTime lastMonthEnd = lastMonthStart.plusMonths(1).minusDays(1);
+
+        BigDecimal lastMonthRevenue = getSumOfRevenueAccounts(memberId, lastMonthStart, lastMonthEnd);
+        BigDecimal lastMonthExpense = getSumOfExpenseAccounts(memberId, lastMonthStart, lastMonthEnd);
+
+        BigDecimal revenueChangePercentage = calculateChangePercentage(revenue, lastMonthRevenue);
+        BigDecimal expenseChangePercentage = calculateChangePercentage(expense, lastMonthExpense);
+
         BigDecimal expensePercentage = BigDecimal.ZERO;
         BigDecimal revenuePercentage = BigDecimal.ZERO;
 
@@ -136,7 +145,18 @@ public class FinancialServiceImpl implements FinancialService {
                 .expense(expense)
                 .expensePercentage(expensePercentage)
                 .revenuePercentage(revenuePercentage)
+                .expenseChangePercentage(expenseChangePercentage)
+                .revenueChangePercentage(revenueChangePercentage)
                 .build();
+    }
+
+    private BigDecimal calculateChangePercentage(BigDecimal current, BigDecimal previous) {
+        if (previous.compareTo(BigDecimal.ZERO) == 0) {
+            return BigDecimal.ZERO; // 이전 값이 0이면 변화율을 계산할 수 없음
+        }
+        return current.subtract(previous)
+                .divide(previous, 4, RoundingMode.HALF_UP)
+                .multiply(new BigDecimal(100));
     }
 
     @Override
