@@ -2,6 +2,7 @@ package com.friends.easybud.category.service;
 
 import com.friends.easybud.category.domain.TertiaryCategory;
 import com.friends.easybud.category.repository.TertiaryCategoryRepository;
+import com.friends.easybud.member.domain.Member;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,8 +16,8 @@ public class CategoryQueryServiceImpl implements CategoryQueryService {
     private final TertiaryCategoryRepository tertiaryCategoryRepository;
 
     @Override
-    public List<TertiaryCategory> getTertiaryCategories(Long memberId) {
-        return tertiaryCategoryRepository.findByMemberIdOrIsDefaultTrue(memberId);
+    public List<TertiaryCategory> getTertiaryCategories(Member member) {
+        return tertiaryCategoryRepository.findByMemberIdOrIsDefaultTrue(member.getId());
     }
 
 }

@@ -29,6 +29,7 @@ public enum ErrorStatus implements BaseCode {
     TOKEN_UNSUPPORTED(BAD_REQUEST, 4102, "지원되지 않는 토큰 형식입니다."),
     TOKEN_CLAIMS_EMPTY(BAD_REQUEST, 4103, "토큰 클레임이 비어있습니다."),
     REFRESH_TOKEN_NOT_FOUND(BAD_REQUEST, 4104, "헤더에 refresh token이 존재하지 않습니다."),
+    AUTHENTICATION_REQUIRED(BAD_REQUEST, 4105, "인증 정보가 필요합니다."),
 
     // AccountCategory: 4150 ~ 4199
     PRIMARY_CATEGORY_NOT_FOUND(NOT_FOUND, 4150, "존재하지 않는 계정 대분류입니다."),
@@ -36,12 +37,15 @@ public enum ErrorStatus implements BaseCode {
     TERTIARY_CATEGORY_NOT_FOUND(NOT_FOUND, 4152, "존재하지 않는 계정 소분류입니다."),
     CANNOT_DELETE_DEFAULT_CATEGORY(BAD_REQUEST, 4153, "기본값은 삭제할 수 없습니다."),
     TERTIARY_CATEGORY_ALREADY_EXISTS(BAD_REQUEST, 4154, "이미 존재하는 계정 소분류입니다."),
+    UNAUTHORIZED_TERTIARY_CATEGORY_ACCESS(BAD_REQUEST, 4155, "접근 권한이 없는 소분류입니다."),
 
     // Card: 4200 ~ 4249
     CARD_NOT_FOUND(NOT_FOUND, 4200, "존재하지 않는 카드입니다."),
+    UNAUTHORIZED_CARD_ACCESS(BAD_REQUEST, 4201, "접근 권한이 없는 카드입니다."),
 
     // Transaction: 4250 ~ 4299
     TRANSACTION_NOT_FOUND(NOT_FOUND, 4250, "존재하지 않는 거래입니다."),
+    UNAUTHORIZED_TRANSACTION_ACCESS(BAD_REQUEST, 4251, "접근 권한이 없는 거래입니다."),
 
     // Account: 4300 ~ 4349
     ACCOUNT_NOT_FOUND(NOT_FOUND, 4300, "존재하지 않는 계정입니다."),

@@ -7,7 +7,6 @@ import com.friends.easybud.category.repository.TertiaryCategoryRepository;
 import com.friends.easybud.global.exception.GeneralException;
 import com.friends.easybud.global.response.code.ErrorStatus;
 import com.friends.easybud.member.domain.Member;
-import com.friends.easybud.member.repository.MemberRepository;
 import com.friends.easybud.transaction.domain.Account;
 import com.friends.easybud.transaction.domain.Transaction;
 import com.friends.easybud.transaction.dto.TransactionRequest.AccountCreateDto;
@@ -25,15 +24,12 @@ public class TransactionCommandServiceImpl implements TransactionCommandService 
 
     private final TransactionRepository transactionRepository;
     private final AccountRepository accountRepository;
-    private final MemberRepository memberRepository;    // TODO MemberQueryService 주입
     private final CardRepository cardRepository;
     private final TertiaryCategoryRepository tertiaryCategoryRepository;
 
 
     @Override
-    public Long createTransaction(TransactionCreateDto request) {
-        Member member = memberRepository.findById(1L).get();    // TODO 로그인 된 사용자 정보 조회
-
+    public Long createTransaction(Member member, TransactionCreateDto request) {
         Transaction transaction = buildTransaction(request, member);
         transactionRepository.save(transaction);
 
@@ -89,12 +85,20 @@ public class TransactionCommandServiceImpl implements TransactionCommandService 
     }
 
     @Override
-    public Boolean deleteTransaction(Long transactionId) {
+    public Boolean deleteTransaction(Member member, Long transactionId) {
         Transaction transaction = transactionRepository.findById(transactionId)
                 .orElseThrow(() -> new GeneralException(ErrorStatus.TRANSACTION_NOT_FOUND));
 
+        checkTransactionOwnership(member, transaction);
+
         transactionRepository.delete(transaction);
         return Boolean.TRUE;
+    }
+
+    private void checkTransactionOwnership(Member member, Transaction transaction) {
+        if (!transaction.getMember().equals(member)) {
+            throw new GeneralException(ErrorStatus.UNAUTHORIZED_TRANSACTION_ACCESS);
+        }
     }
 
 }

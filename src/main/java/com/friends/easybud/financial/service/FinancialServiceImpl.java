@@ -7,6 +7,7 @@ import com.friends.easybud.financial.dto.FinancialResponse.FinancialStatementDto
 import com.friends.easybud.financial.dto.FinancialResponse.IncomeStatementDto;
 import com.friends.easybud.financial.dto.FinancialResponse.IncomeStatementSummaryDto;
 import com.friends.easybud.financial.dto.FinancialResponse.ProfitLossDto;
+import com.friends.easybud.member.domain.Member;
 import com.friends.easybud.transaction.domain.AccountName;
 import com.friends.easybud.transaction.repository.AccountCustomRepository;
 import java.math.BigDecimal;
@@ -32,12 +33,11 @@ public class FinancialServiceImpl implements FinancialService {
     private final AccountCustomRepository accountCustomRepository;
 
     @Override
-    public AvailableFundsDto getAvailableFunds() {
-        Long memberId = 1L;
-        BigDecimal cash = getSumBySecondaryCategory("현금", memberId);
-        BigDecimal ordinaryDeposits = getSumBySecondaryCategory("보통예금", memberId);
+    public AvailableFundsDto getAvailableFunds(Member member) {
+        BigDecimal cash = getSumBySecondaryCategory("현금", member.getId());
+        BigDecimal ordinaryDeposits = getSumBySecondaryCategory("보통예금", member.getId());
 
-        List<Card> cards = cardRepository.findByMemberId(memberId);
+        List<Card> cards = cardRepository.findByMemberId(member.getId());
         BigDecimal cardPayment = cards.stream()
                 .map(card -> calculateUpcomingCardPayment(card, LocalDate.now()))
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
@@ -121,31 +121,29 @@ public class FinancialServiceImpl implements FinancialService {
 
 
     @Override
-    public FinancialStatementDto getFinancialStatement() {
-        Long memberId = 1L;
-        BigDecimal totalAssets = getSumByPrimaryCategory("자산", memberId);
-        BigDecimal totalLiabilities = getSumByPrimaryCategory("부채", memberId);
+    public FinancialStatementDto getFinancialStatement(Member member) {
+        BigDecimal totalAssets = getSumByPrimaryCategory("자산", member.getId());
+        BigDecimal totalLiabilities = getSumByPrimaryCategory("부채", member.getId());
         BigDecimal netAssets = totalAssets.subtract(totalLiabilities);
 
         return FinancialStatementDto.builder()
                 .totalAssets(totalAssets)
                 .totalLiabilities(totalLiabilities)
                 .netAssets(netAssets)
-                .initialNetAssetDefined(accountCustomRepository.existsInitialNetAsset(memberId))
+                .initialNetAssetDefined(accountCustomRepository.existsInitialNetAsset(member.getId()))
                 .build();
     }
 
     @Override
-    public IncomeStatementDto getIncomeStatement(LocalDateTime startDate, LocalDateTime endDate) {
-        Long memberId = 1L;
-        BigDecimal revenue = getSumOfRevenueAccounts(memberId, startDate, endDate);
-        BigDecimal expense = getSumOfExpenseAccounts(memberId, startDate, endDate);
+    public IncomeStatementDto getIncomeStatement(Member member, LocalDateTime startDate, LocalDateTime endDate) {
+        BigDecimal revenue = getSumOfRevenueAccounts(member.getId(), startDate, endDate);
+        BigDecimal expense = getSumOfExpenseAccounts(member.getId(), startDate, endDate);
 
         LocalDateTime lastMonthStart = startDate.minusMonths(1).withDayOfMonth(1);
         LocalDateTime lastMonthEnd = lastMonthStart.plusMonths(1).minusDays(1);
 
-        BigDecimal lastMonthRevenue = getSumOfRevenueAccounts(memberId, lastMonthStart, lastMonthEnd);
-        BigDecimal lastMonthExpense = getSumOfExpenseAccounts(memberId, lastMonthStart, lastMonthEnd);
+        BigDecimal lastMonthRevenue = getSumOfRevenueAccounts(member.getId(), lastMonthStart, lastMonthEnd);
+        BigDecimal lastMonthExpense = getSumOfExpenseAccounts(member.getId(), lastMonthStart, lastMonthEnd);
 
         BigDecimal revenueChangePercentage = calculateChangePercentage(revenue, lastMonthRevenue);
         BigDecimal expenseChangePercentage = calculateChangePercentage(expense, lastMonthExpense);
@@ -182,10 +180,10 @@ public class FinancialServiceImpl implements FinancialService {
     }
 
     @Override
-    public IncomeStatementSummaryDto getIncomeStatementSummary(LocalDateTime startDate, LocalDateTime endDate) {
-        Long memberId = 1L;
-        BigDecimal revenue = getSumOfRevenueAccounts(memberId, startDate, endDate);
-        BigDecimal expense = getSumOfExpenseAccounts(memberId, startDate, endDate);
+    public IncomeStatementSummaryDto getIncomeStatementSummary(Member member, LocalDateTime startDate,
+                                                               LocalDateTime endDate) {
+        BigDecimal revenue = getSumOfRevenueAccounts(member.getId(), startDate, endDate);
+        BigDecimal expense = getSumOfExpenseAccounts(member.getId(), startDate, endDate);
 
         return IncomeStatementSummaryDto.builder()
                 .revenue(revenue)
@@ -195,8 +193,7 @@ public class FinancialServiceImpl implements FinancialService {
     }
 
     @Override
-    public List<ProfitLossDto> getDailyIncomeStatementSummaries(int year, int month) {
-        Long memberId = 1L;
+    public List<ProfitLossDto> getDailyIncomeStatementSummaries(Member member, int year, int month) {
         List<ProfitLossDto> profitLossDtos = new ArrayList<>();
         YearMonth yearMonth = YearMonth.of(year, month);
         int daysInMonth = yearMonth.lengthOfMonth();
@@ -206,8 +203,8 @@ public class FinancialServiceImpl implements FinancialService {
             LocalDateTime startOfDay = date.atStartOfDay();
             LocalDateTime endOfDay = date.atTime(23, 59, 59);
 
-            BigDecimal revenue = getSumOfRevenueAccounts(memberId, startOfDay, endOfDay);
-            BigDecimal expense = getSumOfExpenseAccounts(memberId, startOfDay, endOfDay);
+            BigDecimal revenue = getSumOfRevenueAccounts(member.getId(), startOfDay, endOfDay);
+            BigDecimal expense = getSumOfExpenseAccounts(member.getId(), startOfDay, endOfDay);
 
             ProfitLossDto profitLossDto = ProfitLossDto.builder()
                     .date(date)
