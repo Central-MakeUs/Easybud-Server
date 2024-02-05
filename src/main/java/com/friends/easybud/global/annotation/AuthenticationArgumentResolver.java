@@ -26,7 +26,7 @@ public class AuthenticationArgumentResolver implements HandlerMethodArgumentReso
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
-        final boolean isRegUserAnnotation = parameter.getParameterAnnotation(AuthUser.class) != null;
+        final boolean isRegUserAnnotation = parameter.getParameterAnnotation(AuthMember.class) != null;
         final boolean isMember = parameter.getParameterType().equals(Member.class);
         return isRegUserAnnotation && isMember;
     }

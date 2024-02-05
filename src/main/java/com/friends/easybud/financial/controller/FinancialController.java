@@ -8,7 +8,7 @@ import com.friends.easybud.financial.converter.FinancialConverter;
 import com.friends.easybud.financial.dto.FinancialResponse.IncomeStatementSummaryDto;
 import com.friends.easybud.financial.dto.FinancialResponse.ProfitLossListDto;
 import com.friends.easybud.financial.service.FinancialService;
-import com.friends.easybud.global.annotation.AuthUser;
+import com.friends.easybud.global.annotation.AuthMember;
 import com.friends.easybud.global.response.ResponseDto;
 import com.friends.easybud.member.domain.Member;
 import io.swagger.v3.oas.annotations.Operation;
@@ -34,13 +34,13 @@ public class FinancialController {
 
     @Operation(summary = "가용자금 조회", description = "사용자의 가용자금을 조회합니다.")
     @GetMapping("/available-funds")
-    public ResponseDto<AvailableFundsDto> getAvailableFunds(@AuthUser Member member) {
+    public ResponseDto<AvailableFundsDto> getAvailableFunds(@AuthMember Member member) {
         return ResponseDto.onSuccess(financialService.getAvailableFunds(member));
     }
 
     @Operation(summary = "재무 상태 조회", description = "사용자의 재무 상태를 조회합니다.")
     @GetMapping("/financial-statement")
-    public ResponseDto<FinancialStatementDto> getFinancialStatement(@AuthUser Member member) {
+    public ResponseDto<FinancialStatementDto> getFinancialStatement(@AuthMember Member member) {
         return ResponseDto.onSuccess(financialService.getFinancialStatement(member));
     }
 
@@ -48,7 +48,7 @@ public class FinancialController {
     @Parameter(name = "startDate", example = "2024-02-01")
     @Parameter(name = "endDate", example = "2024-02-02")
     @GetMapping("/income-statement")
-    public ResponseDto<IncomeStatementDto> getIncomeStatement(@AuthUser Member member,
+    public ResponseDto<IncomeStatementDto> getIncomeStatement(@AuthMember Member member,
                                                               @RequestParam LocalDate startDate,
                                                               @RequestParam LocalDate endDate) {
         LocalDateTime startOfDay = startDate.atStartOfDay();
@@ -60,7 +60,7 @@ public class FinancialController {
     @Parameter(name = "year", example = "2024")
     @Parameter(name = "month", example = "2")
     @GetMapping("/income-statement/summary/monthly")
-    public ResponseDto<IncomeStatementSummaryDto> getMonthlyIncomeStatementSummary(@AuthUser Member member,
+    public ResponseDto<IncomeStatementSummaryDto> getMonthlyIncomeStatementSummary(@AuthMember Member member,
                                                                                    @RequestParam int year,
                                                                                    @RequestParam int month) {
         LocalDateTime startOfMonth = LocalDateTime.of(year, month, 1, 0, 0, 0);
@@ -75,7 +75,7 @@ public class FinancialController {
     @Parameter(name = "year", example = "2024")
     @Parameter(name = "month", example = "2")
     @GetMapping("/income-statement/summary/daily")
-    public ResponseDto<ProfitLossListDto> getDailyIncomeStatementSummary(@AuthUser Member member,
+    public ResponseDto<ProfitLossListDto> getDailyIncomeStatementSummary(@AuthMember Member member,
                                                                          @RequestParam int year,
                                                                          @RequestParam int month) {
         return ResponseDto.onSuccess(

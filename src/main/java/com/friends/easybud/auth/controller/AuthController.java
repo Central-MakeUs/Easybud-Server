@@ -3,7 +3,7 @@ package com.friends.easybud.auth.controller;
 import com.friends.easybud.auth.dto.IdTokenRequest;
 import com.friends.easybud.auth.dto.RefreshTokenRequest;
 import com.friends.easybud.auth.service.AuthService;
-import com.friends.easybud.global.annotation.AuthUser;
+import com.friends.easybud.global.annotation.AuthMember;
 import com.friends.easybud.global.response.ResponseDto;
 import com.friends.easybud.jwt.JwtDto;
 import com.friends.easybud.jwt.JwtProvider;
@@ -51,7 +51,7 @@ public class AuthController {
 
     @Operation(summary = "회원 탈퇴", description = "회원 탈퇴를 진행합니다.")
     @PostMapping("/withdrawal")
-    public ResponseDto<Boolean> withdrawal(@AuthUser Member member) {
+    public ResponseDto<Boolean> withdrawal(@AuthMember Member member) {
         return ResponseDto.onSuccess(memberCommandService.withdrawal(member));
     }
 

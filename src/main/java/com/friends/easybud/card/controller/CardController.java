@@ -7,7 +7,7 @@ import com.friends.easybud.card.dto.CardResponse.CardDto;
 import com.friends.easybud.card.dto.CardResponse.CardListDto;
 import com.friends.easybud.card.service.CardCommandService;
 import com.friends.easybud.card.service.CardQueryService;
-import com.friends.easybud.global.annotation.AuthUser;
+import com.friends.easybud.global.annotation.AuthMember;
 import com.friends.easybud.global.response.ResponseDto;
 import com.friends.easybud.member.domain.Member;
 import io.swagger.v3.oas.annotations.Operation;
@@ -33,32 +33,32 @@ public class CardController {
 
     @Operation(summary = "카드 생성", description = "새로운 카드를 생성합니다.")
     @PostMapping
-    public ResponseDto<Long> createCard(@AuthUser Member member, @RequestBody CardCreateDto request) {
+    public ResponseDto<Long> createCard(@AuthMember Member member, @RequestBody CardCreateDto request) {
         return ResponseDto.onSuccess(cardCommandService.createCard(member, request));
     }
 
     @Operation(summary = "카드 삭제", description = "기존의 카드를 삭제합니다.")
     @DeleteMapping("/{cardId}")
-    public ResponseDto<Boolean> deleteCard(@AuthUser Member member, @PathVariable Long cardId) {
+    public ResponseDto<Boolean> deleteCard(@AuthMember Member member, @PathVariable Long cardId) {
         return ResponseDto.onSuccess(cardCommandService.deleteCard(member, cardId));
     }
 
     @Operation(summary = "카드 수정", description = "기존의 카드를 수정합니다.")
     @PutMapping("/{cardId}")
-    public ResponseDto<Long> updateCard(@AuthUser Member member, @PathVariable Long cardId,
+    public ResponseDto<Long> updateCard(@AuthMember Member member, @PathVariable Long cardId,
                                         @RequestBody CardUpdateDto request) {
         return ResponseDto.onSuccess(cardCommandService.updateCard(member, cardId, request));
     }
 
     @Operation(summary = "카드 조회", description = "특정 카드를 조회합니다.")
     @GetMapping("/{cardId}")
-    public ResponseDto<CardDto> getCard(@AuthUser Member member, @PathVariable Long cardId) {
+    public ResponseDto<CardDto> getCard(@AuthMember Member member, @PathVariable Long cardId) {
         return ResponseDto.onSuccess(CardConverter.toCardDto(cardQueryService.getCard(member, cardId)));
     }
 
     @Operation(summary = "카드 목록 조회", description = "특정 회원의 카드 목록을 조회합니다.")
     @GetMapping
-    public ResponseDto<CardListDto> getCards(@AuthUser Member member) {
+    public ResponseDto<CardListDto> getCards(@AuthMember Member member) {
         return ResponseDto.onSuccess(CardConverter.toCardListDto(cardQueryService.getCards(member)));
     }
 

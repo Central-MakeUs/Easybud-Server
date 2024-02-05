@@ -6,7 +6,7 @@ import com.friends.easybud.category.converter.CategoryConverter;
 import com.friends.easybud.category.dto.CategoryRequest.TertiaryCategoryCreateDto;
 import com.friends.easybud.category.service.CategoryCommandService;
 import com.friends.easybud.category.service.CategoryQueryService;
-import com.friends.easybud.global.annotation.AuthUser;
+import com.friends.easybud.global.annotation.AuthMember;
 import com.friends.easybud.global.response.ResponseDto;
 import com.friends.easybud.member.domain.Member;
 import io.swagger.v3.oas.annotations.Operation;
@@ -32,7 +32,7 @@ public class CategoryController {
 
     @Operation(summary = "계정 소분류 생성", description = "새로운 소분류를 생성합니다.")
     @PostMapping("/tertiary")
-    public ResponseDto<Long> createTertiaryCategory(@AuthUser Member member,
+    public ResponseDto<Long> createTertiaryCategory(@AuthMember Member member,
                                                     @RequestBody TertiaryCategoryCreateDto request) {
         return ResponseDto.onSuccess(categoryCommandService.createTertiaryCategory(member, request));
     }
@@ -40,13 +40,14 @@ public class CategoryController {
     @Operation(summary = "계정 소분류 삭제", description = "기존의 소분류를 삭제합니다.")
     @Parameter(name = "tertiaryCategoryId", description = "삭제할 소분류의 ID")
     @DeleteMapping("/tertiary/{tertiaryCategoryId}")
-    public ResponseDto<Boolean> deleteTertiaryCategory(@AuthUser Member member, @PathVariable Long tertiaryCategoryId) {
+    public ResponseDto<Boolean> deleteTertiaryCategory(@AuthMember Member member,
+                                                       @PathVariable Long tertiaryCategoryId) {
         return ResponseDto.onSuccess(categoryCommandService.deleteTertiaryCategory(member, tertiaryCategoryId));
     }
 
     @Operation(summary = "계정 카테고리 목록 조회", description = "로그인 된 회원의 계정 카테고리 목록을 조회합니다.")
     @GetMapping
-    public ResponseDto<AccountCategoryListDto> getAccountCategories(@AuthUser Member member) {
+    public ResponseDto<AccountCategoryListDto> getAccountCategories(@AuthMember Member member) {
         return ResponseDto.onSuccess(
                 CategoryConverter.toAccountCategoryListDto(categoryQueryService.getTertiaryCategories(member)));
     }
