@@ -6,12 +6,15 @@ import com.friends.easybud.financial.dto.FinancialResponse.AvailableFundsDto;
 import com.friends.easybud.financial.dto.FinancialResponse.FinancialStatementDto;
 import com.friends.easybud.financial.dto.FinancialResponse.IncomeStatementDto;
 import com.friends.easybud.financial.dto.FinancialResponse.IncomeStatementSummaryDto;
+import com.friends.easybud.financial.dto.FinancialResponse.ProfitLossDto;
 import com.friends.easybud.transaction.domain.AccountName;
 import com.friends.easybud.transaction.repository.AccountCustomRepository;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.YearMonth;
+import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -147,6 +150,32 @@ public class FinancialServiceImpl implements FinancialService {
                 .expense(expense)
                 .profitLoss(revenue.subtract(expense))
                 .build();
+    }
+
+    @Override
+    public List<ProfitLossDto> getDailyIncomeStatementSummaries(int year, int month) {
+        Long memberId = 1L;
+        List<ProfitLossDto> profitLossDtos = new ArrayList<>();
+        YearMonth yearMonth = YearMonth.of(year, month);
+        int daysInMonth = yearMonth.lengthOfMonth();
+
+        for (int day = 1; day <= daysInMonth; day++) {
+            LocalDate date = LocalDate.of(year, month, day);
+            LocalDateTime startOfDay = date.atStartOfDay();
+            LocalDateTime endOfDay = date.atTime(23, 59, 59);
+
+            BigDecimal revenue = getSumOfRevenueAccounts(memberId, startOfDay, endOfDay);
+            BigDecimal expense = getSumOfExpenseAccounts(memberId, startOfDay, endOfDay);
+
+            ProfitLossDto profitLossDto = ProfitLossDto.builder()
+                    .date(date)
+                    .profitLoss(revenue.subtract(expense))
+                    .build();
+
+            profitLossDtos.add(profitLossDto);
+        }
+
+        return profitLossDtos;
     }
 
     private BigDecimal getSumByPrimaryCategory(String category, Long memberId) {

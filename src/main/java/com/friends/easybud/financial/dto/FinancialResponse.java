@@ -1,8 +1,11 @@
 package com.friends.easybud.financial.dto;
 
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -103,6 +106,37 @@ public class FinancialResponse {
         private BigDecimal expense;
 
         @Schema(description = "손익", example = "4000000")
+        private BigDecimal profitLoss;
+
+    }
+
+    @Builder
+    @Setter
+    @Getter
+    @ToString
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Schema(description = "손익 조회 목록 DTO")
+    public static class ProfitLossListDto {
+
+        @ArraySchema(schema = @Schema(description = "손익 조회 목록", implementation = BigDecimal.class))
+        private List<ProfitLossDto> profitLosses;
+
+    }
+
+    @Builder
+    @Setter
+    @Getter
+    @ToString
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Schema(description = "손익 조회 목록 DTO")
+    public static class ProfitLossDto {
+
+        @Schema(description = "날짜", example = "2024-02-02")
+        private LocalDate date;
+
+        @Schema(description = "손익", example = "1000000")
         private BigDecimal profitLoss;
 
     }

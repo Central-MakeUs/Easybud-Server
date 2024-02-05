@@ -4,7 +4,9 @@ import static com.friends.easybud.financial.dto.FinancialResponse.AvailableFunds
 import static com.friends.easybud.financial.dto.FinancialResponse.FinancialStatementDto;
 import static com.friends.easybud.financial.dto.FinancialResponse.IncomeStatementDto;
 
+import com.friends.easybud.financial.converter.FinancialConverter;
 import com.friends.easybud.financial.dto.FinancialResponse.IncomeStatementSummaryDto;
+import com.friends.easybud.financial.dto.FinancialResponse.ProfitLossListDto;
 import com.friends.easybud.financial.service.FinancialService;
 import com.friends.easybud.global.response.ResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
@@ -64,5 +66,16 @@ public class FinancialController {
                 .withNano(0);
         return ResponseDto.onSuccess(financialService.getIncomeStatementSummary(startOfMonth, endOfMonth));
     }
+
+    @Operation(summary = "월간 일별 손익현황 요약 조회", description = "특정 연도와 월에 대해 해당 월의 모든 일자별 손익현황을 조회합니다.")
+    @Parameter(name = "year", example = "2024")
+    @Parameter(name = "month", example = "2")
+    @GetMapping("/income-statement/summary/daily")
+    public ResponseDto<ProfitLossListDto> getDailyIncomeStatementSummary(@RequestParam int year,
+                                                                         @RequestParam int month) {
+        return ResponseDto.onSuccess(
+                FinancialConverter.toProfitLossListDto(financialService.getDailyIncomeStatementSummaries(year, month)));
+    }
+
 
 }
