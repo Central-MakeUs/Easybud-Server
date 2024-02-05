@@ -5,8 +5,8 @@ import com.friends.easybud.auth.dto.OIDCDecodePayload;
 import com.friends.easybud.auth.dto.OIDCPublicKeysResponse;
 import com.friends.easybud.auth.dto.OauthProperties;
 import com.friends.easybud.auth.feign.KakaoOauthClient;
-import com.friends.easybud.jwt.dto.JwtToken;
-import com.friends.easybud.jwt.service.JwtTokenProvider;
+import com.friends.easybud.jwt.JwtDto;
+import com.friends.easybud.jwt.JwtProvider;
 import com.friends.easybud.member.domain.Member;
 import com.friends.easybud.member.domain.Role;
 import com.friends.easybud.member.domain.SocialProvider;
@@ -26,11 +26,11 @@ public class AuthServiceImpl implements AuthService {
     private final OauthProperties oauthProperties;
     private final KakaoOauthClient kakaoOauthClient;
     private final OauthOIDCService oauthOIDCService;
-    private final JwtTokenProvider jwtTokenProvider;
+    private final JwtProvider jwtProvider;
     private final MemberRepository memberRepository;
 
     @Override
-    public JwtToken socialLogin(SocialProvider provider, IdTokenRequest request) {
+    public JwtDto socialLogin(SocialProvider provider, IdTokenRequest request) {
         OIDCDecodePayload oidcDecodePayload = getOIDCDecodePayload(provider, request.getIdToken());
         Member member = memberRepository.findByEmailAndSocialProvider(oidcDecodePayload.getEmail(),
                         provider)
@@ -43,7 +43,7 @@ public class AuthServiceImpl implements AuthService {
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        return jwtTokenProvider.generateToken(authentication);
+        return jwtProvider.generateToken(authentication);
     }
 
     private Member register(SocialProvider provider, OIDCDecodePayload oidcDecodePayload) {

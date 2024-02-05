@@ -10,7 +10,6 @@ import com.friends.easybud.category.repository.TertiaryCategoryRepository;
 import com.friends.easybud.global.exception.GeneralException;
 import com.friends.easybud.global.response.code.ErrorStatus;
 import com.friends.easybud.member.domain.Member;
-import com.friends.easybud.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,11 +22,9 @@ public class CategoryCommandServiceImpl implements CategoryCommandService {
     private final SecondaryCategoryRepository secondaryCategoryRepository;
     private final TertiaryCategoryRepository tertiaryCategoryRepository;
     private final TertiaryCategoryCustomRepository tertiaryCategoryCustomRepository;
-    private final MemberRepository memberRepository;    // TODO MemberQueryService 주입
 
     @Override
-    public Long createTertiaryCategory(TertiaryCategoryCreateDto request) {
-        Member member = memberRepository.findById(1L).get();    // TODO 로그인 된 사용자 정보 조회
+    public Long createTertiaryCategory(Member member, TertiaryCategoryCreateDto request) {
         SecondaryCategory secondaryCategory = secondaryCategoryRepository.findByContent(request.getSecondaryCategory())
                 .orElseThrow(() -> new GeneralException(ErrorStatus.SECONDARY_CATEGORY_NOT_FOUND));
 
@@ -61,9 +58,11 @@ public class CategoryCommandServiceImpl implements CategoryCommandService {
     }
 
     @Override
-    public Boolean deleteTertiaryCategory(Long tertiaryCategoryId) {
+    public Boolean deleteTertiaryCategory(Member member, Long tertiaryCategoryId) {
         TertiaryCategory tertiaryCategory = tertiaryCategoryRepository.findById(tertiaryCategoryId)
                 .orElseThrow(() -> new GeneralException(ErrorStatus.TERTIARY_CATEGORY_NOT_FOUND));
+
+        checkTertiaryCategoryOwnership(member, tertiaryCategory);
 
         if (tertiaryCategory.getIsDefault().equals(Boolean.TRUE)) {
             throw new GeneralException(ErrorStatus.CANNOT_DELETE_DEFAULT_CATEGORY);
@@ -71,6 +70,12 @@ public class CategoryCommandServiceImpl implements CategoryCommandService {
 
         tertiaryCategoryRepository.delete(tertiaryCategory);
         return Boolean.TRUE;
+    }
+
+    private void checkTertiaryCategoryOwnership(Member member, TertiaryCategory tertiaryCategory) {
+        if (!tertiaryCategory.getMember().equals(member)) {
+            throw new GeneralException(ErrorStatus.UNAUTHORIZED_TERTIARY_CATEGORY_ACCESS);
+        }
     }
 
 }

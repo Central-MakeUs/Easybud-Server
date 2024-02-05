@@ -1,11 +1,12 @@
 package com.friends.easybud.transaction.service;
 
+import com.friends.easybud.member.domain.Member;
 import com.friends.easybud.transaction.dto.TransactionRequest.TransactionCreateDto;
 
 public interface TransactionCommandService {
 
-    Long createTransaction(TransactionCreateDto request);
+    Long createTransaction(Member member, TransactionCreateDto request);
 
-    Boolean deleteTransaction(Long transactionId);
+    Boolean deleteTransaction(Member member, Long transactionId);
 
 }

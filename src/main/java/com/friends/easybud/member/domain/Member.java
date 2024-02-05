@@ -2,9 +2,7 @@ package com.friends.easybud.member.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.friends.easybud.card.domain.Card;
-import com.friends.easybud.category.domain.TertiaryCategory;
 import com.friends.easybud.global.domain.BaseTimeEntity;
-import com.friends.easybud.transaction.domain.Transaction;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -51,16 +49,11 @@ public class Member extends BaseTimeEntity implements UserDetails {
     private Role role;
 
     @OneToMany(mappedBy = "member")
-    private List<Transaction> transactions = new ArrayList<>();
-
-    @OneToMany(mappedBy = "member")
-    private List<TertiaryCategory> tertiaryCategories = new ArrayList<>();
-
-    @OneToMany(mappedBy = "member")
     private List<Card> cards = new ArrayList<>();
 
+
     @Builder
-    public Member(String uid, SocialProvider socialProvider, String email, String name, Role role) {
+    public Member(SocialProvider socialProvider, String email, String name, Role role) {
         this.uid = UUID.randomUUID().toString();
         this.socialProvider = socialProvider;
         this.email = email;

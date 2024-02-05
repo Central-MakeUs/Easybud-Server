@@ -2,6 +2,7 @@ package com.friends.easybud.transaction.service;
 
 import com.friends.easybud.global.exception.GeneralException;
 import com.friends.easybud.global.response.code.ErrorStatus;
+import com.friends.easybud.member.domain.Member;
 import com.friends.easybud.transaction.domain.Transaction;
 import com.friends.easybud.transaction.repository.TransactionRepository;
 import java.time.LocalDateTime;
@@ -18,21 +19,20 @@ public class TransactionQueryServiceImpl implements TransactionQueryService {
     private final TransactionRepository transactionRepository;
 
     @Override
-    public Transaction getTransaction(Long transactionId) {
+    public Transaction getTransaction(Member member, Long transactionId) {
         return transactionRepository.findById(transactionId)
                 .orElseThrow(() -> new GeneralException(ErrorStatus.TRANSACTION_NOT_FOUND));
     }
 
     @Override
-    public List<Transaction> getTransactionsBetweenDates(LocalDateTime startDateTime, LocalDateTime endDateTime) {
-        Long memberId = 1L;
-        return transactionRepository.findByMemberIdAndDateBetween(memberId, startDateTime, endDateTime);
+    public List<Transaction> getTransactionsBetweenDates(Member member, LocalDateTime startDateTime,
+                                                         LocalDateTime endDateTime) {
+        return transactionRepository.findByMemberIdAndDateBetween(member.getId(), startDateTime, endDateTime);
     }
 
     @Override
-    public List<Transaction> getRecentTransactions() {
-        Long memberId = 1L;
-        return transactionRepository.findTop3ByMemberIdOrderByDateDesc(memberId);
+    public List<Transaction> getRecentTransactions(Member member) {
+        return transactionRepository.findTop3ByMemberIdOrderByDateDesc(member.getId());
     }
 
 }
