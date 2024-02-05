@@ -122,4 +122,10 @@ public class JwtTokenProvider {
         }
     }
 
+    public boolean logout(String refreshToken) {
+        redisService.deleteValue(refreshToken);
+        return true;
+    }
+
+
 }

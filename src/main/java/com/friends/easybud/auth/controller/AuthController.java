@@ -39,4 +39,10 @@ public class AuthController {
         return ResponseDto.onSuccess(authService.socialLogin(provider, request));
     }
 
+    @Operation(summary = "로그아웃", description = "로그아웃을 진행합니다.")
+    @PostMapping("/logout")
+    public ResponseDto<Boolean> logout(@RequestBody RefreshTokenRequest request) {
+        return ResponseDto.onSuccess(jwtTokenProvider.logout(request.getRefreshToken()));
+    }
+
 }
