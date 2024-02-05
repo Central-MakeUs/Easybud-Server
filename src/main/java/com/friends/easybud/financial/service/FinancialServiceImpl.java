@@ -14,6 +14,7 @@ import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.YearMonth;
+import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -68,18 +69,32 @@ public class FinancialServiceImpl implements FinancialService {
     }
 
     private LocalDate findNextPaymentDate(Card card, LocalDate referenceDate) {
-        LocalDate nextPaymentDate = referenceDate.withDayOfMonth(card.getPaymentDate());
-        if (nextPaymentDate.isBefore(referenceDate) || nextPaymentDate.isEqual(referenceDate)) {
-            nextPaymentDate = nextPaymentDate.plusMonths(1);
+        LocalDate nextPaymentDate;
+        if (card.getPaymentDate() == -1) {
+            nextPaymentDate = referenceDate.plusMonths(1).with(TemporalAdjusters.lastDayOfMonth());
+        } else {
+            nextPaymentDate = referenceDate.withDayOfMonth(card.getPaymentDate());
+            if (nextPaymentDate.isBefore(referenceDate) || nextPaymentDate.isEqual(referenceDate)) {
+                nextPaymentDate = nextPaymentDate.plusMonths(1);
+            }
         }
         return nextPaymentDate;
     }
 
 
     private LocalDate findUsageStartDate(Card card, LocalDate nextPaymentDate) {
-        LocalDate usageStartDate = nextPaymentDate.minusMonths(1).withDayOfMonth(card.getStartDate());
+        LocalDate usageStartDate;
+        if (card.getStartDate() == -1) {
+            usageStartDate = nextPaymentDate.minusMonths(1).with(TemporalAdjusters.lastDayOfMonth());
+        } else {
+            usageStartDate = nextPaymentDate.minusMonths(1).withDayOfMonth(card.getStartDate());
+        }
 
-        if (card.getEndDate() >= card.getPaymentDate()) {
+        boolean isEndDateAfterOrEqualPaymentDate =
+                card.getEndDate() >= card.getPaymentDate() || card.getEndDate() == -1;
+        boolean isPaymentDateLastDayOfMonth = card.getPaymentDate() == -1;
+
+        if (isEndDateAfterOrEqualPaymentDate || isPaymentDateLastDayOfMonth) {
             usageStartDate = usageStartDate.minusMonths(1);
         }
 
@@ -89,14 +104,21 @@ public class FinancialServiceImpl implements FinancialService {
     private LocalDate findUsageEndDate(Card card, LocalDate nextPaymentDate) {
         LocalDate usageEndDate;
 
-        if (card.getEndDate() < card.getPaymentDate()) {
-            usageEndDate = nextPaymentDate.withDayOfMonth(card.getEndDate());
+        if (card.getEndDate() == -1) {
+            usageEndDate = nextPaymentDate.with(TemporalAdjusters.lastDayOfMonth());
         } else {
-            usageEndDate = nextPaymentDate.minusMonths(1).withDayOfMonth(card.getEndDate());
+            if (card.getPaymentDate() == -1) {
+                usageEndDate = nextPaymentDate.minusMonths(1).withDayOfMonth(card.getEndDate());
+            } else if (card.getEndDate() < card.getPaymentDate()) {
+                usageEndDate = nextPaymentDate.withDayOfMonth(card.getEndDate());
+            } else {
+                usageEndDate = nextPaymentDate.minusMonths(1).withDayOfMonth(card.getEndDate());
+            }
         }
 
         return usageEndDate;
     }
+
 
     @Override
     public FinancialStatementDto getFinancialStatement() {
