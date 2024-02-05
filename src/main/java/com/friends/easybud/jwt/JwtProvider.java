@@ -1,9 +1,8 @@
-package com.friends.easybud.jwt.service;
+package com.friends.easybud.jwt;
 
 import com.friends.easybud.auth.dto.RefreshTokenRequest;
 import com.friends.easybud.global.exception.GeneralException;
 import com.friends.easybud.global.response.code.ErrorStatus;
-import com.friends.easybud.jwt.dto.JwtToken;
 import com.friends.easybud.member.service.MemberQueryService;
 import com.friends.easybud.redis.RedisService;
 import io.jsonwebtoken.Claims;
@@ -14,33 +13,39 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import jakarta.servlet.http.HttpServletRequest;
 import java.security.Key;
 import java.time.Duration;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Date;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 @Component
-public class JwtTokenProvider {
+public class JwtProvider {
 
     private final Key key;
     private final RedisService redisService;
     private final MemberQueryService memberQueryService;
 
-    public JwtTokenProvider(@Value("${jwt.secret}") String secretKey, RedisService redisService,
-                            MemberQueryService memberQueryService) {
+    public JwtProvider(@Value("${jwt.secret}") String secretKey, RedisService redisService,
+                       MemberQueryService memberQueryService) {
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         this.key = Keys.hmacShaKeyFor(keyBytes);
         this.redisService = redisService;
         this.memberQueryService = memberQueryService;
     }
 
-    public JwtToken generateToken(Authentication authentication) {
+    public JwtDto generateToken(Authentication authentication) {
         String authorities = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(","));
@@ -62,7 +67,7 @@ public class JwtTokenProvider {
 
         redisService.setValue(refreshToken, authentication.getName(), Duration.ofDays(7).toMillis());
 
-        return JwtToken.builder()
+        return JwtDto.builder()
                 .grantType("Bearer")
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
@@ -99,7 +104,7 @@ public class JwtTokenProvider {
         }
     }
 
-    public JwtToken reissueToken(RefreshTokenRequest request) {
+    public JwtDto reissueToken(RefreshTokenRequest request) {
         validateRefreshToken(request.getRefreshToken());
 
         redisService.deleteValue(request.getRefreshToken());
@@ -125,6 +130,32 @@ public class JwtTokenProvider {
     public boolean logout(String refreshToken) {
         redisService.deleteValue(refreshToken);
         return true;
+    }
+
+    public String resolveToken(HttpServletRequest request) {
+        String bearerToken = request.getHeader("Authorization");
+
+        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer")) {
+            return bearerToken.substring(7);
+        }
+        return null;
+    }
+
+    public Authentication getAuthentication(String token) {
+        Claims claims = Jwts.parserBuilder()
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+
+        Collection<? extends GrantedAuthority> authorities =
+                Arrays.stream(claims.get("auth").toString().split(","))
+                        .map(SimpleGrantedAuthority::new)
+                        .collect(Collectors.toList());
+
+        User principal = new User(claims.getSubject(), "", authorities);
+
+        return new UsernamePasswordAuthenticationToken(principal, token, authorities);
     }
 
 

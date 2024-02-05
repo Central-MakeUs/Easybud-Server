@@ -1,4 +1,4 @@
-package com.friends.easybud.jwt.dto;
+package com.friends.easybud.jwt;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,7 +7,7 @@ import lombok.Data;
 @Builder
 @Data
 @AllArgsConstructor
-public class JwtToken {
+public class JwtDto {
 
     private String grantType;
     private String accessToken;
