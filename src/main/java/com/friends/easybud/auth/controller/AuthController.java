@@ -11,8 +11,6 @@ import com.friends.easybud.member.domain.Member;
 import com.friends.easybud.member.domain.SocialProvider;
 import com.friends.easybud.member.service.MemberCommandService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -25,16 +23,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RequestMapping("/api/auth")
 @RestController
-@ApiResponses({
-        @ApiResponse(responseCode = "2000", description = "성공"),
-        @ApiResponse(responseCode = "4050", description = "유효하지 않은 토큰입니다."),
-        @ApiResponse(responseCode = "4101", description = "만료된 토큰입니다."),
-        @ApiResponse(responseCode = "4102", description = "지원되지 않는 토큰 형식입니다."),
-        @ApiResponse(responseCode = "4103", description = "토큰 클레임이 비어있습니다."),
-        @ApiResponse(responseCode = "4104", description = "헤더에 refresh token이 존재하지 않습니다."),
-        @ApiResponse(responseCode = "4105", description = "인증 정보가 필요합니다."),
-        @ApiResponse(responseCode = "5000", description = "서버 에러, 쑤에게 문의 바랍니다.")
-})
+//@ApiResponses({
+//        @ApiResponse(responseCode = "2000", description = "성공"),
+//        @ApiResponse(responseCode = "4050", description = "유효하지 않은 토큰입니다."),
+//        @ApiResponse(responseCode = "4101", description = "만료된 토큰입니다."),
+//        @ApiResponse(responseCode = "4102", description = "지원되지 않는 토큰 형식입니다."),
+//        @ApiResponse(responseCode = "4103", description = "토큰 클레임이 비어있습니다."),
+//        @ApiResponse(responseCode = "4104", description = "헤더에 refresh token이 존재하지 않습니다."),
+//        @ApiResponse(responseCode = "4105", description = "인증 정보가 필요합니다."),
+//        @ApiResponse(responseCode = "5000", description = "서버 에러, 쑤에게 문의 바랍니다.")
+//})
 @Tag(name = "Auth API", description = "사용자 API")
 public class AuthController {
 
