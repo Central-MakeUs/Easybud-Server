@@ -13,6 +13,8 @@ import com.friends.easybud.global.response.ResponseDto;
 import com.friends.easybud.member.domain.Member;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -27,6 +29,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RequestMapping("/api/financials")
 @RestController
+@ApiResponses({
+        @ApiResponse(responseCode = "2000", description = "성공"),
+        @ApiResponse(responseCode = "5000", description = "서버 에러, 쑤에게 문의 바랍니다.")
+})
 @Tag(name = "Financial API", description = "장부 API")
 public class FinancialController {
 
