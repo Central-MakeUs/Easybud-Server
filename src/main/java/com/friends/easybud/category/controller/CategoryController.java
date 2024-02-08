@@ -6,8 +6,10 @@ import com.friends.easybud.category.converter.CategoryConverter;
 import com.friends.easybud.category.dto.CategoryRequest.TertiaryCategoryCreateDto;
 import com.friends.easybud.category.service.CategoryCommandService;
 import com.friends.easybud.category.service.CategoryQueryService;
+import com.friends.easybud.global.annotation.ApiErrorCodeExample;
 import com.friends.easybud.global.annotation.AuthMember;
 import com.friends.easybud.global.response.ResponseDto;
+import com.friends.easybud.global.response.code.ErrorStatus;
 import com.friends.easybud.member.domain.Member;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -42,6 +44,17 @@ public class CategoryController {
     private final CategoryCommandService categoryCommandService;
     private final CategoryQueryService categoryQueryService;
 
+    @ApiErrorCodeExample({
+            ErrorStatus.MEMBER_NOT_FOUND,
+            ErrorStatus.TOKEN_INVALID,
+            ErrorStatus.TOKEN_EXPIRED,
+            ErrorStatus.TOKEN_UNSUPPORTED,
+            ErrorStatus.TOKEN_CLAIMS_EMPTY,
+            ErrorStatus.AUTHENTICATION_REQUIRED,
+            ErrorStatus.SECONDARY_CATEGORY_NOT_FOUND,
+            ErrorStatus.TERTIARY_CATEGORY_ALREADY_EXISTS,
+            ErrorStatus._INTERNAL_SERVER_ERROR
+    })
     @Operation(summary = "계정 소분류 생성", description = "새로운 소분류를 생성합니다.")
     @PostMapping("/tertiary")
     public ResponseDto<Long> createTertiaryCategory(@AuthMember Member member,
@@ -49,6 +62,18 @@ public class CategoryController {
         return ResponseDto.onSuccess(categoryCommandService.createTertiaryCategory(member, request));
     }
 
+    @ApiErrorCodeExample({
+            ErrorStatus.MEMBER_NOT_FOUND,
+            ErrorStatus.TOKEN_INVALID,
+            ErrorStatus.TOKEN_EXPIRED,
+            ErrorStatus.TOKEN_UNSUPPORTED,
+            ErrorStatus.TOKEN_CLAIMS_EMPTY,
+            ErrorStatus.AUTHENTICATION_REQUIRED,
+            ErrorStatus.TERTIARY_CATEGORY_NOT_FOUND,
+            ErrorStatus.CANNOT_DELETE_DEFAULT_CATEGORY,
+            ErrorStatus.UNAUTHORIZED_TERTIARY_CATEGORY_ACCESS,
+            ErrorStatus._INTERNAL_SERVER_ERROR
+    })
     @Operation(summary = "계정 소분류 삭제", description = "기존의 소분류를 삭제합니다.")
     @Parameter(name = "tertiaryCategoryId", description = "삭제할 소분류의 ID")
     @DeleteMapping("/tertiary/{tertiaryCategoryId}")
@@ -57,6 +82,15 @@ public class CategoryController {
         return ResponseDto.onSuccess(categoryCommandService.deleteTertiaryCategory(member, tertiaryCategoryId));
     }
 
+    @ApiErrorCodeExample({
+            ErrorStatus.MEMBER_NOT_FOUND,
+            ErrorStatus.TOKEN_INVALID,
+            ErrorStatus.TOKEN_EXPIRED,
+            ErrorStatus.TOKEN_UNSUPPORTED,
+            ErrorStatus.TOKEN_CLAIMS_EMPTY,
+            ErrorStatus.AUTHENTICATION_REQUIRED,
+            ErrorStatus._INTERNAL_SERVER_ERROR
+    })
     @Operation(summary = "계정 카테고리 목록 조회", description = "로그인 된 회원의 계정 카테고리 목록을 조회합니다.")
     @GetMapping
     public ResponseDto<AccountCategoryListDto> getAccountCategories(@AuthMember Member member) {
