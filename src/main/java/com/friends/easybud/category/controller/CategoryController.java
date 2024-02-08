@@ -11,6 +11,8 @@ import com.friends.easybud.global.response.ResponseDto;
 import com.friends.easybud.member.domain.Member;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -24,6 +26,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RequestMapping("/api/categories")
 @RestController
+@ApiResponses({
+        @ApiResponse(responseCode = "2000", description = "성공"),
+        @ApiResponse(responseCode = "4150", description = "존재하지 않는 계정 대분류입니다."),
+        @ApiResponse(responseCode = "4151", description = "존재하지 않는 계정 중분류입니다."),
+        @ApiResponse(responseCode = "4152", description = "존재하지 않는 계정 소분류입니다."),
+        @ApiResponse(responseCode = "4153", description = "기본값은 삭제할 수 없습니다."),
+        @ApiResponse(responseCode = "4154", description = "이미 존재하는 계정 소분류입니다."),
+        @ApiResponse(responseCode = "4155", description = "존재하지 않는 카드입니다."),
+        @ApiResponse(responseCode = "5000", description = "접근 권한이 없는 소분류입니다.")
+})
 @Tag(name = "Category API", description = "계정 카테고리 API")
 public class CategoryController {
 
