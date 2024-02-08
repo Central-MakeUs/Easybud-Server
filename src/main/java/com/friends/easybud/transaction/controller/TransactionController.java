@@ -10,6 +10,8 @@ import com.friends.easybud.transaction.dto.TransactionResponse.TransactionListDt
 import com.friends.easybud.transaction.service.TransactionCommandService;
 import com.friends.easybud.transaction.service.TransactionQueryService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -27,6 +29,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RequestMapping("/api/transactions")
 @RestController
+@ApiResponses({
+        @ApiResponse(responseCode = "2000", description = "성공"),
+        @ApiResponse(responseCode = "4152", description = "존재하지 않는 계정 소분류입니다."),
+        @ApiResponse(responseCode = "4200", description = "존재하지 않는 카드입니다."),
+        @ApiResponse(responseCode = "4250", description = "존재하지 않는 거래입니다."),
+        @ApiResponse(responseCode = "4251", description = "접근 권한이 없는 거래입니다."),
+        @ApiResponse(responseCode = "4200", description = "존재하지 않는 카드입니다."),
+        @ApiResponse(responseCode = "4300", description = "존재하지 않는 계정입니다."),
+        @ApiResponse(responseCode = "4301", description = "cardId 또는 tertiaryCategoryId 중 하나만 있어야 합니다."),
+        @ApiResponse(responseCode = "5000", description = "서버 에러, 쑤에게 문의 바랍니다.")
+})
 @Tag(name = "Transaction API", description = "거래 API")
 public class TransactionController {
 
