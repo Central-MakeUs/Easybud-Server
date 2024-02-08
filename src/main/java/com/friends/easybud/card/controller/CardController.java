@@ -13,6 +13,7 @@ import com.friends.easybud.global.response.ResponseDto;
 import com.friends.easybud.global.response.code.ErrorStatus;
 import com.friends.easybud.member.domain.Member;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -27,6 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RequestMapping("/api/cards")
 @RestController
+@ApiResponse(responseCode = "2000", description = "성공")
 @Tag(name = "Card API", description = "카드 API")
 public class CardController {
 

@@ -12,6 +12,7 @@ import com.friends.easybud.transaction.dto.TransactionResponse.TransactionListDt
 import com.friends.easybud.transaction.service.TransactionCommandService;
 import com.friends.easybud.transaction.service.TransactionQueryService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -29,6 +30,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RequestMapping("/api/transactions")
 @RestController
+@ApiResponse(responseCode = "2000", description = "성공")
 @Tag(name = "Transaction API", description = "거래 API")
 public class TransactionController {
 
