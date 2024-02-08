@@ -2,6 +2,7 @@ package com.friends.easybud.auth.controller;
 
 import com.friends.easybud.auth.dto.IdTokenRequest;
 import com.friends.easybud.auth.dto.RefreshTokenRequest;
+import com.friends.easybud.auth.dto.SocialLoginResponse;
 import com.friends.easybud.auth.service.AuthService;
 import com.friends.easybud.global.annotation.ApiErrorCodeExample;
 import com.friends.easybud.global.annotation.AuthMember;
@@ -58,8 +59,8 @@ public class AuthController {
     })
     @Operation(summary = "소셜 로그인", description = "소셜로그인을 진행하고 토큰을 발급합니다.")
     @PostMapping("/social-login")
-    public ResponseDto<JwtDto> socialLogin(@RequestParam(name = "provider") SocialProvider provider,
-                                           @RequestBody IdTokenRequest request) {
+    public ResponseDto<SocialLoginResponse> socialLogin(@RequestParam(name = "provider") SocialProvider provider,
+                                                        @RequestBody IdTokenRequest request) {
         return ResponseDto.onSuccess(authService.socialLogin(provider, request));
     }
 
