@@ -11,6 +11,8 @@ import com.friends.easybud.global.annotation.AuthMember;
 import com.friends.easybud.global.response.ResponseDto;
 import com.friends.easybud.member.domain.Member;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -25,6 +27,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RequestMapping("/api/cards")
 @RestController
+@ApiResponses({
+        @ApiResponse(responseCode = "2000", description = "성공"),
+        @ApiResponse(responseCode = "4200", description = "존재하지 않는 카드입니다."),
+        @ApiResponse(responseCode = "4201", description = "접근 권한이 없는 카드입니다."),
+        @ApiResponse(responseCode = "5000", description = "서버 에러, 쑤에게 문의 바랍니다.")
+})
 @Tag(name = "Card API", description = "카드 API")
 public class CardController {
 
