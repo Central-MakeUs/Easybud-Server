@@ -2,6 +2,8 @@ package com.friends.easybud.global.config;
 
 import static java.util.stream.Collectors.groupingBy;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.friends.easybud.global.annotation.ApiErrorCodeExample;
 import com.friends.easybud.global.response.ExampleHolder;
 import com.friends.easybud.global.response.ResponseDto;
@@ -94,10 +96,18 @@ public class SwaggerConfig {
     }
 
     private Example getSwaggerExample(String value, Reason errorReason) {
-        ResponseDto<Object> responseDto = ResponseDto.onFailure(errorReason.getCode(), value, null);
+        ResponseDto<Object> responseDto = new ResponseDto<>(false, errorReason.getCode(), value, null);
         Example example = new Example();
         example.description(value);
-        example.setValue(responseDto);
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            String jsonResponseDto = objectMapper.writeValueAsString(responseDto);
+            example.setValue(jsonResponseDto);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        
         return example;
     }
 
