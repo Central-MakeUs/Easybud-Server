@@ -49,7 +49,7 @@ public class TransactionController {
             ErrorStatus.ACCOUNT_CREATION_RULE_VIOLATION,
             ErrorStatus._INTERNAL_SERVER_ERROR
     })
-    @Operation(summary = "거래 생성", description = "새로운 거래를 생성합니다.")
+    @Operation(summary = "거래 생성", description = "새로운 거래를 생성합니다. 카드 ID와 소분류 ID 중 하나만 입력해 주세요.")
     @PostMapping
     public ResponseDto<Long> createTransaction(@AuthMember Member member,
                                                @RequestBody TransactionCreateDto request) {
