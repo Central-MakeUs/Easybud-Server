@@ -1,12 +1,18 @@
 package com.friends.easybud.auth.service;
 
+import static com.friends.easybud.member.domain.SocialProvider.APPLE;
+import static com.friends.easybud.member.domain.SocialProvider.KAKAO;
+
 import com.friends.easybud.auth.dto.IdTokenRequest;
 import com.friends.easybud.auth.dto.OIDCDecodePayload;
 import com.friends.easybud.auth.dto.OIDCPublicKeysResponse;
 import com.friends.easybud.auth.dto.OauthProperties;
 import com.friends.easybud.auth.dto.SocialLoginResponse;
 import com.friends.easybud.auth.dto.SocialLoginType;
+import com.friends.easybud.auth.feign.AppleOauthClient;
 import com.friends.easybud.auth.feign.KakaoOauthClient;
+import com.friends.easybud.global.exception.GeneralException;
+import com.friends.easybud.global.response.code.ErrorStatus;
 import com.friends.easybud.jwt.JwtDto;
 import com.friends.easybud.jwt.JwtProvider;
 import com.friends.easybud.member.domain.Member;
@@ -28,6 +34,7 @@ public class AuthServiceImpl implements AuthService {
 
     private final OauthProperties oauthProperties;
     private final KakaoOauthClient kakaoOauthClient;
+    private final AppleOauthClient appleOauthClient;
     private final OauthOIDCService oauthOIDCService;
     private final JwtProvider jwtProvider;
     private final MemberRepository memberRepository;
@@ -68,7 +75,16 @@ public class AuthServiceImpl implements AuthService {
     }
 
     public OIDCDecodePayload getOIDCDecodePayload(SocialProvider provider, String idToken) {
-        OIDCPublicKeysResponse oidcPublicKeysResponse = kakaoOauthClient.getKakaoOIDCOpenKeys();
+        OIDCPublicKeysResponse oidcPublicKeysResponse;
+
+        if (provider.equals(KAKAO)) {
+            oidcPublicKeysResponse = kakaoOauthClient.getKakaoOIDCOpenKeys();
+        } else if (provider.equals(APPLE)) {
+            oidcPublicKeysResponse = appleOauthClient.getAppleOIDCOpenKeys();
+        } else {
+            throw new GeneralException(ErrorStatus.OAUTH_PROVIDER_NOT_FOUND);
+        }
+
         return oauthOIDCService.getPayloadFromIdToken(
                 idToken,
                 oauthProperties.getBaseUrl(provider),
