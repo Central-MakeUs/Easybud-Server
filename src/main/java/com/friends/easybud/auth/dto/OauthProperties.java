@@ -14,7 +14,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public class OauthProperties {
 
     private OAuthSecret kakao;
-//    private OAuthSecret apple;
+    private OAuthSecret apple;
 
     @Getter
     @Setter
@@ -27,8 +27,8 @@ public class OauthProperties {
         switch (provider) {
             case KAKAO:
                 return getOAuthSecret(kakao).getBaseUrl();
-//            case APPLE:
-//                return getOAuthSecret(apple).getBaseUrl();
+            case APPLE:
+                return getOAuthSecret(apple).getBaseUrl();
             default:
                 throw new GeneralException(ErrorStatus.OAUTH_PROVIDER_NOT_FOUND);
         }
@@ -38,8 +38,8 @@ public class OauthProperties {
         switch (provider) {
             case KAKAO:
                 return getOAuthSecret(kakao).getAppKey();
-//            case APPLE:
-//                return getOAuthSecret(apple).getAppKey();
+            case APPLE:
+                return getOAuthSecret(apple).getAppKey();
             default:
                 throw new GeneralException(ErrorStatus.OAUTH_PROVIDER_NOT_FOUND);
         }
