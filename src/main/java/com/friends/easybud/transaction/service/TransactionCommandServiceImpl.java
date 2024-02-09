@@ -42,7 +42,6 @@ public class TransactionCommandServiceImpl implements TransactionCommandService 
         Transaction transaction = Transaction.builder()
                 .date(request.getDate())
                 .summary(request.getSummary())
-                .type(request.getType())
                 .member(member)
                 .build();
         return transaction;

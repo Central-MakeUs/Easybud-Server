@@ -1,7 +1,6 @@
 package com.friends.easybud.transaction.dto;
 
 import com.friends.easybud.transaction.domain.AccountType;
-import com.friends.easybud.transaction.domain.TransactionType;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.math.BigDecimal;
@@ -30,9 +29,6 @@ public class TransactionRequest {
 
         @Schema(description = "적요", example = "스타벅스")
         private String summary;
-
-        @Schema(description = "거래 유형", example = "EXPENSE_TRANSACTION")
-        private TransactionType type;
 
         @ArraySchema(schema = @Schema(description = "계정 목록", implementation = AccountCreateDto.class))
         private List<AccountCreateDto> accounts;

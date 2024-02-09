@@ -37,7 +37,6 @@ public class TransactionConverter {
                 .transactionId(transaction.getId())
                 .date(transaction.getDate())
                 .summary(transaction.getSummary())
-                .type(transaction.getType())
                 .debitAccounts(debitAccounts)
                 .creditAccounts(creditAccounts)
                 .build();
