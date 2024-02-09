@@ -2,6 +2,7 @@ package com.friends.easybud.financial.service;
 
 import com.friends.easybud.card.domain.Card;
 import com.friends.easybud.card.repository.CardRepository;
+import com.friends.easybud.financial.dto.AccountInfo;
 import com.friends.easybud.financial.dto.FinancialResponse.AvailableFundsDto;
 import com.friends.easybud.financial.dto.FinancialResponse.FinancialStatementDto;
 import com.friends.easybud.financial.dto.FinancialResponse.IncomeStatementDto;
@@ -122,8 +123,8 @@ public class FinancialServiceImpl implements FinancialService {
 
     @Override
     public FinancialStatementDto getFinancialStatement(Member member) {
-        BigDecimal totalAssets = getSumByPrimaryCategory("자산", member.getId());
-        BigDecimal totalLiabilities = getSumByPrimaryCategory("부채", member.getId());
+        BigDecimal totalAssets = getSumByPrimaryCategory(AccountName.ASSET, member.getId());
+        BigDecimal totalLiabilities = getSumByPrimaryCategory(AccountName.LIABILITY, member.getId());
         BigDecimal netAssets = totalAssets.subtract(totalLiabilities);
 
         return FinancialStatementDto.builder()
@@ -217,10 +218,21 @@ public class FinancialServiceImpl implements FinancialService {
         return profitLossDtos;
     }
 
-    private BigDecimal getSumByPrimaryCategory(String category, Long memberId) {
-        return accountCustomRepository.sumByPrimaryCategoryAndMember(category, memberId)
-                .orElse(BigDecimal.ZERO);
+    private BigDecimal getSumByPrimaryCategory(AccountName accountName, Long memberId) {
+        List<AccountInfo> accountInfos = accountCustomRepository.getAccountInfosByAccountNameAndMember(accountName,
+                memberId);
+
+        return accountInfos.stream()
+                .map(accountInfo -> {
+                    if (!accountInfo.isDecrease()) {
+                        return accountInfo.getAmount().negate();
+                    } else {
+                        return accountInfo.getAmount();
+                    }
+                })
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
+
 
     private BigDecimal getSumOfRevenueAccounts(Long memberId, LocalDateTime startDate, LocalDateTime endDate) {
         return accountCustomRepository.sumOfAccountsByTypeAndMember(AccountName.REVENUE, memberId, startDate, endDate)

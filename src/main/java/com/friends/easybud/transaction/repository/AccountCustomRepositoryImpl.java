@@ -6,11 +6,16 @@ import static com.friends.easybud.category.domain.QTertiaryCategory.tertiaryCate
 import static com.friends.easybud.transaction.domain.QAccount.account;
 import static com.friends.easybud.transaction.domain.QTransaction.transaction;
 
+import com.friends.easybud.financial.dto.AccountInfo;
 import com.friends.easybud.transaction.domain.AccountName;
+import com.friends.easybud.transaction.domain.AccountState;
+import com.querydsl.core.Tuple;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -117,6 +122,25 @@ public class AccountCustomRepositoryImpl implements AccountCustomRepository {
                 .fetchFirst();
 
         return exists != null;
+    }
+
+    @Override
+    public List<AccountInfo> getAccountInfosByAccountNameAndMember(AccountName accountName, Long memberId) {
+        List<Tuple> results = queryFactory.select(account.amount, account.accountType.typeName,
+                        account.accountType.typeState)
+                .from(account)
+                .join(account.transaction, transaction)
+                .where(account.accountType.typeName.eq(accountName))
+                .fetch();
+
+        return results.stream().map(tuple -> {
+            BigDecimal amount = tuple.get(account.amount);
+
+            AccountState accountState = tuple.get(account.accountType.typeState);
+            boolean isDecrease = accountState == AccountState.DECREASE;
+
+            return new AccountInfo(amount, isDecrease);
+        }).collect(Collectors.toList());
     }
 
 }

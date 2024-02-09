@@ -1,8 +1,10 @@
 package com.friends.easybud.transaction.repository;
 
+import com.friends.easybud.financial.dto.AccountInfo;
 import com.friends.easybud.transaction.domain.AccountName;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 public interface AccountCustomRepository {
@@ -27,5 +29,7 @@ public interface AccountCustomRepository {
     Optional<BigDecimal> sumByCardAndDateRange(Long cardId, LocalDateTime startDate, LocalDateTime endDate);
 
     boolean existsInitialNetAsset(Long memberId);
+
+    List<AccountInfo> getAccountInfosByAccountNameAndMember(AccountName accountName, Long memberId);
 
 }
