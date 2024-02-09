@@ -85,7 +85,10 @@ public class CategoryController {
     @GetMapping
     public ResponseDto<AccountCategoryListDto> getAccountCategories(@AuthMember Member member) {
         return ResponseDto.onSuccess(
-                CategoryConverter.toAccountCategoryListDto(categoryQueryService.getTertiaryCategories(member)));
+                CategoryConverter.toAccountCategoryListDto(
+                        categoryQueryService.getSecondaryCategories(),
+                        categoryQueryService.getTertiaryCategories(member)
+                ));
     }
 
 }
