@@ -125,7 +125,7 @@ public class FinancialResponse {
     @Schema(description = "손익 조회 목록 DTO")
     public static class ProfitLossListDto {
 
-        @ArraySchema(schema = @Schema(description = "손익 조회 목록", implementation = BigDecimal.class))
+        @ArraySchema(schema = @Schema(description = "손익 조회 목록", implementation = ProfitLossDto.class))
         private List<ProfitLossDto> profitLosses;
 
     }
