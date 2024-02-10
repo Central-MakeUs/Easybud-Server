@@ -28,7 +28,7 @@ public enum ErrorStatus implements BaseCode {
     TOKEN_EXPIRED(BAD_REQUEST, 4101, "만료된 토큰입니다."),
     TOKEN_UNSUPPORTED(BAD_REQUEST, 4102, "지원되지 않는 토큰 형식입니다."),
     TOKEN_CLAIMS_EMPTY(BAD_REQUEST, 4103, "토큰 클레임이 비어있습니다."),
-    REFRESH_TOKEN_NOT_FOUND(BAD_REQUEST, 4104, "헤더에 refresh token이 존재하지 않습니다."),
+    REFRESH_TOKEN_NOT_FOUND(BAD_REQUEST, 4104, "토큰 저장소에 해당 refresh token이 존재하지 않습니다."),
     AUTHENTICATION_REQUIRED(BAD_REQUEST, 4105, "인증 정보가 필요합니다."),
 
     // AccountCategory: 4150 ~ 4199
@@ -49,7 +49,8 @@ public enum ErrorStatus implements BaseCode {
 
     // Account: 4300 ~ 4349
     ACCOUNT_NOT_FOUND(NOT_FOUND, 4300, "존재하지 않는 계정입니다."),
-    ACCOUNT_CREATION_RULE_VIOLATION(BAD_REQUEST, 4301, "cardId 또는 tertiaryCategoryId 중 하나만 있어야 합니다."),
+    ACCOUNT_CREATION_RULE_VIOLATION(BAD_REQUEST, 4301,
+            "'cardId'와 'tertiaryCategoryId'중 하나만 입력해야 합니다. 사용하지 않는 필드는 null로 설정하거나 제외해 주세요."),
 
     // Auth: 4350 ~ 4399
     OAUTH_PROVIDER_NOT_FOUND(BAD_REQUEST, 4350, "OAuth 제공자를 찾을 수 없습니다.");
