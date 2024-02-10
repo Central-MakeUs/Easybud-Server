@@ -36,7 +36,15 @@ public class SwaggerConfig {
         Info info = new Info()
                 .title("Easybud API Document")
                 .version("v0.0.1")
-                .description("Easybud의 API 명세서입니다.");
+                .description("""
+                        ## Easybud API 명세서입니다. 🌱
+                                                
+                        ---
+                                                
+                        ### 🔑 테스트 사용자 인증 토큰
+                        **eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzYjk5ZjYwZC1mOWY1LTQ2MmUtODg5NS0yM2E1MmVkZDI0NTEiLCJhdXRoIjoiVVNFUiIsImV4cCI6MTcwNzc4OTE2MX0.hrEnXsmipLqpWSv9pw4GHHo3LfIo_yFVM7Ojg9DwN6I**
+                                                                        
+                        """);
 
         String jwtSchemeName = "JWT";
 
@@ -107,7 +115,7 @@ public class SwaggerConfig {
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-        
+
         return example;
     }
 

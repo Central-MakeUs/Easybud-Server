@@ -80,7 +80,7 @@ public class TransactionCommandServiceImpl implements TransactionCommandService 
         boolean hasCardId = accountDto.getCardId() != null;
         boolean hasTertiaryCategoryId = accountDto.getTertiaryCategoryId() != null;
 
-        if (hasCardId == hasTertiaryCategoryId) {
+        if (hasCardId == hasTertiaryCategoryId && hasCardId == true) {
             throw new GeneralException(ErrorStatus.ACCOUNT_CREATION_RULE_VIOLATION);
         }
     }
