@@ -13,6 +13,9 @@ import com.friends.easybud.transaction.dto.TransactionRequest.AccountCreateDto;
 import com.friends.easybud.transaction.dto.TransactionRequest.TransactionCreateDto;
 import com.friends.easybud.transaction.repository.AccountRepository;
 import com.friends.easybud.transaction.repository.TransactionRepository;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,6 +33,8 @@ public class TransactionCommandServiceImpl implements TransactionCommandService 
 
     @Override
     public Long createTransaction(Member member, TransactionCreateDto request) {
+        checkForDuplicateTransaction(member);
+
         Transaction transaction = buildTransaction(request, member);
         transactionRepository.save(transaction);
 
@@ -94,6 +99,14 @@ public class TransactionCommandServiceImpl implements TransactionCommandService 
 
         transactionRepository.delete(transaction);
         return Boolean.TRUE;
+    }
+
+    private void checkForDuplicateTransaction(Member member) {
+        List<Transaction> transactions = transactionRepository.findLastTransactionByMember(member);
+        Transaction lastTransaction = transactions.isEmpty() ? null : transactions.get(0);
+        if (Duration.between(lastTransaction.getCreatedDate(), LocalDateTime.now()).getSeconds() < 30) {
+            throw new GeneralException(ErrorStatus.DUPLICATE_TRANSACTION_CREATION);
+        }
     }
 
     private void checkTransactionOwnership(Member member, Transaction transaction) {

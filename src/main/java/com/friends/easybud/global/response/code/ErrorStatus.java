@@ -46,6 +46,7 @@ public enum ErrorStatus implements BaseCode {
     // Transaction: 4250 ~ 4299
     TRANSACTION_NOT_FOUND(NOT_FOUND, 4250, "존재하지 않는 거래입니다."),
     UNAUTHORIZED_TRANSACTION_ACCESS(BAD_REQUEST, 4251, "접근 권한이 없는 거래입니다."),
+    DUPLICATE_TRANSACTION_CREATION(BAD_REQUEST, 4252, "중복된 거래 생성 요청입니다. 잠시 후 다시 시도해주세요."),
 
     // Account: 4300 ~ 4349
     ACCOUNT_NOT_FOUND(NOT_FOUND, 4300, "존재하지 않는 계정입니다."),
