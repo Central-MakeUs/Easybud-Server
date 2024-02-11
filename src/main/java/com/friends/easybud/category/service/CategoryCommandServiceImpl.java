@@ -24,15 +24,15 @@ public class CategoryCommandServiceImpl implements CategoryCommandService {
     private final TertiaryCategoryCustomRepository tertiaryCategoryCustomRepository;
 
     @Override
-    public Long createTertiaryCategory(Member member, TertiaryCategoryCreateDto request) {
-        SecondaryCategory secondaryCategory = secondaryCategoryRepository.findByContent(request.getSecondaryCategory())
+    public TertiaryCategory createTertiaryCategory(Member member, TertiaryCategoryCreateDto request) {
+        SecondaryCategory secondaryCategory = secondaryCategoryRepository.findById(request.getSecondaryCategoryId())
                 .orElseThrow(() -> new GeneralException(ErrorStatus.SECONDARY_CATEGORY_NOT_FOUND));
 
-        validateTertiaryCategoryUniqueness(member.getId(), request.getTertiaryCategory(), secondaryCategory.getId());
+        validateTertiaryCategoryUniqueness(member.getId(), request.getTertiaryCategoryContent(),
+                secondaryCategory.getId());
 
         TertiaryCategory tertiaryCategory = buildTertiaryCategory(request, secondaryCategory, member);
-        tertiaryCategoryRepository.save(tertiaryCategory);
-        return tertiaryCategory.getId();
+        return tertiaryCategoryRepository.save(tertiaryCategory);
     }
 
     private void validateTertiaryCategoryUniqueness(Long memberId, String tertiaryCategoryContent,
@@ -50,7 +50,7 @@ public class CategoryCommandServiceImpl implements CategoryCommandService {
     private TertiaryCategory buildTertiaryCategory(TertiaryCategoryCreateDto request,
                                                    SecondaryCategory secondaryCategory, Member member) {
         return TertiaryCategory.builder()
-                .content(request.getTertiaryCategory())
+                .content(request.getTertiaryCategoryContent())
                 .isDefault(Boolean.FALSE)
                 .secondaryCategory(secondaryCategory)
                 .member(member)
