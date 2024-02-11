@@ -19,11 +19,11 @@ public class CategoryRequest {
     @Schema(description = "소분류 생성 DTO")
     public static class TertiaryCategoryCreateDto {
 
-        @Schema(description = "중분류", example = "현금")
-        private String secondaryCategory;
+        @Schema(description = "중분류 ID", example = "1")
+        private Long secondaryCategoryId;
 
-        @Schema(description = "소분류", example = "외화")
-        private String tertiaryCategory;
+        @Schema(description = "소분류 내용", example = "외화")
+        private String tertiaryCategoryContent;
 
     }
 

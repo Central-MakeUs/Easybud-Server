@@ -224,7 +224,7 @@ public class FinancialServiceImpl implements FinancialService {
 
         return accountInfos.stream()
                 .map(accountInfo -> {
-                    if (!accountInfo.isDecrease()) {
+                    if (accountInfo.isDecrease()) {
                         return accountInfo.getAmount().negate();
                     } else {
                         return accountInfo.getAmount();

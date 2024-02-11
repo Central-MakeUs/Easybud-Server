@@ -56,4 +56,21 @@ public class CategoryResponse {
         private Boolean isDefault;
 
     }
+
+    @Builder
+    @Setter
+    @Getter
+    @ToString
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Schema(description = "소분류 생성 응답 DTO")
+    public static class TertiaryCategorySummaryDto {
+
+        @Schema(description = "소분류 ID", example = "28")
+        private Long tertiaryCategoryId;
+
+        @Schema(description = "소분류 이름", example = "외화")
+        private String tertiaryCategoryContent;
+
+    }
 }

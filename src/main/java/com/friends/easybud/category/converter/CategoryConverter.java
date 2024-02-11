@@ -4,6 +4,7 @@ import com.friends.easybud.category.domain.SecondaryCategory;
 import com.friends.easybud.category.domain.TertiaryCategory;
 import com.friends.easybud.category.dto.CategoryResponse.AccountCategoryDto;
 import com.friends.easybud.category.dto.CategoryResponse.AccountCategoryListDto;
+import com.friends.easybud.category.dto.CategoryResponse.TertiaryCategorySummaryDto;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -48,4 +49,12 @@ public class CategoryConverter {
                 .accountCategories(accountCategoryDtos)
                 .build();
     }
+
+    public static TertiaryCategorySummaryDto toTertiaryCategorySummaryDto(TertiaryCategory tertiaryCategory) {
+        return TertiaryCategorySummaryDto.builder()
+                .tertiaryCategoryId(tertiaryCategory.getId())
+                .tertiaryCategoryContent(tertiaryCategory.getContent())
+                .build();
+    }
+
 }

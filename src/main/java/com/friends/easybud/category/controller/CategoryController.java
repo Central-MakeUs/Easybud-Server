@@ -4,6 +4,7 @@ import static com.friends.easybud.category.dto.CategoryResponse.AccountCategoryL
 
 import com.friends.easybud.category.converter.CategoryConverter;
 import com.friends.easybud.category.dto.CategoryRequest.TertiaryCategoryCreateDto;
+import com.friends.easybud.category.dto.CategoryResponse.TertiaryCategorySummaryDto;
 import com.friends.easybud.category.service.CategoryCommandService;
 import com.friends.easybud.category.service.CategoryQueryService;
 import com.friends.easybud.global.annotation.ApiErrorCodeExample;
@@ -47,9 +48,10 @@ public class CategoryController {
     })
     @Operation(summary = "계정 소분류 생성", description = "새로운 소분류를 생성합니다.")
     @PostMapping("/tertiary")
-    public ResponseDto<Long> createTertiaryCategory(@AuthMember Member member,
-                                                    @RequestBody TertiaryCategoryCreateDto request) {
-        return ResponseDto.onSuccess(categoryCommandService.createTertiaryCategory(member, request));
+    public ResponseDto<TertiaryCategorySummaryDto> createTertiaryCategory(@AuthMember Member member,
+                                                                          @RequestBody TertiaryCategoryCreateDto request) {
+        return ResponseDto.onSuccess(CategoryConverter.toTertiaryCategorySummaryDto(
+                categoryCommandService.createTertiaryCategory(member, request)));
     }
 
     @ApiErrorCodeExample({
