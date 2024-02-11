@@ -22,7 +22,7 @@ public class CategoryRequest {
         @Schema(description = "중분류 ID", example = "1")
         private Long secondaryCategoryId;
 
-        @Schema(description = "소분류 내용", example = "외화")
+        @Schema(description = "소분류 이름", example = "외화")
         private String tertiaryCategoryContent;
 
     }
