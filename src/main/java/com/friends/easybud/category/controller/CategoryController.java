@@ -2,6 +2,7 @@ package com.friends.easybud.category.controller;
 
 import static com.friends.easybud.category.dto.CategoryResponse.AccountCategoryListDto;
 
+import com.friends.easybud.card.service.CardQueryService;
 import com.friends.easybud.category.converter.CategoryConverter;
 import com.friends.easybud.category.dto.CategoryRequest.TertiaryCategoryCreateDto;
 import com.friends.easybud.category.dto.CategoryResponse.TertiaryCategorySummaryDto;
@@ -34,6 +35,7 @@ public class CategoryController {
 
     private final CategoryCommandService categoryCommandService;
     private final CategoryQueryService categoryQueryService;
+    private final CardQueryService cardQueryService;
 
     @ApiErrorCodeExample({
             ErrorStatus.MEMBER_NOT_FOUND,
@@ -89,7 +91,8 @@ public class CategoryController {
         return ResponseDto.onSuccess(
                 CategoryConverter.toAccountCategoryListDto(
                         categoryQueryService.getSecondaryCategories(),
-                        categoryQueryService.getTertiaryCategories(member)
+                        categoryQueryService.getTertiaryCategories(member),
+                        cardQueryService.getCards(member)
                 ));
     }
 
