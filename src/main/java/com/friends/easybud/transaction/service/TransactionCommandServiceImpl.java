@@ -104,7 +104,8 @@ public class TransactionCommandServiceImpl implements TransactionCommandService 
     private void checkForDuplicateTransaction(Member member) {
         List<Transaction> transactions = transactionRepository.findLastTransactionByMember(member);
         Transaction lastTransaction = transactions.isEmpty() ? null : transactions.get(0);
-        if (Duration.between(lastTransaction.getCreatedDate(), LocalDateTime.now()).getSeconds() < 30) {
+        if (lastTransaction != null
+                && Duration.between(lastTransaction.getCreatedDate(), LocalDateTime.now()).getSeconds() < 30) {
             throw new GeneralException(ErrorStatus.DUPLICATE_TRANSACTION_CREATION);
         }
     }
