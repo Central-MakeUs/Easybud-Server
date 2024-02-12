@@ -43,17 +43,47 @@ public class TransactionConverter {
     }
 
     public static AccountDto toAccountDto(Account account) {
+        Long primaryCategoryId = null;
+        String primaryCategoryContent = null;
+        Long secondaryCategoryId = null;
+        String secondaryCategoryContent = null;
+        Long tertiaryCategoryId = null;
+        String tertiaryCategoryContent = null;
+        Long cardId = null;
+        String cardName = null;
+
+        if (account.getTertiaryCategory() != null) {
+            primaryCategoryId = account.getTertiaryCategory().getId();
+            primaryCategoryContent = account.getTertiaryCategory().getContent();
+            secondaryCategoryId = account.getTertiaryCategory().getSecondaryCategory().getId();
+            secondaryCategoryContent = account.getTertiaryCategory().getSecondaryCategory().getContent();
+            tertiaryCategoryId = account.getTertiaryCategory().getSecondaryCategory().getPrimaryCategory().getId();
+            tertiaryCategoryContent = account.getTertiaryCategory().getSecondaryCategory().getPrimaryCategory()
+                    .getContent();
+
+        } else if (account.getCard() == null) {
+            primaryCategoryId = 2L;
+            primaryCategoryContent = "부채";
+            secondaryCategoryId = 8L;
+            secondaryCategoryContent = "카드대금";
+            cardId = account.getCard().getId();
+            cardName = account.getCard().getName();
+        }
+
         return AccountDto.builder()
                 .accountId(account.getId())
                 .accountType(account.getAccountType())
-                .primaryCategoryId(account.getTertiaryCategory().getSecondaryCategory().getPrimaryCategory().getId())
-                .primaryCategoryContent(
-                        account.getTertiaryCategory().getSecondaryCategory().getPrimaryCategory().getContent())
-                .secondaryCategoryId(account.getTertiaryCategory().getSecondaryCategory().getId())
-                .secondaryCategoryContent(account.getTertiaryCategory().getSecondaryCategory().getContent())
-                .tertiaryCategoryId(account.getTertiaryCategory().getId())
-                .tertiaryCategoryContent(account.getTertiaryCategory().getContent())
-                .amount(account.getAmount()).build();
+                .primaryCategoryId(primaryCategoryId)
+                .primaryCategoryContent(primaryCategoryContent)
+                .secondaryCategoryId(secondaryCategoryId)
+                .secondaryCategoryContent(secondaryCategoryContent)
+                .tertiaryCategoryId(tertiaryCategoryId)
+                .tertiaryCategoryContent(tertiaryCategoryContent)
+                .cardId(cardId)
+                .cardName(cardName)
+                .amount(account.getAmount())
+                .build();
+
     }
 
     private static boolean isDebitAccount(AccountType accountType) {
