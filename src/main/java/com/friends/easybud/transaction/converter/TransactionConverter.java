@@ -61,7 +61,7 @@ public class TransactionConverter {
             tertiaryCategoryContent = account.getTertiaryCategory().getSecondaryCategory().getPrimaryCategory()
                     .getContent();
 
-        } else if (account.getCard() == null) {
+        } else if (account.getCard() != null) {
             primaryCategoryId = 2L;
             primaryCategoryContent = "부채";
             secondaryCategoryId = 8L;
