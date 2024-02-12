@@ -49,8 +49,6 @@ public class TransactionConverter {
         String secondaryCategoryContent = null;
         Long tertiaryCategoryId = null;
         String tertiaryCategoryContent = null;
-        Long cardId = null;
-        String cardName = null;
 
         if (account.getTertiaryCategory() != null) {
             primaryCategoryId = account.getTertiaryCategory().getId();
@@ -66,8 +64,8 @@ public class TransactionConverter {
             primaryCategoryContent = "부채";
             secondaryCategoryId = 8L;
             secondaryCategoryContent = "카드대금";
-            cardId = account.getCard().getId();
-            cardName = account.getCard().getName();
+            tertiaryCategoryId = account.getCard().getId();
+            tertiaryCategoryContent = account.getCard().getName();
         }
 
         return AccountDto.builder()
@@ -79,8 +77,6 @@ public class TransactionConverter {
                 .secondaryCategoryContent(secondaryCategoryContent)
                 .tertiaryCategoryId(tertiaryCategoryId)
                 .tertiaryCategoryContent(tertiaryCategoryContent)
-                .cardId(cardId)
-                .cardName(cardName)
                 .amount(account.getAmount())
                 .build();
 

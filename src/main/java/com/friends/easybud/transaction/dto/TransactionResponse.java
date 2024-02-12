@@ -82,17 +82,11 @@ public class TransactionResponse {
         @Schema(description = "중분류", example = "생활비")
         private String secondaryCategoryContent;
 
-        @Schema(description = "소분류 ID", example = "47")
+        @Schema(description = "소분류 or 카드 ID", example = "47")
         private Long tertiaryCategoryId;
 
-        @Schema(description = "소분류", example = "카페/간식")
+        @Schema(description = "소분류 or 카드", example = "카페/간식")
         private String tertiaryCategoryContent;
-
-        @Schema(description = "카드 ID", example = "3")
-        private Long cardId;
-
-        @Schema(description = "카드 이름", example = "롯데카드")
-        private String cardName;
 
         @Schema(description = "금액", example = "12000")
         private BigDecimal amount;
