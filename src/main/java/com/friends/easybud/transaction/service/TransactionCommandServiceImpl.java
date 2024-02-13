@@ -8,15 +8,11 @@ import com.friends.easybud.global.exception.GeneralException;
 import com.friends.easybud.global.response.code.ErrorStatus;
 import com.friends.easybud.member.domain.Member;
 import com.friends.easybud.transaction.domain.Account;
-import com.friends.easybud.transaction.domain.AccountName;
-import com.friends.easybud.transaction.domain.AccountState;
 import com.friends.easybud.transaction.domain.Transaction;
-import com.friends.easybud.transaction.domain.TransactionType;
 import com.friends.easybud.transaction.dto.TransactionRequest.AccountCreateDto;
 import com.friends.easybud.transaction.dto.TransactionRequest.TransactionCreateDto;
 import com.friends.easybud.transaction.repository.AccountRepository;
 import com.friends.easybud.transaction.repository.TransactionRepository;
-import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -51,7 +47,6 @@ public class TransactionCommandServiceImpl implements TransactionCommandService 
         Transaction transaction = Transaction.builder()
                 .date(request.getDate())
                 .summary(request.getSummary())
-                .type(getTransactionType(request.getAccounts()))
                 .member(member)
                 .build();
         return transaction;
@@ -118,36 +113,6 @@ public class TransactionCommandServiceImpl implements TransactionCommandService 
     private void checkTransactionOwnership(Member member, Transaction transaction) {
         if (!transaction.getMember().equals(member)) {
             throw new GeneralException(ErrorStatus.UNAUTHORIZED_TRANSACTION_ACCESS);
-        }
-    }
-
-    private TransactionType getTransactionType(List<AccountCreateDto> accounts) {
-        BigDecimal totalExpenses = BigDecimal.ZERO;
-        BigDecimal totalRevenues = BigDecimal.ZERO;
-
-        for (AccountCreateDto account : accounts) {
-            if (account.getAccountType().getTypeName() == AccountName.EXPENSE) {
-                if (account.getAccountType().getTypeState() == AccountState.INCREASE) {
-                    totalExpenses = totalExpenses.add(account.getAmount());
-                } else if (account.getAccountType().getTypeState() == AccountState.DECREASE) {
-                    totalExpenses = totalExpenses.subtract(account.getAmount());
-                }
-
-            } else if (account.getAccountType().getTypeName() == AccountName.REVENUE) {
-                if (account.getAccountType().getTypeState() == AccountState.INCREASE) {
-                    totalRevenues = totalRevenues.add(account.getAmount());
-                } else if (account.getAccountType().getTypeState() == AccountState.DECREASE) {
-                    totalRevenues = totalRevenues.subtract(account.getAmount());
-                }
-            }
-        }
-
-        if (totalExpenses.compareTo(totalRevenues) > 0) {
-            return TransactionType.EXPENSE_TRANSACTION;
-        } else if (totalRevenues.compareTo(totalExpenses) > 0) {
-            return TransactionType.REVENUE_TRANSACTION;
-        } else {
-            return TransactionType.ACCOUNT_TRANSFER;
         }
     }
 

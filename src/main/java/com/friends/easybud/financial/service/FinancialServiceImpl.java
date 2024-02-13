@@ -157,10 +157,6 @@ public class FinancialServiceImpl implements FinancialService {
                     .multiply(new BigDecimal(100));
             revenuePercentage = revenue.divide(revenue.add(expense), 4, RoundingMode.HALF_UP)
                     .multiply(new BigDecimal(100));
-        } else if (expense.compareTo(BigDecimal.ZERO) == 0 && revenue.compareTo(BigDecimal.ZERO) > 0) {
-            revenuePercentage = BigDecimal.valueOf(100);
-        } else if (revenue.compareTo(BigDecimal.ZERO) == 0 && expense.compareTo(BigDecimal.ZERO) > 0) {
-            expensePercentage = BigDecimal.valueOf(100);
         }
 
         return IncomeStatementDto.builder()

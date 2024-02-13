@@ -4,8 +4,6 @@ import com.friends.easybud.global.domain.BaseTimeEntity;
 import com.friends.easybud.member.domain.Member;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -33,9 +31,6 @@ public class Transaction extends BaseTimeEntity {
     private LocalDateTime date;
     private String summary;
 
-    @Enumerated(value = EnumType.STRING)
-    private TransactionType type;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
@@ -44,10 +39,9 @@ public class Transaction extends BaseTimeEntity {
     private List<Account> accounts = new ArrayList<>();
 
     @Builder
-    public Transaction(LocalDateTime date, String summary, TransactionType type, Member member) {
+    public Transaction(LocalDateTime date, String summary, Member member) {
         this.date = date;
         this.summary = summary;
-        this.type = type;
         this.member = member;
     }
 }
