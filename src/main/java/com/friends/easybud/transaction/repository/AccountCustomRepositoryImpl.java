@@ -130,8 +130,7 @@ public class AccountCustomRepositoryImpl implements AccountCustomRepository {
                         account.accountType.typeState)
                 .from(account)
                 .join(account.transaction, transaction)
-                .where(account.accountType.typeName.eq(accountName),
-                        transaction.member.id.eq(memberId))
+                .where(account.accountType.typeName.eq(accountName))
                 .fetch();
 
         return results.stream().map(tuple -> {
